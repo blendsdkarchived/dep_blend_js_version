@@ -2,3 +2,8 @@ language: node_js
 deploy:
   provider: npm
   email: gevik@blendjs.com
+  api_key:
+    secure: YrIrab5Z9sjA2+t3kJuIkuHv1ewi08cAoeVEoD+qld9I2uYNweCnPv4L7w3I4BREaeVmFa/KnSki8rAeBlIMA+2UeQaizWS4ScwsVKLV8skofEgJBGfDKz89DnjesNLQW6hTWw69IXQvNf/5OKoMC0rHNACS8a20sW8sbjd8rh0=
+  on:
+    tags: true
+    repo: blendsdk/blendjs-sdk
