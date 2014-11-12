@@ -6,7 +6,7 @@ var path = require('path');
 Blend.loadPath = __dirname;
 
 Blend.getSDKFolder = function () {
-    var pth = __dirname + '/../../../../src';
+    var pth = __dirname + '/../../../src';
     return path.resolve(pth.replace(/\\/g, path.sep));
 }
 
