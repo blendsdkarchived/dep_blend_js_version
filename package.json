@@ -1,43 +1,43 @@
 {
-  "name": "blendjs-sdk",
-  "version": "0.0.5",
-  "description": "BlendJS Web and Touch Application Framework",
-  "main": "index.js",
-  "preferGlobal": "true",
-  "bin": {
-    "blend": "bin/builder/builder.js"
-  },
-  "scripts": {
-    "test": "clear;reset;node bin/builder/tests/test-runner.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/blendsdk/blendjs-sdk.git"
-  },
-  "keywords": [
-    "blendjs",
-    "javascript",
-    "framework",
-    "spa",
-    "UI",
-    "touch",
-    "web",
-    "components",
-    "mvc",
-    "mobile",
-    "desktop"
-  ],
-  "author": "Gevik Babakhani (blendjs.com)",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/blendsdk/blendjs-sdk/issues"
-  },
-  "homepage": "https://github.com/blendsdk/blendjs-sdk",
-  "dependencies": {
-    "blend-class-system": "*",
-    "readline-sync": "*",
-    "colors": "*",
-    "mustache": "*",
-    "shelljs": "*"
-  }
+    "name": "blendjs-sdk",
+    "version": "0.0.5",
+    "description": "BlendJS Web and Touch Application Framework",
+    "main": "index.js",
+    "preferGlobal": "true",
+    "bin": {
+        "blend": "bin/builder/src/builder.js"
+    },
+    "scripts": {
+        "test": "clear;reset;node bin/builder/tests/test-runner.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/blendsdk/blendjs-sdk.git"
+    },
+    "keywords": [
+        "blendjs",
+        "javascript",
+        "framework",
+        "spa",
+        "UI",
+        "touch",
+        "web",
+        "components",
+        "mvc",
+        "mobile",
+        "desktop"
+    ],
+    "author": "Gevik Babakhani (blendjs.com)",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/blendsdk/blendjs-sdk/issues"
+    },
+    "homepage": "https://github.com/blendsdk/blendjs-sdk",
+    "dependencies": {
+        "blend-class-system": "*",
+        "readline-sync": "*",
+        "colors": "*",
+        "mustache": "*",
+        "shelljs": "*"
+    }
 }
