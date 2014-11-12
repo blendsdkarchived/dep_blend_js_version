@@ -1,9 +1,13 @@
+#!/usr/bin/env node
+
 require('blend-class-system');
 var path = require('path');
+
 Blend.loadPath = __dirname;
 
 Blend.getSDKFolder = function () {
-    return __dirname + '/../node_modules/blendsdk'
+    var pth = __dirname + '/../../../../src';
+    return path.resolve(pth.replace(/\\/g, path.sep));
 }
 
 /**
