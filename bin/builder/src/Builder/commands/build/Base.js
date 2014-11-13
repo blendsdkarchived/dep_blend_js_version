@@ -8,6 +8,7 @@ Blend.defineClass('Builder.commands.build.Base', {
     projectConfig: null,
     runInternal: null,
     depAnalyzer: null,
+    cache: null,
     /**
      * Command entry point
      */
@@ -117,6 +118,14 @@ Blend.defineClass('Builder.commands.build.Base', {
         if (me.options.watch !== true || force === true) {
             process.exit(1);
         }
+    },
+    /**
+     * Retuns the extension of the index template for the watcher
+     * @returns {unresolved}
+     */
+    getIndexTemplateExtension: function () {
+        var me = this;
+        return path.extname(me.projectConfig.indexTemplate);
     }
 });
 
