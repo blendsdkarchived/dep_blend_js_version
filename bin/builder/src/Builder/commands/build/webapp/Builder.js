@@ -14,9 +14,12 @@ Blend.defineClass('Builder.commands.build.webapp.Builder', {
         numFiles = Object.keys(files).length;
         if (numFiles !== 0) {
             if (me.depAnalyzer.analyze(files)) {
-                console.log('OK');
+                /**
+                 * We start generating files and building the application is
+                 * analyze when without errors.
+                 */
             } else {
-                console.log('NO OK');
+                console.error('Unable to build this application due previous errors!');
             }
         }
         return true;
