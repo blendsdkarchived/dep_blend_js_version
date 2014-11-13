@@ -8,6 +8,7 @@ Blend.defineClass('Builder.commands.build.Base', {
     projectConfig: null,
     runInternal: null,
     depAnalyzer: null,
+    depMap: null,
     cache: null,
     /**
      * Command entry point
@@ -41,8 +42,21 @@ Blend.defineClass('Builder.commands.build.Base', {
                     sdkFolder: Blend.getSDKFolder()
                 }
             });
+            me.depMap = [];
         } else {
             me.depAnalyzer.projectConfig = me.projectConfig;
+        }
+    },
+    /**
+     * Creates a file cache object
+     */
+    initFileCache: function () {
+        var me = this;
+        if (!me.cache) {
+            me.cache = Blend.create('Builder.cache.Cache', {
+                root: [me.projectFolder],
+                exts: ['.xml', '.ms', me.getIndexTemplateExtension()]
+            });
         }
     },
     /**
