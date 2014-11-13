@@ -141,7 +141,7 @@ Blend.defineClass('Builder.analyzer.ClassFinder', {
     },
     getMappedObjectProperty: function (name, def) {
         var me = this;
-        console.log(me.getASTProperty(name, def) || {});
+        return me.getASTProperty(name, def) || {};
     },
     getArrayProperty: function (name, def) {
         var me = this;

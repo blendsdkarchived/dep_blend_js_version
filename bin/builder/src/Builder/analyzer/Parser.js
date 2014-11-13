@@ -64,7 +64,6 @@ Blend.defineClass('Builder.analyzer.Parser', {
             });
         } else if (ast.type === 'ObjectExpression') {
             value = {};
-            console.log('hey!');
             Blend.foreach(ast.properties, function (prop) {
                 if (prop.key.type === 'Identifier') {
                     value[prop.key.name] = me.getASTValue(prop.value);

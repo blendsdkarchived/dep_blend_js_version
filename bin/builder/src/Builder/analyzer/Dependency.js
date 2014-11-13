@@ -13,12 +13,22 @@ Blend.defineClass('Builder.analyzer.Dependency', {
         me.classes = {};
     },
     analyze: function (files) {
-        var me = this;
+        var me = this, rootClass = me.projectConfig.mainClass;
         if (me.findAllClasses(files)) {
-            console.log(Object.keys(me.classes));
+            /**
+             * If retuned true then all the provided files where parsed
+             * and nothing crazy happened, so we can continue with analyzing
+             * the dependencies.
+             */
+            if (me.classes[rootClass]) {
+                console.log('Hey!');
+            } else {
+                Logger.error('Unable to find the applications\'s mainClass: ' + rootClass);
+                return false;
+            }
+
             return true;
         } else {
-            console.log(Object.keys(me.classes));
             return false;
         }
     },
