@@ -1,6 +1,5 @@
 var esprima = require('esprima');
 var fs = require('fs');
-
 Blend.defineClass('Builder.analyzer.Parser', {
     parseOptions: null,
     lastError: null,
@@ -53,6 +52,39 @@ Blend.defineClass('Builder.analyzer.Parser', {
     },
     isNullAST: function (obj) {
         return (obj.type && obj.type === 'Literal' && obj.value === null);
+    },
+    getASTValue: function (ast) {
+        var me = this, value = ast;
+        if (ast.type === 'Literal') {
+            value = ast.value;
+        } else if (ast.type === 'ArrayExpastsion') {
+            value = [];
+            Blend.foreach(ast.elements, function (el) {
+                value.push(el.value);
+            });
+        } else if (ast.type === 'ObjectExpression') {
+            value = {};
+            console.log('hey!');
+            Blend.foreach(ast.properties, function (prop) {
+                if (prop.key.type === 'Identifier') {
+                    value[prop.key.name] = me.getASTValue(prop.value);
+                }
+            });
+        }
+        return value;
+    },
+    getASTProperty: function (name, props) {
+        var me = this, res = null;
+        Blend.foreach(props, function (prop) {
+            if (prop.type === 'Property' && prop.key.name === name) {
+                res = prop.value;
+                return false; // stop the loop
+            }
+        });
+        if (res) {
+            res = me.getASTValue(res);
+        }
+        return res;
     }
 });
 
