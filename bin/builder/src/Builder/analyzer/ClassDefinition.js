@@ -11,8 +11,15 @@ Blend.defineClass('Builder.analyzer.ClassDefinition', {
      * Returns the list of all dependencies
      * @returns {undefined}
      */
-    getAllDependencies: function () {
-
+    getDependencies: function () {
+        var me = this;
+        if (!me._allDeps) {
+            me._allDeps = [].concat([me.classParent], me.requires, me.controllers);
+            Blend.foreach(me.mixins, function (clazz) {
+                me._allDeps.push(clazz);
+            });
+        }
+        return me._allDeps;
     }
 });
 
