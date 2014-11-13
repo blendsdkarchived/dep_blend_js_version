@@ -1,8 +1,3 @@
-/**
- * This class provides scanning a folder and caching information
- * about the file changes.
- */
-var recursive = require('recursive-readdir');
 var path = require('path');
 var fs = require('fs');
 
