@@ -55,6 +55,7 @@ Blend.defineClass('Builder.cache.Cache', {
                 }
             });
         }
+        me._updates = updates;
         return updates;
     },
     /**
@@ -112,6 +113,16 @@ Blend.defineClass('Builder.cache.Cache', {
             });
             return result;
         }
+    },
+    getJSFiles: function () {
+        var me = this, res = {};
+        me._updates = me._updates || {};
+        Blend.foreach(me._updates, function (itm, fname) {
+            if (path.extname(fname) === '.js') {
+                res[fname] = res;
+            }
+        });
+        return res;
     }
 });
 
