@@ -51,5 +51,8 @@ Blend.defineClass('Builder.analyzer.Parser', {
         }
         return ok;
     },
+    isNullAST: function (obj) {
+        return (obj.type && obj.type === 'Literal' && obj.value === null);
+    }
 });
 
