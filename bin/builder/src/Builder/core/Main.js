@@ -6,10 +6,9 @@ Blend.defineClass('Builder.core.Main', {
         'Builder.commands.init.Command',
         'Builder.commands.build.Command',
     ],
-    version: '2.0',
     run: function () {
         var me = this, options;
-        console.log('BlendJS builder version ' + me.version);
+        console.log('BlendJS Builder v' + Blend.getPackage().version);
         var commandLine = Blend.create('Builder.utils.CommandLine');
         if (commandLine.validateOptions()) {
             options = commandLine.getOptions();
