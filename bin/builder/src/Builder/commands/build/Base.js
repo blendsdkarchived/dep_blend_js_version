@@ -28,18 +28,22 @@ Blend.defineClass('Builder.commands.build.Base', {
     /**
      * Creates a dependency anayzer object
      */
-    createDepAnalyzer: function () {
+    initDepAnalyzer: function () {
         var me = this;
-        me.depAnalyzer = me.depAnalyzer || Blend.create('Builder.analyzer.Dependency', {
-            projectConfig: me.projectConfig,
-            env: {
-                projectFolder: me.projectFolder,
-                sourceFolder: me.sourceFolder,
-                resourcesFolder: me.resourcesFolder,
-                sassFolder: me.sassFolder,
-                sdkFolder: Blend.getSDKFolder()
-            }
-        });
+        if (!me.depAnalyzer) {
+            me.depAnalyzer = Blend.create('Builder.analyzer.Dependency', {
+                projectConfig: me.projectConfig,
+                env: {
+                    projectFolder: me.projectFolder,
+                    sourceFolder: me.sourceFolder,
+                    resourcesFolder: me.resourcesFolder,
+                    sassFolder: me.sassFolder,
+                    sdkFolder: Blend.getSDKFolder()
+                }
+            });
+        } else {
+            me.depAnalyzer.projectConfig = me.projectConfig;
+        }
     },
     /**
      * Prepares the paths of the environment in which this builder is running
