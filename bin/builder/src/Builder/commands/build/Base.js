@@ -2,6 +2,9 @@ var fs = require("fs");
 var path = require('path');
 Blend.defineClass('Builder.commands.build.Base', {
     extend: 'Builder.commands.Base',
+    requires: [
+        'Builder.analyzer.Dependency'
+    ],
     projectConfig: null,
     runInternal: null,
     depAnalyzer: null,
@@ -26,14 +29,14 @@ Blend.defineClass('Builder.commands.build.Base', {
      */
     createDepAnalyzer: function () {
         var me = this;
-        me.depAnalyzer = Blend.create('Builder.analyzer.Dependency', {
+        me.depAnalyzer = me.depAnalyzer || Blend.create('Builder.analyzer.Dependency', {
             projectConfig: me.projectConfig,
             env: {
                 projectFolder: me.projectFolder,
                 sourceFolder: me.sourceFolder,
                 resourcesFolder: me.resourcesFolder,
                 sassFolder: me.sassFolder,
-                sdkFolder: me.getSDKSourceFolder()
+                sdkFolder: Blend.getSDKFolder()
             }
         });
     },
