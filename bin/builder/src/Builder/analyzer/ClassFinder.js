@@ -4,8 +4,12 @@ var esprima = require('esprima');
  */
 Blend.defineClass('Builder.analyzer.ClassFinder', {
     extend: 'Builder.analyzer.Parser',
+    requires: [
+        'Builder.analyzer.ClassDefinition'
+    ],
     classes: null,
     currentFile: null,
+    currentClassName: null,
     /**
      * Custom visitor implementation
      * @param {type} object
@@ -14,13 +18,12 @@ Blend.defineClass('Builder.analyzer.ClassFinder', {
     visitor: function (object) {
         var me = this, classDef = me.getBlendDefineClass(object);
         if (classDef) {
-
             if (me.classes[classDef.className]) {
                 Logger.warn(classDef.className + ' already exists in ' + me.classes[classDef.className].file + ', skipping.')
             } else {
                 me.classes[classDef.className] = {
                     file: me.currentFile,
-                    classDef: classDef
+                    clazz: classDef
                 }
             }
 
@@ -30,12 +33,12 @@ Blend.defineClass('Builder.analyzer.ClassFinder', {
     /**
      * Visitor helper to find the happy flow "Blend.defineClass"
      * @param {type} object
-     * @returns {ClassFinderAnonym$0.getBlendDefineClass.ClassFinderAnonym$2}
+     * @returns {Builder.analyzer.ClassDefinition[]}
      */
     getBlendDefineClass: function (object) {
         var me = this,
                 result = null,
-                expression, callee, property, cname, cdef = {};
+                expression, callee, property, cname, cdef = [];
         if (object.type === 'ExpressionStatement') {
             expression = object.expression;
             if (expression.type === 'CallExpression') {
@@ -52,11 +55,14 @@ Blend.defineClass('Builder.analyzer.ClassFinder', {
                         cdef = expression.arguments[1];
                         if (cdef.type === 'ObjectExpression') {
                             cdef = cdef.properties;
+                        } else {
+                            cdef = [];
+                            Logger.warn(cname + ' does not have an object for a class definition!')
                         }
                     }
                     return {
                         className: cname,
-                        classDef: me.checkSetBaseClass(cdef || {})
+                        classDef: me.checkSetBaseClass(cdef || [])
                     }
                 }
             }
@@ -99,18 +105,55 @@ Blend.defineClass('Builder.analyzer.ClassFinder', {
      * @returns {object}
      */
     find: function (file) {
-        var me = this, parseResult;
+        var me = this, parseResult, def;
         me.classes = {};
         me.currentFile = file;
         parseResult = me.parse(file);
+        parseResult.file = file;
         if (parseResult.success) {
-            return  {
-                success: true,
-                classes: me.classes
+            try {
+                var result = {};
+                Blend.foreach(me.classes, function (item, name) {
+                    def = item.clazz.classDef;
+                    me.currentClassName = name;
+                    result[name] = Blend.create('Builder.analyzer.ClassDefinition', {
+                        classFile: file,
+                        className: name,
+                        classParent: me.getClassParent(def),
+                        requires: me.getArrayProperty('requires', def),
+                        controllers: me.getArrayProperty('controllers', def),
+                        mixins: me.getMappedObjectProperty('mixins', def)
+                    });
+                });
+                return  {
+                    success: true,
+                    classes: result
+                };
+            } catch (e) {
+                return {
+                    success: false,
+                    error: e
+                };
             }
         } else {
             return parseResult;
         }
     },
+    getMappedObjectProperty: function (name, def) {
+        var me = this;
+        console.log(me.getASTProperty(name, def) || {});
+    },
+    getArrayProperty: function (name, def) {
+        var me = this;
+        return Blend.wrapInArray(me.getASTProperty(name, def) || []);
+    },
+    getClassParent: function (def) {
+        var me = this, value = me.getASTProperty('extend', def);
+        if (value && !Blend.isString(value)) {
+            throw new Error('The "extend" configuration property of ' + me.currentClassName + ' is not a string!');
+        } else {
+            return value;
+        }
+    }
 });
 
