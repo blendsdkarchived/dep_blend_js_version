@@ -33,7 +33,9 @@ Blend.defineClass('Builder.analyzer.ClassFinder', {
      * @returns {ClassFinderAnonym$0.getBlendDefineClass.ClassFinderAnonym$2}
      */
     getBlendDefineClass: function (object) {
-        var result = null, expression, callee, property, cname, cdef = {};
+        var me = this,
+                result = null,
+                expression, callee, property, cname, cdef = {};
         if (object.type === 'ExpressionStatement') {
             expression = object.expression;
             if (expression.type === 'CallExpression') {
@@ -54,12 +56,42 @@ Blend.defineClass('Builder.analyzer.ClassFinder', {
                     }
                     return {
                         className: cname,
-                        classDef: cdef
+                        classDef: me.checkSetBaseClass(cdef || {})
                     }
                 }
             }
         }
         return result;
+    },
+    checkSetBaseClass: function (props) {
+        var me = this, extend = false;
+        if (me.isNullAST(props)) {
+            props = [];
+        }
+        if (Blend.isArray(props)) {
+            Blend.foreach(props, function (item) {
+                if (item.type === 'Property' && item.key.type === 'Identifier' && item.key.name === 'extend') {
+                    extend = true;
+                    return false; // stop the loop
+                }
+            });
+            if (!extend) {
+                props.push({
+                    type: 'Property',
+                    key: {
+                        type: 'Identifier',
+                        name: 'extend'
+                    },
+                    value: {
+                        type: 'Literal',
+                        value: 'Blend.BaseClass',
+                        raw: "'Blend.BaseClass'"
+                    },
+                    kind: 'init'
+                });
+            }
+        }
+        return props;
     },
     /**
      * Fined classes in a file. This function is the entry point for this class
