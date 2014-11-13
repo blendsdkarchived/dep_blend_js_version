@@ -10,7 +10,7 @@ Blend.defineClass('Builder.analyzer.Parser', {
         var me = this;
         me.callParent.apply(me, arguments);
         me.parseOptions = me.parseOptions || {};
-        me.parseOptions = Blend.apply(me.parseOptions, {tolerant: true});
+        me.parseOptions = Blend.apply(me.parseOptions, {tolerant: true, comment: true});
     },
     parse: function (filename) {
         var me = this,
@@ -57,7 +57,7 @@ Blend.defineClass('Builder.analyzer.Parser', {
         var me = this, value = ast;
         if (ast.type === 'Literal') {
             value = ast.value;
-        } else if (ast.type === 'ArrayExpastsion') {
+        } else if (ast.type === 'ArrayExpression') {
             value = [];
             Blend.foreach(ast.elements, function (el) {
                 value.push(el.value);
