@@ -29,12 +29,8 @@ Blend.defineClass('Builder.commands.build.Base', {
     initDepAnalyzer: function () {
         var me = this;
         if (!me.depAnalyzer) {
-            me.depAnalyzer = Blend.create('Builder.analyzer.Dependency', {
-                project: me.project
-            });
+            me.depAnalyzer = Blend.create('Builder.analyzer.Dependency');
             me.depMap = [];
-        } else {
-            me.depAnalyzer.project = me.project;
         }
     },
     /**

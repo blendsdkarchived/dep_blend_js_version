@@ -19,7 +19,7 @@ Blend.defineClass('Builder.commands.build.webapp.Builder', {
             numJsFiles = Object.keys(jsfiles).length;
 
             if (numJsFiles !== 0) {
-                dmap = me.depAnalyzer.getDependencyMap(files);
+                dmap = me.depAnalyzer.getDependencyMap(files, me.project.mainClass);
                 if (!Blend.isObject(dmap)) {
                     console.error('Unable to build this application due previous errors!');
                 }
