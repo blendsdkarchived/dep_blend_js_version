@@ -6,19 +6,28 @@ Blend.loadPath = __dirname;
 
 /**
  * Returns the path of BlendSDK sources files
- * @returns {unresolved}
+ * @returns {string}
  */
-Blend.getSDKFolder = function () {
-    var pth = __dirname + '/../../../src';
+Blend.getSDKFolder = function (append) {
+    var pth = __dirname + '/../../../src/' + (append || '');
+    return path.resolve(pth.replace(/\\/g, path.sep));
+}
+
+/**
+ * Retuns the root folder of this packe
+ * @returns {string}
+ */
+Blend.getRootFolder = function (append) {
+    var pth = __dirname + '/../../../' + (append || '');
     return path.resolve(pth.replace(/\\/g, path.sep));
 }
 
 /**
  * Returns the current package contents
- * @returns {unresolved}
+ * @returns {string}
  */
 Blend.getPackage = function () {
-    var pth = __dirname + '/../../../package.json';
+    var pth = Blend.getRootFolder() + '/package.json';
     return require(path.resolve(pth.replace(/\\/g, path.sep)));
 }
 
