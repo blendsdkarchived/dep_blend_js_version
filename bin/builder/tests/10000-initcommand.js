@@ -15,8 +15,8 @@ BlendTest.defineTest('init-command', 'new-project', function (t) {
     });
     initCommand.run();
     try {
-        var status = fs.statSync(initCommand.projectFolder);
-        t.isTrue(status.isDirectory(), initCommand.projectFolder + " created");
+        var status = fs.statSync(initCommand.project.projectFolder);
+        t.isTrue(status.isDirectory(), initCommand.project.projectFolder + " created");
         t.done();
     } catch (e) {
         t.isFalse(true, 'failed to create project folder');
