@@ -54,7 +54,7 @@ Blend.defineClass('Builder.commands.build.Base', {
         var me = this;
         if (!me.cache) {
             me.cache = Blend.create('Builder.cache.Cache', {
-                root: [me.projectFolder],
+                root: [me.projectFolder, Blend.getSDKFolder()],
                 exts: ['.xml', '.ms', me.getIndexTemplateExtension()]
             });
         }
