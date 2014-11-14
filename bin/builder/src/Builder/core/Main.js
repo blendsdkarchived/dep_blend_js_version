@@ -1,3 +1,6 @@
+var fs = require('fs');
+var path = require('path');
+
 Blend.defineClass('Builder.core.Main', {
     requires: [
         'Builder.utils.Resources',
@@ -22,9 +25,29 @@ Blend.defineClass('Builder.core.Main', {
         }
     },
     runCommand: function (className, options) {
-        var command = Blend.create(className, {
+        var me = this, command = Blend.create(className, {
             options: options
         });
+        me.prepareCoreFiles();
         command.run();
+    },
+    /**
+     * Copies the core Blend files into the SDK source folder since we do not
+     * ship those seperately in this package
+     * @returns {undefined}
+     */
+    prepareCoreFiles: function () {
+        var me = this, files, sourceFile, targetFile,
+                coreFolder = Blend.getSDKFolder('js/core'),
+                bcsFolder = Blend.getRootFolder('node_modules/blend-class-system/lib');
+
+        files = fs.readdirSync(bcsFolder);
+
+        files.forEach(function (fileName) {
+            sourceFile = bcsFolder + path.sep + fileName;
+            targetFile = coreFolder + path.sep + fileName;
+            fs.writeFileSync(targetFile, fs.readFileSync(sourceFile));
+        });
+
     }
 });

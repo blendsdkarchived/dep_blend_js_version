@@ -1,0 +1,4 @@
+# We ignore the core files here because these will be copied from blend-class-system
+# package on each run, ensuring we always have the latest version of the core classes.
+Blend.js
+ClassBuilder.js
