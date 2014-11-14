@@ -17,6 +17,13 @@
     ],
     "meta": [
         {
+            "charset": "utf8"
+        },
+        {
+            "name": "viewport",
+            "content": "width=device-width"
+        },
+        {
             "http-equiv": "X-UA-Compatible",
             "content": "IE=edge"
         }
