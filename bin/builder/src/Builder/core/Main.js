@@ -1,8 +1,11 @@
 var fs = require('fs');
 var path = require('path');
 
+require("shelljs/global");
+
 Blend.defineClass('Builder.core.Main', {
     requires: [
+        'Builder.utils.FileUtils',
         'Builder.utils.Resources',
         'Builder.utils.CommandLine',
         'Builder.utils.Logger',
