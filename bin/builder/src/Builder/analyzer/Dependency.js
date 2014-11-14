@@ -12,26 +12,6 @@ Blend.defineClass('Builder.analyzer.Dependency', {
         me.callParent.apply(me, arguments);
         me.classes = {};
     },
-    analyze: function (files) {
-        var me = this, rootClass = me.projectConfig.mainClass;
-        if (me.findAllClasses(files)) {
-            /**
-             * If retuned true then all the provided files where parsed
-             * and nothing crazy happened, so we can continue with analyzing
-             * the dependencies.
-             */
-            if (me.classes[rootClass]) {
-                console.log('Hey!');
-            } else {
-                Logger.error('Unable to find the applications\'s mainClass: ' + rootClass);
-                return false;
-            }
-
-            return true;
-        } else {
-            return false;
-        }
-    },
     /**
      * Findes all classes based on the latest cache status
      * @returns {undefined}
@@ -40,7 +20,6 @@ Blend.defineClass('Builder.analyzer.Dependency', {
         var me = this, finderResult,
                 classFinder = Blend.create('Builder.analyzer.ClassFinder'),
                 result = true;
-
         Blend.foreach(files, function (hash, file) {
             if (path.extname(file) === '.js') {
                 finderResult = classFinder.find(file);
@@ -58,6 +37,57 @@ Blend.defineClass('Builder.analyzer.Dependency', {
             }
         });
         return result;
+    },
+    getDependencyMap: function (files) {
+        var me = this, map = [], orderedMap = {},
+                rootClass = me.projectConfig.mainClass;
+        if (me.findAllClasses(files)) {
+            /**
+             * If retuned true then all the provided files where parsed
+             * and nothing crazy happened, so we can continue with analyzing
+             * the dependencies.
+             */
+            if (me.classes[rootClass]) {
+                if (!me.addDependency(rootClass, map)) {
+                    return null;
+                } else {
+                    Blend.foreach(map, function (className) {
+                        orderedMap[className] = me.classes[className];
+                    });
+                    return orderedMap;
+                }
+            } else {
+                Logger.error('Unable to find the applications\'s mainClass: ' + rootClass);
+                return null;
+            }
+        } else {
+            return null;
+        }
+    },
+    addDependency: function (className, map) {
+        var me = this,
+                cdef = me.classes[className] || null,
+                deps, status = true;
+        if (cdef) {
+            map.unshift(className);
+            deps = cdef.getDependencies();
+            Blend.foreach(deps, function (dep) {
+                if (dep !== null) {
+                    /**
+                     * checking for null is special here since there is only one class
+                     * that does not extend from anything, that is the BaseClass
+                     */
+                    status = me.addDependency(dep, map);
+                    if (!status) {
+                        return false;
+                    }
+                }
+            });
+            return status;
+        } else {
+            Logger.error('Unable to create dependency map due missing: ' + className);
+            return false;
+        }
     }
 });
 
