@@ -1,7 +1,7 @@
 var ms = require("mustache");
 var path = require("path");
 var fs = require("fs");
-require("shelljs/global");
+
 Blend.defineClass('Builder.commands.build.Command', {
     extend: 'Builder.commands.build.Base',
     runInternal: function () {
@@ -19,6 +19,7 @@ Blend.defineClass('Builder.commands.build.Command', {
         _run = function () {
             if (working === false) {
                 working = true;
+                Logger.clearErrors();
                 builder.run();
                 working = false;
             }

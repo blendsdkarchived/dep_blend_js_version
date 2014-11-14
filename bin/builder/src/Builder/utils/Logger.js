@@ -1,10 +1,9 @@
-/**
- * Singleton class provides basic console logging.
- * @param {type} param1
- * @param {type} param2
- */
+var ms = require("mustache");
+var fs = require('fs');
+
 Blend.defineClass('Logger', {
     singleton: true,
+    errors: null,
     /**
      * @type {colors} reference to the colors package
      */
@@ -21,12 +20,29 @@ Blend.defineClass('Logger', {
             me.colors = require('colors');
         }
     },
+    dumpErrors: function (filename) {
+        var me = this;
+        if (FileUtils.ensurePath(filename)) {
+            fs.writeFileSync(filename, ms.render('{{#lines}}<div style="color:red;">{{.}}</div>{{/lines}}', {
+                lines: me.errors
+            }));
+        }
+    },
+    /**
+     * Clears the errors array
+     */
+    clearErrors: function () {
+        var me = this;
+        me.errors = [];
+    },
     /**
      * Logs a error message
      */
     error: function () {
-        var me = this;
-        console.error(me.createMessage('ERROR', arguments).white.bgRed);
+        var me = this, message = me.createMessage('ERROR', arguments);
+        me.errors = me.errors || [];
+        me.errors.push(message);
+        console.error(message.white.bgRed);
     },
     /**
      * Logs a warning message
