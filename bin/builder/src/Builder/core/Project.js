@@ -3,6 +3,7 @@ var fs = require('fs');
 
 Blend.defineClass('Builder.core.Project', {
     projectFolder: null,
+    buildFolder: null,
     sourceFolder: null,
     resourcesFolder: null,
     sassFolder: null,
@@ -18,6 +19,7 @@ Blend.defineClass('Builder.core.Project', {
         me.sourceFolder = me.projectFolder + path.sep + 'js';
         me.resourcesFolder = me.projectFolder + path.sep + 'resources';
         me.sassFolder = me.resourcesFolder + path.sep + 'themes' + path.sep + 'default';
+        me.buildFolder = me.projectFolder + '/build';
     },
     loadFromFile: function (filename) {
         var me = this, res;
