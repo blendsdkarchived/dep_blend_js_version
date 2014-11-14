@@ -4,8 +4,7 @@ Blend.defineClass('Builder.analyzer.Dependency', {
         'Builder.cache.Cache',
         'Builder.analyzer.ClassFinder'
     ],
-    projectConfig: null,
-    env: null,
+    project: null,
     classes: null,
     init: function () {
         var me = this;
@@ -40,7 +39,7 @@ Blend.defineClass('Builder.analyzer.Dependency', {
     },
     getDependencyMap: function (files) {
         var me = this, map = [], orderedMap = {},
-                rootClass = me.projectConfig.mainClass;
+                rootClass = me.project.mainClass;
         if (me.findAllClasses(files)) {
             /**
              * If retuned true then all the provided files where parsed

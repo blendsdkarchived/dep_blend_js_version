@@ -32,7 +32,7 @@ Blend.defineClass('Builder.commands.build.Command', {
     },
     createBuilder: function () {
         var me = this;
-        return Blend.create('Builder.commands.build.' + me.projectConfig.type + '.Builder', {
+        return Blend.create('Builder.commands.build.' + me.project.type + '.Builder', {
             options: me.options
         });
     }
