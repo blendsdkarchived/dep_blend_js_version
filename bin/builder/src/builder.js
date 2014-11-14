@@ -22,7 +22,7 @@ Blend.getRootFolder = function (append) {
  * @returns {string}
  */
 Blend.getSDKFolder = function (append) {
-    return Blend.getRootFolder('src');
+    return Blend.getRootFolder('src/' + (append || ''));
 }
 
 /**

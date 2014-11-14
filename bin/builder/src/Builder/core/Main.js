@@ -49,6 +49,7 @@ Blend.defineClass('Builder.core.Main', {
         files.forEach(function (fileName) {
             sourceFile = bcsFolder + path.sep + fileName;
             targetFile = coreFolder + path.sep + fileName;
+            FileUtils.ensurePath(targetFile);
             fs.writeFileSync(targetFile, fs.readFileSync(sourceFile));
         });
 
