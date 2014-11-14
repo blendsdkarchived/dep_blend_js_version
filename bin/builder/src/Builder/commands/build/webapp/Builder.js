@@ -2,8 +2,9 @@ var fs = require('fs');
 Blend.defineClass('Builder.commands.build.webapp.Builder', {
     extend: 'Builder.commands.build.Base',
     runInternal: function () {
-        var me = this, files = [], jsfiles, numFiles,
-                numJsFiles;
+        var me = this, files = [], dmap = [],
+                jsfiles, numFiles, numJsFiles;
+
         me.initFileCache();
         me.initDepAnalyzer();
 
@@ -18,11 +19,24 @@ Blend.defineClass('Builder.commands.build.webapp.Builder', {
             numJsFiles = Object.keys(jsfiles).length;
 
             if (numJsFiles !== 0) {
-                if (me.depAnalyzer.analyze(files)) {
-                    me.depMap = me.depAnalyzer.getDependencyMap();
-                } else {
+                dmap = me.depAnalyzer.getDependencyMap(files);
+                if (!Blend.isObject(dmap)) {
                     console.error('Unable to build this application due previous errors!');
                 }
+            }
+            /**
+             * If the dmap is null when something has gone wrong in parsing/analyzing
+             * the JS files. If so there is no reason to build the application.
+             */
+            if (!Blend.isNullOrUndef(dmap)) {
+
+                Blend.foreach(dmap, function (classDef) {
+                    console.log(classDef.classFile);
+                });
+            } else {
+                /**
+                 * We need to log that we did not build the application
+                 */
             }
         }
         return true;
