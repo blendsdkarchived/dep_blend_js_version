@@ -1,21 +1,22 @@
 var path = require("path");
 Blend.defineClass('Builder.commands.Base', {
+    requires: [
+        'Builder.core.Project'
+    ],
     options: null,
-    projectFolder: null,
-    sourceFolder: null,
-    resourcesFolder: null,
-    sassFolder: null,
+    project: null,
     run: function () {
         return;
     },
-    setDefaultPaths: function (projectFolder) {
+    initProject: function (root) {
         var me = this;
-        me.projectFolder = projectFolder;
-        me.sourceFolder = me.projectFolder + path.sep + 'js';
-        me.resourcesFolder = me.projectFolder + path.sep + 'resources';
-        me.sassFolder = me.resourcesFolder + path.sep + 'themes' + path.sep + 'default';
-        me.options.type = me.options.projectType === 'webapp' ? 'web' : 'touch';
+        if (!me.project) {
+            me.project = Blend.create('Builder.core.Project', {
+                projectFolder: root
+            });
+        } else {
+            me.project.setupPaths(root);
+        }
     }
-
 });
 

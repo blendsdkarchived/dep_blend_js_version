@@ -10,32 +10,49 @@ Blend.defineClass('Builder.commands.init.Command', {
     run: function () {
         var me = this;
         console.log("");
-        me.setDefaultPaths();
-        if (me.prepareProjectFolder()) {
+        me.initProject();
+        if (me.project.prepareProjectFolder()) {
             if (me.createApplicationConfig()) {
                 if (me.createMainClass()) {
                     if (me.createSassFiles()) {
-                        console.log(
-                                "\n" +
-                                "Project " + me.options.projectName + " has been created.\n" +
-                                "You can now change directory to " + me.projectFolder + "\n" +
-                                "then run: blend build or blend build --watch\n"
-                                );
+                        if (me.createIndexTemplate()) {
+                            console.log(
+                                    "\n" +
+                                    "Project " + me.options.projectName + " has been created.\n" +
+                                    "You can now change directory to " + me.projectFolder + "\n" +
+                                    "then run: blend build or blend build --watch\n"
+                                    );
+                        }
                     }
                 }
             }
         }
     },
-    setDefaultPaths: function () {
+    initProject: function () {
         var me = this;
         me.callParent.apply(me, [me.options.path + path.sep + me.options.projectName]);
+        me.options.type = me.options.projectType === 'webapp' ? 'web' : 'touch';
+    },
+    createIndexTemplate: function () {
+        var me = this;
+        try {
+            Logger.info('Creating ' + me.options.indexTemplate + ' template file.');
+            fs.writeFileSync(
+                    me.project.projectFolder + path.sep + me.options.indexTemplate,
+                    Builder.utils.Resources.readFile('Builder/resources/index.' + me.options.projectType + '.ms')
+                    );
+            return true;
+        } catch (e) {
+            Logger.error(e);
+            process.exit(1);
+        }
     },
     createSassFiles: function () {
         var me = this;
         try {
             Logger.info('Creating SASS and .scss files in resources');
-            fs.writeFileSync(me.resourcesFolder + path.sep + 'config.rb', Builder.utils.Resources.readFile('Builder/resources/config.rb'));
-            fs.writeFileSync(me.sassFolder + path.sep + me.options.className + '.scss', '/* implement your own rules */');
+            fs.writeFileSync(me.project.resourcesFolder + path.sep + 'config.rb', Builder.utils.Resources.readFile('Builder/resources/config.rb'));
+            fs.writeFileSync(me.project.sassFolder + path.sep + me.options.className + '.scss', '/* implement your own rules */');
             return true;
         } catch (e) {
             Logger.error(e);
@@ -47,7 +64,7 @@ Blend.defineClass('Builder.commands.init.Command', {
                 file, folder, lastpart, className = me.options.className,
                 parts = me.options.className.split('.');
         if (parts.length === 1) {
-            file = me.sourceFolder + path.sep + className + ".js";
+            file = me.project.sourceFolder + path.sep + className + ".js";
         } else {
             lastpart = (parts[parts.length - 1]).trim();
             if (lastpart === '') {
@@ -55,7 +72,7 @@ Blend.defineClass('Builder.commands.init.Command', {
                 process.exit(1);
             }
             parts.pop();
-            folder = me.sourceFolder + path.sep + parts.join(path.sep);
+            folder = me.project.sourceFolder + path.sep + parts.join(path.sep);
             file = folder + path.sep + lastpart + ".js";
             try {
                 Logger.info('Creating project source folders');
@@ -65,7 +82,7 @@ Blend.defineClass('Builder.commands.init.Command', {
                 process.exit(1);
             }
             try {
-                bsfile = me.sourceFolder + path.sep + 'bootstrap.js';
+                bsfile = me.project.sourceFolder + path.sep + 'bootstrap.js';
                 Logger.info('Creating main class');
                 fs.writeFileSync(file, me.getMainClass());
 
@@ -85,30 +102,11 @@ Blend.defineClass('Builder.commands.init.Command', {
     createApplicationConfig: function () {
         var me = this;
         try {
-            var appConfig = me.projectFolder + path.sep + "application.json";
+            var appConfig = me.project.projectFolder + path.sep + "application.json";
             Logger.info("Creating project configuration file");
             fs.writeFileSync(appConfig, me.getNewProjectConfiguration());
-            me.createGitIgnoreFile(me.projectFolder, ['build']);
+            me.createGitIgnoreFile(me.project.projectFolder, ['build']);
             return true;
-        } catch (e) {
-            Logger.error(e);
-            return false;
-        }
-    },
-    /**
-     * Check and create the project folder
-     * @returns {Boolean}
-     */
-    prepareProjectFolder: function () {
-        var me = this, sassFolder;
-        try {
-            if (me.checkProjectFolder()) {
-                Logger.info("Creating project folder");
-                mkdir('-p', [me.sourceFolder, me.resourcesFolder, me.sassFolder]);
-                return true;
-            } else {
-                Logger.error("Project folder already exists! " + me.projectFolder);
-            }
         } catch (e) {
             Logger.error(e);
             return false;
@@ -124,22 +122,6 @@ Blend.defineClass('Builder.commands.init.Command', {
     getNewProjectConfiguration: function () {
         var me = this;
         return ms.render(Builder.utils.Resources.readFile('Builder/resources/application.json.ms'), me.options);
-    },
-    /**
-     * Checks if the project folder can be created
-     * @returns {Boolean}
-     */
-    checkProjectFolder: function () {
-        /**
-         * This should throw if folder exists
-         */
-        var me = this;
-        try {
-            fs.statSync(me.projectFolder);
-            return false;
-        } catch (e) {
-            return true;
-        }
     },
     /**
      * Creates a .gitignore file in a given path
