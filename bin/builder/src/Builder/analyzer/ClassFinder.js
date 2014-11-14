@@ -16,7 +16,12 @@ Blend.defineClass('Builder.analyzer.ClassFinder', {
      * @returns {Boolean}
      */
     visitor: function (object) {
-        var me = this, classDef = me.getBlendDefineClass(object);
+        var me = this,
+                classDef = (
+                        me.getBlendDefineClass(object) ||
+                        me.getBlendClass(object) ||
+                        me.getBlendBaseClass(object)
+                        );
         if (classDef) {
             if (me.classes[classDef.className]) {
                 Logger.warn(classDef.className + ' already exists in ' + me.classes[classDef.className].file + ', skipping.')
@@ -29,6 +34,46 @@ Blend.defineClass('Builder.analyzer.ClassFinder', {
 
         }
         return true;
+    },
+    /**
+     * Find the Blend root objectß
+     */
+    getBlendClass: function (object) {
+        var me = this, found = 0;
+        if (object.type === 'ReturnStatement' && object.argument.type === 'ObjectExpression') {
+            Blend.foreach(object.argument.properties, function (prop) {
+                if (prop.key.name === 'defineClass' || prop.key.name === 'wrapInArray') {
+                    found++;
+                }
+                if (found === 2) {
+                    found = true;
+                    return false;
+                }
+            });
+            if (found) {
+                return {
+                    className: 'Blend',
+                    classDef: object.argument.properties
+                };
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    },
+    /**
+     * Find Blend.BaseClass
+     */
+    getBlendBaseClass: function (object) {
+        if (object.type === 'VariableDeclarator' && object.id.name === 'BaseClass') {
+            return {
+                className: 'Blend.BaseClass',
+                classDef: object.init.arguments[0].properties
+            };
+        } else {
+            return null;
+        }
     },
     /**
      * Visitor helper to find the happy flow "Blend.defineClass"
@@ -69,6 +114,11 @@ Blend.defineClass('Builder.analyzer.ClassFinder', {
         }
         return result;
     },
+    /**
+     * Check if the properties have a base class otherwise set to Blend.BaseClass
+     * @param {type} props
+     * @returns {Array}
+     */
     checkSetBaseClass: function (props) {
         var me = this, extend = false;
         if (me.isNullAST(props)) {
