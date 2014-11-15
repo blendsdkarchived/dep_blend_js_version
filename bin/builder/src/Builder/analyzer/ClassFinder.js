@@ -40,7 +40,7 @@ Blend.defineClass('Builder.analyzer.ClassFinder', {
      */
     getBlendClass: function (object) {
         var me = this, found = 0;
-        if (object.type === 'ReturnStatement' && object.argument.type === 'ObjectExpression') {
+        if (object.type === 'ReturnStatement' && object.argument && object.argument.type === 'ObjectExpression') {
             Blend.foreach(object.argument.properties, function (prop) {
                 if (prop.key.name === 'defineClass' || prop.key.name === 'wrapInArray') {
                     found++;
