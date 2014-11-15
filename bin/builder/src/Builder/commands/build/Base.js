@@ -103,6 +103,12 @@ Blend.defineClass('Builder.commands.build.Base', {
         numFiles = Object.keys(files).length;
 
         if (numFiles !== 0) {
+
+            if (me._didFirstRun) {
+                Logger.info(numFiles, 'change(s) detected.');
+            }
+            me._didFirstRun = true;
+
             /**
              * Some files have been updated
              */
@@ -120,10 +126,9 @@ Blend.defineClass('Builder.commands.build.Base', {
              * the JS files. If so there is no reason to build the application.
              */
             if (!Blend.isNullOrUndef(dmap)) {
-                me.project.bumpBuildNumber();
-                Blend.foreach(dmap, function (classDef) {
-                    console.log(classDef.classFile);
-                });
+                if (me.buildProject()) {
+                    me.project.bumpBuildNumber();
+                }
             } else {
                 Logger.dumpErrors(Blend.fixPath(me.project.buildFolder + '/' + me.project.indexTemplate));
             }
