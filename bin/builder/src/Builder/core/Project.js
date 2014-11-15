@@ -1,7 +1,10 @@
 var path = require('path');
 var fs = require('fs');
+var semver = require('semver');
 
 Blend.defineClass('Builder.core.Project', {
+    projectFile: null,
+    buildNumberFile: null,
     projectFolder: null,
     buildFolder: null,
     sourceFolder: null,
@@ -20,6 +23,7 @@ Blend.defineClass('Builder.core.Project', {
         me.resourcesFolder = me.projectFolder + path.sep + 'resources';
         me.sassFolder = me.resourcesFolder + path.sep + 'themes' + path.sep + 'default';
         me.buildFolder = me.projectFolder + '/build';
+        me.buildNumberFile = me.projectFolder + path.sep + 'build-number'
     },
     loadFromFile: function (filename) {
         var me = this, res;
@@ -28,6 +32,7 @@ Blend.defineClass('Builder.core.Project', {
             res = me.validateConfig(data);
             if (res.isvalid) {
                 Blend.apply(me, data);
+                me.projectFile = filename;
                 return true;
             } else {
                 Logger.error(res.error);
@@ -109,6 +114,23 @@ Blend.defineClass('Builder.core.Project', {
             return false;
         } catch (e) {
             return true;
+        }
+    },
+    bumpBuildNumber: function () {
+        var me = this, bn = 0;
+        try {
+            if (fs.existsSync(me.buildNumberFile)) {
+                bn = fs.readFileSync(me.buildNumberFile);
+                bn = parseInt(bn);
+            }
+            if (!Blend.isNumeric(bn)) {
+                bn = 0;
+            }
+            bn++;
+            fs.writeFileSync(me.buildNumberFile, bn);
+            Logger.info('Bumped build version to: ' + bn);
+        } catch (e) {
+            Logger.warn(e);
         }
     }
 });

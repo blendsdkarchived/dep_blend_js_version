@@ -120,7 +120,7 @@ Blend.defineClass('Builder.commands.build.Base', {
              * the JS files. If so there is no reason to build the application.
              */
             if (!Blend.isNullOrUndef(dmap)) {
-
+                me.project.bumpBuildNumber();
                 Blend.foreach(dmap, function (classDef) {
                     console.log(classDef.classFile);
                 });

@@ -1,4 +1,5 @@
 {
+    "version" : "1.0.0",
     "name": "{{projectName}}",
     "type": "{{projectType}}",
     "mainClass": "{{className}}",
