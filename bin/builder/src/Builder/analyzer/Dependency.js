@@ -38,6 +38,7 @@ Blend.defineClass('Builder.analyzer.Dependency', {
     },
     getDependencyMap: function (files, rootClass) {
         var me = this, map = [], orderedMap = {};
+        Logger.info('Analysing dependencies of ' + Object.keys(files).length + ' file(s), please wait...');
         if (me.findAllClasses(files)) {
             /**
              * If retuned true then all the provided files where parsed
