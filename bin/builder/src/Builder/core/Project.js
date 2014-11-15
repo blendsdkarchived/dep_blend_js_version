@@ -1,6 +1,5 @@
 var path = require('path');
 var fs = require('fs');
-var semver = require('semver');
 
 Blend.defineClass('Builder.core.Project', {
     projectFile: null,
