@@ -115,6 +115,9 @@ Blend.defineClass('Builder.core.Project', {
             return true;
         }
     },
+    /**
+     * Bumps the build-number if possible
+     */
     bumpBuildNumber: function () {
         var me = this, bn = 0;
         try {
@@ -127,7 +130,7 @@ Blend.defineClass('Builder.core.Project', {
             }
             bn++;
             fs.writeFileSync(me.buildNumberFile, bn);
-            Logger.info('Bumped build version to: ' + bn);
+            Logger.info('Bumped the build number to: ' + bn);
         } catch (e) {
             Logger.warn(e);
         }

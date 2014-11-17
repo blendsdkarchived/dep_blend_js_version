@@ -56,7 +56,7 @@ Blend.defineClass('Builder.commands.build.AnalyzerBase', {
                 me.depMap = dmap;
                 me.bindCssFiles();
                 if (me.buildProject()) {
-                    me.project.bumpBuildNumber();
+                    me.bumpBuildNumber();
                 }
             } else {
                 Logger.dumpErrors(Blend.fixPath(me.project.buildFolder + '/' + me.project.indexTemplate));
@@ -65,8 +65,7 @@ Blend.defineClass('Builder.commands.build.AnalyzerBase', {
         return true;
     },
     /**
-     * Check if there are any CSS files that belong to a certain class
-     * @returns {undefined}
+     * Bind css files to with the same name to a class (ClassDefenition.cssFile)
      */
     bindCssFiles: function () {
         var me = this,

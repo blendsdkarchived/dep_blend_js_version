@@ -5,6 +5,7 @@ Blend.defineClass('Builder.commands.build.Base', {
     extend: 'Builder.commands.Base',
     project: null,
     cache: null,
+    canBumpBuildNumber: true,
     /**
      * Command entry point
      */
@@ -76,6 +77,15 @@ Blend.defineClass('Builder.commands.build.Base', {
     getIndexTemplateExtension: function () {
         var me = this;
         return path.extname(me.project.indexTemplate);
+    },
+    /**
+     * Bump the build-number is needed
+     */
+    bumpBuildNumber: function () {
+        var me = this;
+        if (me.canBumpBuildNumber === true) {
+            me.project.bumpBuildNumber();
+        }
     }
 });
 
