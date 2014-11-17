@@ -51,6 +51,30 @@ Blend.defineClass('Blend.utils.String', {
                 return this.slice(0, str.length) === str;
             };
         }
+    },
+    /**
+     * Trims the training linefeeds and spacing from start end ending of a string
+     * This function is available from any string variable
+     * @returns {string}
+     */
+    trim: function () {
+        if (!String.prototype.trim) {
+            String.prototype.trim = String.prototype.trim || function () {
+                return this.replace(/^\s+/, '').replace(/\s+$/, '');
+            }
+        }
+    },
+    /**
+     * Make the first character of a string upper-cased
+     * This function is available from any string variable
+     * @returns {string}
+     */
+    ucfirst: function () {
+        if (!String.prototype.ucfirst) {
+            String.prototype.ucfirst = String.prototype.ucfirst || function () {
+                return this.charAt(0).toUpperCase() + this.slice(1);
+            }
+        }
     }
 });
 
