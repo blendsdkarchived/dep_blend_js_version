@@ -10,7 +10,7 @@ Blend.defineClass('Builder.cache.Cache', {
         me.callParent.apply(me, arguments);
         me.cache = {};
         me.exts = me.exts || [];
-        me.exts = me.exts.concat(['.js', '.json', '.scss', '.css']);
+        me.exts = me.exts.concat(['.js', '.json', '.css']);
     },
     /**
      * Updates the current cache and returns an index of changes
