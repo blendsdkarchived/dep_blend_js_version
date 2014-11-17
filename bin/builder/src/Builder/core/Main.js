@@ -5,6 +5,7 @@ require("shelljs/global");
 
 Blend.defineClass('Builder.core.Main', {
     requires: [
+        'Builder.utils.String', // will be translated to Blend.utils.String
         'Builder.utils.FileUtils',
         'Builder.utils.Resources',
         'Builder.utils.CommandLine',
@@ -40,8 +41,8 @@ Blend.defineClass('Builder.core.Main', {
      * @returns {undefined}
      */
     prepareCoreFiles: function () {
-        var me = this, files, sourceFile, targetFile,
-                coreFolder = Blend.getSDKFolder('js/core'),
+        var me = this, files, sourceFile, targetFile, src, dst
+        coreFolder = Blend.getSDKFolder('js/core'),
                 bcsFolder = Blend.getRootFolder('node_modules/blend-class-system/lib');
 
         files = fs.readdirSync(bcsFolder);
@@ -53,5 +54,11 @@ Blend.defineClass('Builder.core.Main', {
             fs.writeFileSync(targetFile, fs.readFileSync(sourceFile));
         });
 
+        //copy the Blend.utils.String
+        src = Blend.getRootFolder('bin/builder/src/Builder/utils/String.js');
+        dst = Blend.getSDKFolder('js/utils/String.js');
+        if (FileUtils.ensurePath(dst)) {
+            fs.writeFileSync(dst, fs.readFileSync(src));
+        }
     }
 });
