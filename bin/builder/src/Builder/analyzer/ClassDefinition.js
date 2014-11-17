@@ -8,6 +8,7 @@ Blend.defineClass('Builder.analyzer.ClassDefinition', {
     controllers: null,
     properties: null,
     methods: null,
+    targetPath: null,
     /**
      * Returns the list of all dependencies
      * @returns {undefined}

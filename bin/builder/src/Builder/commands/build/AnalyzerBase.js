@@ -55,6 +55,7 @@ Blend.defineClass('Builder.commands.build.AnalyzerBase', {
             if (!Blend.isNullOrUndef(dmap)) {
                 me.depMap = dmap;
                 me.bindCssFiles();
+                me.checkSetTargetPath();
                 if (me.buildProject()) {
                     me.bumpBuildNumber();
                 }
@@ -63,6 +64,24 @@ Blend.defineClass('Builder.commands.build.AnalyzerBase', {
             }
         }
         return true;
+    },
+    /**
+     * Checks and sets the target path of each class ins the dependency map
+     * @returns {undefined}
+     */
+    checkSetTargetPath: function () {
+        var me = this, classFile,
+                sdkPath = Blend.getSDKFolder(),
+                prjPath = me.project.projectFolder;
+
+        Blend.foreach(me.depMap, function (classDef, className) {
+            classFile = classDef.classFile;
+            if (classFile.startsWith(sdkPath)) {
+                classDef.targetFile = classFile.replace(sdkPath, Blend.fixPath(me.project.buildFolder + '/blend'));
+            } else {
+                classDef.targetFile = classFile.replace(prjPath, Blend.fixPath(me.project.buildFolder));
+            }
+        });
     },
     /**
      * Bind css files to with the same name to a class (ClassDefenition.cssFile)
