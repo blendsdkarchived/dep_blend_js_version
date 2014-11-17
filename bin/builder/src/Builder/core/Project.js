@@ -5,10 +5,19 @@ Blend.defineClass('Builder.core.Project', {
     projectFile: null,
     buildNumberFile: null,
     projectFolder: null,
-    sourceFolder: null,
-    resourcesFolder: null,
-    sassFolder: null,
     type: null,
+    getSassFolder: function (append) {
+        var me = this;
+        return me.getProjectFolder('/resources/themes/' + (me.theme || 'default') + '/' + (append || ''));
+    },
+    getSourceFolder: function (append) {
+        var me = this;
+        return me.getProjectFolder('/js/' + (append || ''));
+    },
+    getResourceFolder: function (append) {
+        var me = this;
+        return me.getProjectFolder('/resources/' + (append || ''));
+    },
     getProjectFolder: function (append) {
         var me = this;
         return Blend.fixPath(me.projectFolder + '/' + (append || ''));
@@ -32,8 +41,6 @@ Blend.defineClass('Builder.core.Project', {
         var me = this;
         me.projectFolder = projectFolder;
         me.sourceFolder = me.projectFolder + path.sep + 'js';
-        me.resourcesFolder = me.projectFolder + path.sep + 'resources';
-        me.sassFolder = me.resourcesFolder + path.sep + 'themes' + path.sep + (me.theme || 'default');
         me.buildNumberFile = me.getProjectFolder('/build-number');
     },
     loadFromFile: function (filename) {
@@ -101,10 +108,10 @@ Blend.defineClass('Builder.core.Project', {
         try {
             if (me.checkProjectFolder()) {
                 Logger.info("Creating project folder");
-                mkdir('-p', [me.sourceFolder, me.resourcesFolder, me.sassFolder]);
+                mkdir('-p', [me.getSourceFolder(), me.getResourceFolder(), me.getSassFolder()]);
                 return true;
             } else {
-                Logger.error("Project folder already exists! " + me.projectFolder);
+                Logger.error("Project folder already exists! " + me.getProjectFolder());
                 return false;
             }
         } catch (e) {
