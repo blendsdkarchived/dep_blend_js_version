@@ -86,6 +86,38 @@ Blend.defineClass('Builder.commands.build.Base', {
         if (me.canBumpBuildNumber === true) {
             me.project.bumpBuildNumber();
         }
+    },
+    /**
+     * Prepares the build folder
+     * @returns {Boolean}
+     */
+    buildProject: function () {
+        var me = this;
+        try {
+            me.cleanBuildFolder();
+            me.deployIconFonts();
+            return true;
+        } catch (e) {
+            Logger.error(e);
+            return false;
+        }
+    },
+    /**
+     * Deletes the build folder to be recreated later
+     */
+    cleanBuildFolder: function () {
+        var me = this;
+        Logger.info('Cleanup build folder.');
+        rm('-fR', me.project.getBuildFolder());
+    },
+    /**
+     * Deploys the Icon font folder
+     * @returns {undefined}
+     */
+    deployIconFonts: function () {
+        var me = this;
+        Logger.info('Deploying fonts.');
+        cp('-Rf', Blend.getSDKFolder('resources/fonts'), me.project.getBuildFolder('blend/resources', true));
     }
 });
 
