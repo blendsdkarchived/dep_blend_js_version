@@ -60,7 +60,7 @@ Blend.defineClass('Builder.commands.build.AnalyzerBase', {
                     me.bumpBuildNumber();
                 }
             } else {
-                Logger.dumpErrors(Blend.fixPath(me.project.buildFolder + '/' + me.project.indexTemplate));
+                Logger.dumpErrors(me.project.getBuildFolder(me.project.indexTemplate));
             }
         }
         return true;
@@ -77,9 +77,9 @@ Blend.defineClass('Builder.commands.build.AnalyzerBase', {
         Blend.foreach(me.depMap, function (classDef, className) {
             classFile = classDef.classFile;
             if (classFile.startsWith(sdkPath)) {
-                classDef.targetFile = classFile.replace(sdkPath, Blend.fixPath(me.project.buildFolder + '/blend'));
+                classDef.targetFile = classFile.replace(sdkPath, me.project.getBuildFolder('blend'));
             } else {
-                classDef.targetFile = classFile.replace(prjPath, Blend.fixPath(me.project.buildFolder));
+                classDef.targetFile = classFile.replace(prjPath, me.project.getBuildFolder());
             }
         });
     },
@@ -88,11 +88,18 @@ Blend.defineClass('Builder.commands.build.AnalyzerBase', {
      */
     bindCssFiles: function () {
         var me = this,
-                files = me.cache.getCSSFiles(), className;
+                files = me.cache.getCSSFiles(),
+                className,
+                theme = Blend.fixPath('css/' + me.project.theme);
         Blend.foreach(files, function (hash, filename) {
-            className = path.basename(filename).replace(path.extname(filename), '');
-            if (me.depMap[className]) {
-                me.depMap[className].cssFile = filename;
+            /**
+             * Here we check the provided theme from the project file
+             */
+            if (filename.indexOf(theme) !== -1) {
+                className = path.basename(filename).replace(path.extname(filename), '');
+                if (me.depMap[className]) {
+                    me.depMap[className].cssFile = filename;
+                }
             }
         });
     }
