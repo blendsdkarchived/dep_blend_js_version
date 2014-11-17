@@ -10,6 +10,20 @@ Blend.defineClass('Builder.core.Project', {
     resourcesFolder: null,
     sassFolder: null,
     type: null,
+    getProjectFolder: function (append) {
+        var me = this;
+        return Blend.fixPath(me.projectFolder + '/' + (append || ''));
+    },
+    getBuildFolder: function (append, ensure) {
+        var me = this, p;
+        ensure = ensure || false;
+        p = me.getProjectFolder('build/' + (append || ''));
+        if (ensure) {
+            FileUtils.ensurePath(p);
+        }
+        return p;
+    }
+    ,
     init: function () {
         var me = this;
         me.callParent.apply(me, arguments);
