@@ -25,7 +25,8 @@
         "components",
         "mvc",
         "mobile",
-        "desktop"
+        "desktop",
+        "tablet"
     ],
     "author": "Gevik Babakhani (blendjs.com)",
     "license": "MIT",
