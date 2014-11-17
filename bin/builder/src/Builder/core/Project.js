@@ -5,7 +5,6 @@ Blend.defineClass('Builder.core.Project', {
     projectFile: null,
     buildNumberFile: null,
     projectFolder: null,
-    buildFolder: null,
     sourceFolder: null,
     resourcesFolder: null,
     sassFolder: null,
@@ -34,9 +33,8 @@ Blend.defineClass('Builder.core.Project', {
         me.projectFolder = projectFolder;
         me.sourceFolder = me.projectFolder + path.sep + 'js';
         me.resourcesFolder = me.projectFolder + path.sep + 'resources';
-        me.sassFolder = me.resourcesFolder + path.sep + 'themes' + path.sep + 'default';
-        me.buildFolder = me.projectFolder + '/build';
-        me.buildNumberFile = me.projectFolder + path.sep + 'build-number'
+        me.sassFolder = me.resourcesFolder + path.sep + 'themes' + path.sep + (me.theme || 'default');
+        me.buildNumberFile = me.getProjectFolder('/build-number');
     },
     loadFromFile: function (filename) {
         var me = this, res;
@@ -44,6 +42,7 @@ Blend.defineClass('Builder.core.Project', {
             var data = require(filename);
             res = me.validateConfig(data);
             if (res.isvalid) {
+                me.setupPaths(me.projectFolder);
                 Blend.apply(me, data);
                 me.projectFile = filename;
                 return true;
