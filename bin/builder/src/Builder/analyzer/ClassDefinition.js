@@ -2,6 +2,7 @@ Blend.defineClass('Builder.analyzer.ClassDefinition', {
     className: null,
     classParent: null,
     classFile: null,
+    cssFile: null,
     mixins: null,
     requires: null,
     controllers: null,

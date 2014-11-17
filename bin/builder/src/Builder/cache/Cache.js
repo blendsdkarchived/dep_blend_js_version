@@ -114,15 +114,38 @@ Blend.defineClass('Builder.cache.Cache', {
             return result;
         }
     },
-    getJSFiles: function () {
-        var me = this, res = {};
-        me._updates = me._updates || {};
-        Blend.foreach(me._updates, function (itm, fname) {
-            if (path.extname(fname) === '.js') {
-                res[fname] = res;
+    /**
+     * Gets the list of updated files by extension
+     * @param {type} ext
+     * @returns {object}
+     */
+    getFilesByExtension: function (ext, list) {
+        var me = this, res = {},
+                list = list || (me._updates || {});
+        Blend.foreach(list, function (itm, fname) {
+            if (path.extname(fname) === ext) {
+                res[fname] = itm;
             }
         });
         return res;
+    },
+    /**
+     * Gets the list of updated .js files
+     * @returns {object}
+     */
+    getJSFiles: function () {
+        var me = this;
+        return me.getFilesByExtension('.js');
+    },
+    /**
+     * Get the list of all CSS files regardless of their updated status
+     * This function is primarily used to bind CSS files to their class
+     * counterparts
+     * @returns {unresolved}
+     */
+    getCSSFiles: function () {
+        var me = this;
+        return me.getFilesByExtension('.css', me.cache);
     }
 });
 

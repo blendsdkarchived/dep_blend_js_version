@@ -1,3 +1,4 @@
+var path = require('path');
 /**
  * Base class providing Dependency Analyzer
  */
@@ -42,7 +43,7 @@ Blend.defineClass('Builder.commands.build.AnalyzerBase', {
             numJsFiles = Object.keys(jsfiles).length;
 
             if (numJsFiles !== 0) {
-                dmap = me.depAnalyzer.getDependencyMap(files, me.project.mainClass);
+                dmap = me.depAnalyzer.getDependencyMap(jsfiles, me.project.mainClass);
                 if (!Blend.isObject(dmap)) {
                     Logger.error('Unable to build this application due previous errors!');
                 }
@@ -52,6 +53,8 @@ Blend.defineClass('Builder.commands.build.AnalyzerBase', {
              * the JS files. If so there is no reason to build the application.
              */
             if (!Blend.isNullOrUndef(dmap)) {
+                me.depMap = dmap;
+                me.bindCssFiles();
                 if (me.buildProject()) {
                     me.project.bumpBuildNumber();
                 }
@@ -60,6 +63,20 @@ Blend.defineClass('Builder.commands.build.AnalyzerBase', {
             }
         }
         return true;
+    },
+    /**
+     * Check if there are any CSS files that belong to a certain class
+     * @returns {undefined}
+     */
+    bindCssFiles: function () {
+        var me = this,
+                files = me.cache.getCSSFiles(), className;
+        Blend.foreach(files, function (hash, filename) {
+            className = path.basename(filename).replace(path.extname(filename), '');
+            if (me.depMap[className]) {
+                me.depMap[className].cssFile = filename;
+            }
+        });
     }
 });
 
