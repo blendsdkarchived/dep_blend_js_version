@@ -1,7 +1,9 @@
 <html>
     <head>
         <title>{{name}}</title>
-{{head}}
+{{metas}}
+{{styles}}
+{{scripts}}
     </head>
     <body>
     </body>
