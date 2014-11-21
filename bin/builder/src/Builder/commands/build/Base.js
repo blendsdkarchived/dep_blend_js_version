@@ -95,12 +95,21 @@ Blend.defineClass('Builder.commands.build.Base', {
         var me = this;
         try {
             me.cleanBuildFolder();
-            me.deployIconFonts();
-            return true;
+            if (me.options.release) {
+                return me.buildReleaseVersion();
+            } else {
+                return me.buildDevelVersion();
+            }
         } catch (e) {
             Logger.error(e);
             return false;
         }
+    },
+    buildDevelVersion: function () {
+        throw new Error('Not implemented yet!');
+    },
+    buildReleaseVersion: function () {
+        throw new Error('Not implemented yet!');
     },
     /**
      * Deletes the build folder to be recreated later
