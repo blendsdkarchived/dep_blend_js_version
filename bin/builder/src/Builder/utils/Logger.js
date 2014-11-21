@@ -67,7 +67,7 @@ Blend.defineClass('Logger', {
     createMessage: function (type, pargs) {
         var me = this, args = [];
         Blend.foreach(pargs, function (itm) {
-            args.push(itm);
+            args.push(itm.toString());
         });
         return (type + "\t" + args.join(' ').trim());
     }
