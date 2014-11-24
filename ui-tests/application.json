@@ -19,6 +19,9 @@
             "src": "js/tests/10000-test-sanity.js"
         },
         {
+            "src": "js/tests/10010-kickstart.js"
+        },
+        {
             "src": "js/bootstrap.js"
         }
     ],

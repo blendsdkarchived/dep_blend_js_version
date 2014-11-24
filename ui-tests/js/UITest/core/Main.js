@@ -3,5 +3,6 @@
  */
 Blend.defineClass('UITest.core.Main', {
     requires: [
+        'Blend.Environment'
     ]
 });
