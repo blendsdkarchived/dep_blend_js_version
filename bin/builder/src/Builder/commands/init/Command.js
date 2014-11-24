@@ -65,6 +65,7 @@ Blend.defineClass('Builder.commands.init.Command', {
                 parts = me.options.className.split('.');
         if (parts.length === 1) {
             file = me.project.getSourceFolder('/' + className + '.js');
+
         } else {
             lastpart = (parts[parts.length - 1]).trim();
             if (lastpart === '') {
@@ -81,19 +82,19 @@ Blend.defineClass('Builder.commands.init.Command', {
                 Logger.error(e);
                 process.exit(1);
             }
-            try {
-                bsfile = me.project.getSourceFolder('/bootstrap.js');
-                Logger.info('Creating main class');
-                fs.writeFileSync(file, me.getMainClass());
-
-                Logger.info('Creating bootstap file');
-                fs.writeFileSync(bsfile, "Environment.runApplication('" + className + "')");
-            } catch (e) {
-                Logger.error(e);
-                process.exit(1);
-            }
-            return true;
         }
+        try {
+            bsfile = me.project.getSourceFolder('/bootstrap.js');
+            Logger.info('Creating main class');
+            fs.writeFileSync(file, me.getMainClass());
+
+            Logger.info('Creating bootstap file');
+            fs.writeFileSync(bsfile, "Environment.runApplication('" + className + "')");
+        } catch (e) {
+            Logger.error(e);
+            process.exit(1);
+        }
+        return true;
     },
     /**
      * Creates a new application.json file
