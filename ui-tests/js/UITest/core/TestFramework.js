@@ -32,7 +32,7 @@ var BlendTest = {};
             actual();
             fail.apply(me, arguments);
         } catch (e) {
-            this.equal(e.message.replace("\n", ''), expected);
+            this.equal(e.message.replace("\n", ''), expected, message);
         }
     };
 

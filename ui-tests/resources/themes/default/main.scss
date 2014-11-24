@@ -1,0 +1,61 @@
+#blend-test-window {
+    z-index: 1000000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 1px solid black;
+    font-size: 12px;
+    font-family: sans-serif;
+    overflow: scroll;
+}
+
+#blend-test-statusbar {
+    background-color: #FF9900;
+    font-size: 1.5em;
+    line-height: 1.5em;
+    color:#000;
+}
+#blend-test-statusbar span {
+    display: inline-block;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.blend-test-log {
+    padding:5px;
+    font-size:0.9em;
+}
+
+.blend-test-error-log {
+    background-color: red;
+    color:white;
+}
+
+.blend-test-info-log {
+    background-color: #0000FF;
+    color:#fff;
+}
+
+.blend-test-warn-log {
+    background-color: #EE82EE;
+    color:#fff;
+}
+
+.blend-test-pass-log {
+    background-color: #32CD32;
+    color:#fff;
+}
+
+.emu-cursor {
+    width:24px;
+    height:24px;
+    margin-left: -4px;
+    background-repeat: no-repeat;
+    background-image: url(../images/hand.cur);
+    position: absolute;
+    z-index:10000001
+}
