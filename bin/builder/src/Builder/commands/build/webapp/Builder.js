@@ -18,8 +18,12 @@ Blend.defineClass('Builder.commands.build.webapp.Builder', {
          * @returns {Boolean}
          */
         me.deployIconFonts();
-        me.deployDevScriptsAndStyleSheets();
-        me.createDevIndex();
+        if (me.deployDevScriptsAndStyleSheets()) {
+            me.createDevIndex();
+            return true;
+        } else {
+            return false;
+        }
 
     },
     /**
@@ -45,7 +49,8 @@ Blend.defineClass('Builder.commands.build.webapp.Builder', {
      * Deploys the scripts and stylesheets in the dev mode
      */
     deployDevScriptsAndStyleSheets: function () {
-        var me = this, target, scripts = [], stylesheets = [];
+        var me = this, target, scripts = [], stylesheets = [], status = true;
+
         Blend.foreach(me.depMap, function (item, cname) {
             target = me.getTargetPathAndUrl(item.classFile);
             if (target) {
@@ -64,11 +69,32 @@ Blend.defineClass('Builder.commands.build.webapp.Builder', {
                 Logger.info('Deploying: ', target.url);
             }
         });
+
+        Blend.foreach([].concat(me.project.scripts, me.project.stylesheets), function (item) {
+            if (fs.existsSync(item.src)) {
+                target = me.getTargetPathAndUrl(item.src);
+
+                if (target) {
+                    FileUtils.copyFile(target.srcFile, target.destFile);
+                    scripts.push({
+                        src: target.url
+                    });
+                    Logger.info('Deploying: ', target.url);
+                }
+            } else {
+                Logger.error('Unable to deploy:' + item.src);
+                return (status = false);
+            }
+        });
+
+
         me._scripts = scripts;
         me._stylesheets = stylesheets;
 
         target = me.getTargetPathAndUrl(me.project.getSourceFolder('bootstrap.js'));
         FileUtils.copyFile(target.srcFile, target.destFile);
+
+        return status;
     },
     /**
      * Translates the deployment path
