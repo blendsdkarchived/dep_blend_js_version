@@ -1,4 +1,4 @@
-BlendTest.defineTest('category', 'testname', function (t) {
+BlendTest.defineTest('testfx', 'TestSanity', function (t) {
     t.ok(true, 'ok test');
     t.isTrue(true, 'true');
     t.isFalse(false, 'false');
@@ -7,5 +7,8 @@ BlendTest.defineTest('category', 'testname', function (t) {
     t.throws_exception(function () {
         throw new Error('ERROR!')
     }, 'ERROR!', 'exception');
-    t.done();
+    t.delay(function () {
+        t.ok(true, 'delay');
+        t.done();
+    });
 });
