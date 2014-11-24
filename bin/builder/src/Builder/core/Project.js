@@ -138,8 +138,9 @@ Blend.defineClass('Builder.core.Project', {
     /**
      * Bumps the build-number if possible
      */
-    bumpBuildNumber: function () {
+    bumpBuildNumber: function (readonly) {
         var me = this, bn = 0;
+        readonly = readonly || false;
         try {
             if (fs.existsSync(me.buildNumberFile)) {
                 bn = fs.readFileSync(me.buildNumberFile);
@@ -148,11 +149,14 @@ Blend.defineClass('Builder.core.Project', {
             if (!Blend.isNumeric(bn)) {
                 bn = 0;
             }
-            bn++;
-            fs.writeFileSync(me.buildNumberFile, bn);
-            Logger.info('Bumped the build number to: ' + bn);
+            if (readonly === false) {
+                bn++;
+                fs.writeFileSync(me.buildNumberFile, bn);
+                Logger.info('Bumped the build number to: ' + bn);
+            }
         } catch (e) {
             Logger.warn(e);
         }
+        return bn;
     }
 });
