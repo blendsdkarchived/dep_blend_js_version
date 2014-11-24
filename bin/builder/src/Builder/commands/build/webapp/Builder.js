@@ -8,7 +8,7 @@ Blend.defineClass('Builder.commands.build.webapp.Builder', {
      * @returns {undefined}
      */
     buildDevelVersion: function () {
-        var me = this, target, scripts = [], stylesheets = [];
+        var me = this;
         /**
          * Build steps:
          * [1] Clean the build folder. This is done by the base before getting here.
@@ -18,6 +18,27 @@ Blend.defineClass('Builder.commands.build.webapp.Builder', {
          * @returns {Boolean}
          */
         me.deployIconFonts();
+        me.deployScriptsAndStyleSheets();
+        me.createDevIndex();
+
+    },
+    createDevIndex: function () {
+        var me = this,
+                headers = Template.renderDevHeaders(
+                        Template.renderMetaTags(me.project.meta),
+                        Template.renderStyleSheets(me.project.stylesheets),
+                        Template.renderScripts(me.project.scripts)
+                        ),
+                index = Template.renderIndex(me.project.indexTemplate, {
+                    name: me.project.name,
+                    headers: headers
+                }),
+                indexFile = me.project.getBuildFolder(me.project.indexTemplate);
+        Logger.info('Deploying: ' + indexFile);
+        fs.writeFileSync(indexFile, index);
+    },
+    deployScriptsAndStyleSheets: function () {
+        var me = this, target, scripts = [], stylesheets = [];
         Blend.foreach(me.depMap, function (item, cname) {
             target = me.getTargetPathAndUrl(item.classFile);
             if (target) {
@@ -38,6 +59,9 @@ Blend.defineClass('Builder.commands.build.webapp.Builder', {
         });
         me.project.scripts = scripts.concat(me.project.scripts);
         me.project.stylesheets = stylesheets.concat(me.project.stylesheets);
+
+        target = me.getTargetPathAndUrl(me.project.getSourceFolder('bootstrap.js'));
+        FileUtils.copyFile(target.srcFile, target.destFile);
     },
     getTargetPathAndUrl: function (file) {
         var me = this, dst, srcFile, destFile,
