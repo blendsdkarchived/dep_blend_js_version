@@ -32,14 +32,17 @@ Blend.defineClass('Builder.commands.build.webapp.Builder', {
      */
     createDevIndex: function () {
         var me = this,
+                buildNumber = me.project.bumpBuildNumber(true),
                 headers = Template.renderDevHeaders(
                         Template.renderMetaTags(me.project.meta),
-                        Template.renderStyleSheets(me._stylesheets.concat(me.project.stylesheets)),
-                        Template.renderScripts(me._scripts.concat(me.project.scripts))
+                        Template.renderStyleSheets([].concat(me._stylesheets, me.project.stylesheets)),
+                        Template.renderScripts([].concat(me._scripts, me.project.scripts))
                         ),
                 index = Template.renderIndex(me.project.getProjectFolder(me.project.indexTemplate), {
                     name: me.project.name,
-                    headers: headers
+                    headers: headers,
+                    project: me.project,
+                    build_number: buildNumber
                 }),
                 indexFile = me.project.getBuildFolder(me.project.indexTemplate);
         Logger.info('Deploying: ' + indexFile);
@@ -50,7 +53,6 @@ Blend.defineClass('Builder.commands.build.webapp.Builder', {
      */
     deployDevScriptsAndStyleSheets: function () {
         var me = this, target, scripts = [], stylesheets = [], status = true;
-
         Blend.foreach(me.depMap, function (item, cname) {
             target = me.getTargetPathAndUrl(item.classFile);
             if (target) {
@@ -65,7 +67,7 @@ Blend.defineClass('Builder.commands.build.webapp.Builder', {
                 FileUtils.copyFile(target.srcFile, target.destFile);
                 stylesheets.push({
                     src: target.url
-                })
+                });
                 Logger.info('Deploying: ', target.url);
             }
         });
@@ -73,12 +75,8 @@ Blend.defineClass('Builder.commands.build.webapp.Builder', {
         Blend.foreach([].concat(me.project.scripts, me.project.stylesheets), function (item) {
             if (fs.existsSync(item.src)) {
                 target = me.getTargetPathAndUrl(item.src);
-
                 if (target) {
                     FileUtils.copyFile(target.srcFile, target.destFile);
-                    scripts.push({
-                        src: target.url
-                    });
                     Logger.info('Deploying: ', target.url);
                 }
             } else {
