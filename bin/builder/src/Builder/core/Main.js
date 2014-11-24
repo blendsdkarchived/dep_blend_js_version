@@ -10,6 +10,7 @@ Blend.defineClass('Builder.core.Main', {
         'Builder.utils.Resources',
         'Builder.utils.CommandLine',
         'Builder.utils.Logger',
+        'Builder.utils.Template',
         'Builder.commands.init.Command',
         'Builder.commands.build.Command',
     ],
