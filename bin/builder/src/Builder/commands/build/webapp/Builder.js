@@ -18,18 +18,22 @@ Blend.defineClass('Builder.commands.build.webapp.Builder', {
          * @returns {Boolean}
          */
         me.deployIconFonts();
-        me.deployScriptsAndStyleSheets();
+        me.deployDevScriptsAndStyleSheets();
         me.createDevIndex();
 
     },
+    /**
+     * Created the index file for the development mode
+     * @returns {undefined}
+     */
     createDevIndex: function () {
         var me = this,
                 headers = Template.renderDevHeaders(
                         Template.renderMetaTags(me.project.meta),
-                        Template.renderStyleSheets(me.project.stylesheets),
-                        Template.renderScripts(me.project.scripts)
+                        Template.renderStyleSheets(me._stylesheets.concat(me.project.stylesheets)),
+                        Template.renderScripts(me._scripts.concat(me.project.scripts))
                         ),
-                index = Template.renderIndex(me.project.indexTemplate, {
+                index = Template.renderIndex(me.project.getProjectFolder(me.project.indexTemplate), {
                     name: me.project.name,
                     headers: headers
                 }),
@@ -37,7 +41,10 @@ Blend.defineClass('Builder.commands.build.webapp.Builder', {
         Logger.info('Deploying: ' + indexFile);
         fs.writeFileSync(indexFile, index);
     },
-    deployScriptsAndStyleSheets: function () {
+    /**
+     * Deploys the scripts and stylesheets in the dev mode
+     */
+    deployDevScriptsAndStyleSheets: function () {
         var me = this, target, scripts = [], stylesheets = [];
         Blend.foreach(me.depMap, function (item, cname) {
             target = me.getTargetPathAndUrl(item.classFile);
@@ -57,12 +64,15 @@ Blend.defineClass('Builder.commands.build.webapp.Builder', {
                 Logger.info('Deploying: ', target.url);
             }
         });
-        me.project.scripts = scripts.concat(me.project.scripts);
-        me.project.stylesheets = stylesheets.concat(me.project.stylesheets);
+        me._scripts = scripts;
+        me._stylesheets = stylesheets;
 
         target = me.getTargetPathAndUrl(me.project.getSourceFolder('bootstrap.js'));
         FileUtils.copyFile(target.srcFile, target.destFile);
     },
+    /**
+     * Translates the deployment path
+     */
     getTargetPathAndUrl: function (file) {
         var me = this, dst, srcFile, destFile,
                 sdkPath = Blend.getSDKFolder(),
