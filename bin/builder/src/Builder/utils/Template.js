@@ -41,7 +41,13 @@ Blend.defineClass('Template', {
                 result = [];
         Blend.foreach(items, function (item) {
             result.push(ms.render(template, {
-                attrs: me.renderAttrs(item)
+                attrs: me.renderAttrs(item, function (k) {
+                    if (k === 'src') {
+                        return 'href';
+                    } else {
+                        return k;
+                    }
+                })
             }));
         });
         return result.join("\n");
@@ -57,10 +63,13 @@ Blend.defineClass('Template', {
         });
         return result.join("\n");
     },
-    renderAttrs: function (obj) {
+    renderAttrs: function (obj, rewrite) {
         var me = this, kv = []
-        template = '{{#attr}}.{{/attr}}';
+        rewrite = rewrite || function (k) {
+            return k;
+        };
         Blend.foreach(obj, function (v, k) {
+            k = rewrite(k);
             kv.push(k + '="' + v + '"');
         });
         return kv.join(' ').trim();
