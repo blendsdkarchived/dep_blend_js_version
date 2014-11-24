@@ -1,0 +1,35 @@
+{
+    "version": "1.0.0",
+    "name": "ui-tests",
+    "type": "webapp",
+    "mainClass": "UITest.core.Main",
+    "indexTemplate": "index.html",
+    "favicon": "favicon.ico",
+    "theme": "default",
+    "stylesheets": [
+        {
+            "src": "resources/css/default/main.css"
+        }
+    ],
+    "scripts": [
+        {
+            "src": "js/UITest/core/TestFramework.js"
+        },
+        {
+            "src": "js/bootstrap.js"
+        }
+    ],
+    "meta": [
+        {
+            "charset": "utf8"
+        },
+        {
+            "name": "viewport",
+            "content": "width=device-width"
+        },
+        {
+            "http-equiv": "X-UA-Compatible",
+            "content": "IE=edge"
+        }
+    ]
+}
