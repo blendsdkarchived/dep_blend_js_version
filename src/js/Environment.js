@@ -152,9 +152,9 @@ Blend.defineClass('Blend.Environment', {
             if (document.readyState === "complete") {
                 setTimeout(doCallback, 5);
             } else {
-                Blend.addEventListener(document, 'DOMContentLoaded', doCallback);
-                Blend.addEventListener(window, 'load', doCallback);
+                me.addEventListener(document, 'DOMContentLoaded', doCallback);
+                me.addEventListener(window, 'load', doCallback);
             }
         }
-    },
+    }
 });
