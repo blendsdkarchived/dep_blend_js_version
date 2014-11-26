@@ -29,6 +29,11 @@ Blend.defineClass('Blend.Environment', {
      * @returns {Boolean}
      */
     IEVersion: null,
+    init: function () {
+        var me = this;
+        me.callParent.apply(me, arguments);
+        me.cssPrefix();
+    },
     /**
      * Adds an event listener to a DOM element
      * @param {Element} el
@@ -157,12 +162,15 @@ Blend.defineClass('Blend.Environment', {
             }
         }
     },
-    cssPrefix: function (className) {
-        var me = this, r = [];
-        className = Blend.wrapInArray(className);
-        Blend.foreach(className, function (itm) {
-            r.push(me.CSS_PREFIX + itm);
-        });
-        return r;
+    cssPrefix: function () {
+        var me = this;
+        Blend.cssPrefix = function (className) {
+            var r = [];
+            className = Blend.wrapInArray(className);
+            Blend.foreach(className, function (itm) {
+                r.push(me.CSS_PREFIX + itm);
+            });
+            return r;
+        }
     }
 });
