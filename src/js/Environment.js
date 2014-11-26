@@ -1,6 +1,6 @@
 /**
  * This class provides utility and helper functions when running a BlendJS
- * application in the Browser,Tablet, or an Smartphone
+ * application in the Browser,Tablet, or a Smartphone
  */
 Blend.defineClass('Blend.Environment', {
     requires: [
@@ -118,7 +118,7 @@ Blend.defineClass('Blend.Environment', {
      * @return {boolean}
      */
     isBrowserOK: function () {
-        var me = this, errors = [];
+        var me = this;
         if (me.isIE && me.IEVersion < 9) {
             document.write('Unable to tun this application! Please upgreade your outdated browser');
             return false;
@@ -156,5 +156,13 @@ Blend.defineClass('Blend.Environment', {
                 me.addEventListener(window, 'load', doCallback);
             }
         }
+    },
+    cssPrefix: function (className) {
+        var me = this, r = [];
+        className = Blend.wrapInArray(className);
+        Blend.foreach(className, function (itm) {
+            r.push(me.CSS_PREFIX + itm);
+        });
+        return r;
     }
 });
