@@ -172,7 +172,7 @@ BlendTest.defineTest('core', 'Blend.clone', function (t) {
 });
 
 BlendTest.defineTest('css-prefix', 'Css Prefix Test', function (t) {
-    var r = Blend.Environment.cssPrefix(['test', 'hello', 'world']);
+    var r = Blend.cssPrefix(['test', 'hello', 'world']);
     t.equal(r, ['b-test', 'b-hello', 'b-world'], '3 prefixed');
     t.done();
 });
