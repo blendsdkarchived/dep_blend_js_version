@@ -25,6 +25,9 @@
             "src": "js/tests/10010-kickstart.js"
         },
         {
+            "src": "js/tests/10010-element.js"
+        },
+        {
             "src": "js/bootstrap.js"
         }
     ],
