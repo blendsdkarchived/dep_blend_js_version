@@ -22,6 +22,9 @@
             "src": "js/tests/10000-core.js"
         },
         {
+            "src": "js/tests/10000-object-collection.js"
+        },
+        {
             "src": "js/tests/10010-kickstart.js"
         },
         {
