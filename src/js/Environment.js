@@ -171,6 +171,6 @@ Blend.defineClass('Blend.Environment', {
                 r.push(me.CSS_PREFIX + itm);
             });
             return r;
-        }
+        };
     }
 });
