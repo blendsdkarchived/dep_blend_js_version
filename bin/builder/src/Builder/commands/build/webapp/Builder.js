@@ -73,6 +73,7 @@ Blend.defineClass('Builder.commands.build.webapp.Builder', {
         });
 
         Blend.foreach([].concat(me.project.scripts, me.project.stylesheets), function (item) {
+            item.src = Blend.fixPath(item.src.replace('%project-folder%', me.project.getProjectFolder()));
             if (fs.existsSync(item.src)) {
                 target = me.getTargetPathAndUrl(item.src);
                 if (target) {
@@ -88,9 +89,6 @@ Blend.defineClass('Builder.commands.build.webapp.Builder', {
 
         me._scripts = scripts;
         me._stylesheets = stylesheets;
-
-        target = me.getTargetPathAndUrl(me.project.getSourceFolder('bootstrap.js'));
-        FileUtils.copyFile(target.srcFile, target.destFile);
 
         return status;
     },
