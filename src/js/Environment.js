@@ -103,7 +103,7 @@ Blend.defineClass('Blend.Environment', {
     runApplication: function (applicationClass) {
         var me = this, appStart = function () {
             var app = Blend.create(applicationClass);
-            if (Blend.isInstanceOf(app, 'Blend.core.Application')) {
+            if (Blend.isInstanceOf(app, 'Blend.mvc.Application')) {
                 app.run();
             } else {
                 throw new Error(applicationClass + " does not seem to be a Blend.core.Application instance");

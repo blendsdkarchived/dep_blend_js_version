@@ -28,6 +28,9 @@
             "src": "js/tests/10010-kickstart.js"
         },
         {
+            "src": "js/tests/10010-mvc.js"
+        },
+        {
             "src": "js/tests/10010-element.js"
         },
         {

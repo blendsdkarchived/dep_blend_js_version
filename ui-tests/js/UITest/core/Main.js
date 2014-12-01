@@ -5,6 +5,7 @@ Blend.defineClass('UITest.core.Main', {
     requires: [
         'Blend.Environment',
         'Blend.collection.Array',
-        'Blend.collection.Object'
+        'Blend.collection.Object',
+        'Blend.mvc.Application'
     ]
 });
