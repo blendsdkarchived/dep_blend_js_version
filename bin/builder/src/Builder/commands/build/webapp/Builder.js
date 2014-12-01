@@ -52,7 +52,8 @@ Blend.defineClass('Builder.commands.build.webapp.Builder', {
      * Deploys the scripts and stylesheets in the dev mode
      */
     deployDevScriptsAndStyleSheets: function () {
-        var me = this, target, scripts = [], stylesheets = [], status = true;
+        var me = this, target, scripts = [], stylesheets = [], status = true,
+                prjFolder = me.project.getProjectFolder(), src;
         Blend.foreach(me.depMap, function (item, cname) {
             target = me.getTargetPathAndUrl(item.classFile);
             if (target) {
@@ -73,15 +74,18 @@ Blend.defineClass('Builder.commands.build.webapp.Builder', {
         });
 
         Blend.foreach([].concat(me.project.scripts, me.project.stylesheets), function (item) {
-            item.src = Blend.fixPath(item.src.replace('%project-folder%', me.project.getProjectFolder()));
-            if (fs.existsSync(item.src)) {
-                target = me.getTargetPathAndUrl(item.src);
+            src = item.src;
+            if (!src.startsWith(prjFolder)) {
+                src = me.project.getProjectFolder(item.src);
+            }
+            if (fs.existsSync(src)) {
+                target = me.getTargetPathAndUrl(src);
                 if (target) {
                     FileUtils.copyFile(target.srcFile, target.destFile);
                     Logger.info('Deploying: ', target.url);
                 }
             } else {
-                Logger.error('Unable to deploy:' + item.src);
+                Logger.error('Unable to deploy:' + src);
                 return (status = false);
             }
         });
