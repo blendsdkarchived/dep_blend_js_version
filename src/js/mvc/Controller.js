@@ -9,6 +9,9 @@
  * controll UI and other component behaviours.
  */
 Blend.defineClass('Blend.mvc.Controller', {
+    requires: [
+        'Blend.mvc.Context'
+    ],
     refs: null,
     /**
      * @private
@@ -95,7 +98,7 @@ Blend.defineClass('Blend.mvc.Controller', {
         }
     },
     getMVCContext: function () {
-        return Blend.getMVCContext(this.mvcContextId);
+        return Blend.mvc.Context.getMVCContext(this.mvcContextId);
     }
 });
 

@@ -1,7 +1,10 @@
 Blend.defineClass('Blend.mvc.Provider', {
+    requires: [
+        'Blend.mvc.Context'
+    ],
     ctxControllers: null,
     /**
-     * The MVC context id that is set at {Blend.addMVCContext}
+     * The MVC context id that is set at {Blend.mvc.Context.addMVCContext}
      */
     mvcContextId: null,
     init: function () {
@@ -11,7 +14,7 @@ Blend.defineClass('Blend.mvc.Provider', {
         /**
          * Add this provided to the global context registry.
          */
-        Blend.addMVCContext(me);
+        Blend.mvc.Context.addMVCContext(me);
     },
     /**
      * Retrive a controller object by its classname. If the controller object.
