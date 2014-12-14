@@ -32,7 +32,18 @@ Blend.defineClass('Blend.Environment', {
     init: function () {
         var me = this;
         me.callParent.apply(me, arguments);
+        me.id();
         me.cssPrefix();
+        me.ready(function () {
+            me.prepareDocumentElement();
+        });
+    },
+    /**
+     * Sets the correct properties to the document element (HTML)
+     */
+    prepareDocumentElement: function () {
+        var el = Blend.dom.Dom.getDocument();
+        Blend.CSS.set(el, Blend.cssPrefix('blend'));
     },
     /**
      * Adds an event listener to a DOM element
@@ -160,6 +171,20 @@ Blend.defineClass('Blend.Environment', {
                 me.addEventListener(document, 'DOMContentLoaded', doCallback);
                 me.addEventListener(window, 'load', doCallback);
             }
+        }
+    },
+    /**
+     * Generates an unique id to be used as class a identifier. This function is
+     * available as Blend.id(...)
+     * @returns {number} Returns a new unique id withing the current application.
+     */
+    id: function () {
+        var me = this;
+        Blend.id = function () {
+            if (!me.$id) {
+                me.$id = 1;
+            }
+            return 'b' + (me.$id++);
         }
     },
     cssPrefix: function () {
