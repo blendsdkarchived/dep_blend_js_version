@@ -21,9 +21,5 @@ Blend.defineClass('Blend.mvc.Application', {
     notifyReady: function () {
         var me = this;
         me.fireEvent('ready');
-    },
-    destroy: function () {
-        var me = this;
-        Blend.destroyApplication(me);
     }
 });
