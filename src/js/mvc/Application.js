@@ -10,7 +10,7 @@ Blend.defineClass('Blend.mvc.Application', {
     init: function () {
         var me = this;
         me.callParent.apply(me, arguments);
-        me.refId = "application";
+        me.reference = "application";
         me.mixins.mvcProvider.init.apply(me, arguments);
         me.mixins.mvcConsumer.init.apply(me, arguments);
     },

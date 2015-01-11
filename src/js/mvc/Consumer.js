@@ -7,7 +7,7 @@ Blend.defineClass('Blend.mvc.Consumer', {
      */
     controllers: null,
     mvcContextId: null,
-    refId: null,
+    reference: null,
     init: function () {
         var me = this, cs = [];
         me.callParent.apply(me, arguments);
@@ -19,14 +19,14 @@ Blend.defineClass('Blend.mvc.Consumer', {
     initContext: function () {
         var me = this;
         /**
-         * [1] if this consumer does not have a refId then there is no need to
+         * [1] if this consumer does not have a reference then there is no need to
          * put it in any MVC context.
          *
-         * [2] The consumer can have a refId but no controllers defined. In this
+         * [2] The consumer can have a reference but no controllers defined. In this
          * case we need to travel the parent chain until be find a parent that
          * has a controller array defined.
          *
-         * [3] The consumer has both refId and controllers. In this case we need
+         * [3] The consumer has both reference and controllers. In this case we need
          * to ask the provider to either create and register those controllers
          * or return an ref name to that controller but this is not done here since
          * we lazy initialize controllers. The controller initialization is done
@@ -46,7 +46,7 @@ Blend.defineClass('Blend.mvc.Consumer', {
         }
 
         // check [1]
-        if (!Blend.isNullOrUndef(me.refId) && Blend.isNullOrUndef(me.controllers)) {
+        if (!Blend.isNullOrUndef(me.reference) && Blend.isNullOrUndef(me.controllers)) {
             var parent = null, cmp = me;
             /**
              * Find and set controllers for this consumer
@@ -64,7 +64,7 @@ Blend.defineClass('Blend.mvc.Consumer', {
              * Set a reference for this consumer in the controller
              */
             Blend.foreach(me.controllers, function (controller) {
-                Blend.mvc.Context.getMVCContext(me.mvcContextId).getController(controller).setRef(me.refId, me);
+                Blend.mvc.Context.getMVCContext(me.mvcContextId).getController(controller).setRef(me.reference, me);
             });
         }
     },
@@ -82,7 +82,7 @@ Blend.defineClass('Blend.mvc.Consumer', {
             Blend.foreach(me.controllers, function (controller) {
                 mvcContext = Blend.mvc.Context.getMVCContext(me.mvcContextId);
                 if (mvcContext) {
-                    mvcContext.getController(controller).delegate(me.refId, evt, args);
+                    mvcContext.getController(controller).delegate(me.reference, evt, args);
                 } else {
                     throw new Error('This consumer is not in any MVC provider context!');
                 }
