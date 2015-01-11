@@ -10,7 +10,8 @@
  */
 Blend.defineClass('Blend.mvc.Controller', {
     requires: [
-        'Blend.mvc.Context'
+        'Blend.mvc.Context',
+        'Blend.mvc.Model'
     ],
     refs: null,
     /**
@@ -44,7 +45,7 @@ Blend.defineClass('Blend.mvc.Controller', {
      * @param {string} refName name of the reference to search.
      * @return {object/object[]} A single object or an array of objects.
      */
-    getRef: function (refName) {
+    getReference: function (refName) {
         var me = this;
         if (me.refs[refName]) {
             if (me.refs[refName].length === 1) {
@@ -69,7 +70,7 @@ Blend.defineClass('Blend.mvc.Controller', {
      * @param {string} refName the name of the reference.
      * @param {object} obj The object to create the refenece for.
      */
-    setRef: function (refName, obj) {
+    setReference: function (refName, obj) {
         var me = this, getterName, filter;
         if (!me.refs[refName]) {
             getterName = 'get' + Blend.camelCase(refName);
@@ -77,7 +78,7 @@ Blend.defineClass('Blend.mvc.Controller', {
                 filter = Blend.isFunction(filter) ? filter : function () {
                     return arguments;
                 };
-                var values = me.getRef(refName);
+                var values = me.getReference(refName);
                 if (Blend.isArray(values)) {
                     return filter.apply(me, [values]);
                 } else {

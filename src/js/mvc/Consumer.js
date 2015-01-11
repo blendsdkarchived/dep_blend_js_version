@@ -64,7 +64,7 @@ Blend.defineClass('Blend.mvc.Consumer', {
              * Set a reference for this consumer in the controller
              */
             Blend.foreach(me.controllers, function (controller) {
-                Blend.mvc.Context.getMVCContext(me.mvcContextId).getController(controller).setRef(me.reference, me);
+                Blend.mvc.Context.getMVCContext(me.mvcContextId).getController(controller).setReference(me.reference, me);
             });
         }
     },
