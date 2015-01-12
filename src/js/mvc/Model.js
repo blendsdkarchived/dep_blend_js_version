@@ -11,6 +11,13 @@ Blend.defineClass('Blend.mvc.Model', {
         me.initFields();
         delete(me.fields);
     },
+    hasField: function (name) {
+        var me = this;
+        if (!me._fieldNames) {
+            me._fieldNames = Object.keys(me.data).concat(Object.keys(me.composites));
+        }
+        return me._fieldNames.indexOf(name) !== -1;
+    },
     setData: function (data) {
         var me = this, setter;
         if (Blend.isObject(data)) {
