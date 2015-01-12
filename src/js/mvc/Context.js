@@ -8,7 +8,7 @@ Blend.defineClass('Blend.mvc.Context', {
      * Retuns an mvc context by its context id.
      * @param {string} contextId The context id of the mvc context to be returned
      */
-    getMVCContext: function (contextId) {
+    getContext: function (contextId) {
         var me = this;
         if (me.mvcContext) {
             return me.mvcContext[contextId];

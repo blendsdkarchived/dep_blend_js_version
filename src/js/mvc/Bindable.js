@@ -21,7 +21,7 @@ Blend.defineClass('Blend.mvc.Bindable', {
                 m = modProp.split('.'),
                 context, model, setter;
         if (prop && m.length === 2) {
-            context = me.getMVCContext(me.mvcContextId);
+            context = me.getContext(me.mvcContextId);
             model = context._models[m[0]];
             setter = me.getSetterForProperty(prop);
             if (model.hasField(m[1]) && setter) {

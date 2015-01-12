@@ -90,9 +90,13 @@ Blend.defineClass('Blend.mvc.Consumer', {
              * Set a reference for this consumer in the controller
              */
             Blend.foreach(me.controllers, function (controller) {
-                Blend.mvc.Context.getMVCContext(me.mvcContextId).getController(controller).setReference(me.reference, me);
+                me.getContext().getController(controller).setReference(me.reference, me);
             });
         }
+    },
+    getContext: function () {
+        var me = this;
+        return Blend.mvc.Context.getContext(me.mvcContextId)
     },
     hasControllers: function () {
         var me = this;
@@ -106,7 +110,7 @@ Blend.defineClass('Blend.mvc.Consumer', {
             }
             evt = arguments[0];
             Blend.foreach(me.controllers, function (controller) {
-                mvcContext = Blend.mvc.Context.getMVCContext(me.mvcContextId);
+                mvcContext = Blend.mvc.Context.getContext(me.mvcContextId);
                 if (mvcContext) {
                     mvcContext.getController(controller).delegate(me.reference, evt, args);
                 } else {

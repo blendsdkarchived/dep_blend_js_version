@@ -107,7 +107,7 @@ Blend.defineClass('Blend.mvc.Controller', {
          * Therefore models will be registered and/or referenced within the application/window itself
          */
         var me = this,
-                context = Blend.mvc.Context.getMVCContext(me.mvcContextId);
+                context = Blend.mvc.Context.getContext(me.mvcContextId);
         context._models = context._models || {};
         Blend.foreach(me.models, function (model, name) {
             if (context._models[name]) {
@@ -118,8 +118,8 @@ Blend.defineClass('Blend.mvc.Controller', {
             }
         });
     },
-    getMVCContext: function () {
-        return Blend.mvc.Context.getMVCContext(this.mvcContextId);
+    getContext: function () {
+        return Blend.mvc.Context.getContext(this.mvcContextId);
     }
 });
 
