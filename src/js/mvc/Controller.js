@@ -13,6 +13,7 @@ Blend.defineClass('Blend.mvc.Controller', {
         'Blend.mvc.Context',
         'Blend.mvc.Model'
     ],
+    models: null,
     refs: null,
     /**
      * @private
@@ -94,9 +95,28 @@ Blend.defineClass('Blend.mvc.Controller', {
         var me = this;
         me.callParent.apply(me, arguments);
         me.refs = {};
+        me.models = me.models || {};
         if (!me.mvcContextId) {
             throw new Error("This controller is not in any MVC context. Are you trying to instantiate this controller manually?");
         }
+        me.initModels();
+    },
+    initModels: function () {
+        /**
+         * There can only be one instance of a model with a context (application or window).
+         * Therefore models will be registered and/or referenced within the application/window itself
+         */
+        var me = this,
+                context = Blend.mvc.Context.getMVCContext(me.mvcContextId);
+        context._models = context._models || {};
+        Blend.foreach(me.models, function (model, name) {
+            if (context._models[name]) {
+                me.models[name] = context._models[name];
+            } else {
+                context._models[name] = Blend.create(model);
+                me.models[name] = context._models[name];
+            }
+        });
     },
     getMVCContext: function () {
         return Blend.mvc.Context.getMVCContext(this.mvcContextId);
