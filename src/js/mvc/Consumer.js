@@ -1,17 +1,43 @@
 Blend.defineClass('Blend.mvc.Consumer', {
     requires: [
-        'Blend.mvc.Context'
+        'Blend.mvc.Context',
+        'Blend.mvc.Controller'
     ],
+    events: null,
     /**
      * List of controllers that this consumer is communicating to
      */
     controllers: null,
+    /**
+     * @private
+     * Context identifier for this MVC consumer
+     */
     mvcContextId: null,
+    /**
+     * A reference name that can be ised to get a reference to this MVC consumer
+     * from the controller
+     */
     reference: null,
     init: function () {
         var me = this, cs = [];
         me.callParent.apply(me, arguments);
+        me.events = me.events || {};
+        me._events = {};
         me.initContext();
+        me.initEvents();
+    },
+    addEvent: function (evtName, handler) {
+        var me = this;
+        if (!me._events[evtName]) {
+            me._events[evtName] = [];
+        }
+        me._events[evtName].push(handler);
+    },
+    initEvents: function () {
+        var me = this;
+        Blend.foreach(me.events, function (item, key) {
+            me.addEvent(key, item);
+        });
     },
     /**
      * Initializes this consumers MVC context
@@ -87,6 +113,18 @@ Blend.defineClass('Blend.mvc.Consumer', {
                     throw new Error('This consumer is not in any MVC provider context!');
                 }
             }, me);
+            if (Blend.isObject(me._events) && Blend.isArray(me._events[evt])) {
+                Blend.foreach(me._events[evt], function (evt) {
+                    if (Blend.isString(evt) && me[evt]) {
+                        evt = me[evt];
+                    }
+                    if (Blend.isFunction(evt)) {
+                        setTimeout(function () {
+                            evt.apply(me, args);
+                        }, 3);
+                    }
+                });
+            }
         } else {
             throw new Error('Invalid parameters to fire and event. The first parameter must be the name of the event and optionally followed by other paremeters.');
         }
