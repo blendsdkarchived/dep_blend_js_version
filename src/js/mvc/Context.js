@@ -21,7 +21,7 @@ Blend.defineClass('Blend.mvc.Context', {
      * @param {Blend.mvc.Provider} context The context to be
      * registered
      */
-    addMVCContext: function (context) {
+    addContext: function (context) {
         var me = this;
         if (!me.mvcContext) {
             me.mvcContext = {};
