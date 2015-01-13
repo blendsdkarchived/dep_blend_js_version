@@ -55,7 +55,7 @@ Blend.defineClass('Blend.mvc.Application', {
      */
     layoutMainView: function () {
         var me = this;
-        Blend.LayoutUtil.fit(Blend.getBody(), me.mainView.getElement());
+        Blend.LayoutUtil.fit(Blend.dom.Dom.getWindow(), me.mainView.getElement());
     },
     /**
      * @private
@@ -79,6 +79,7 @@ Blend.defineClass('Blend.mvc.Application', {
         Blend.Environment.addEventListener(window, 'resize', function () {
             setTimeout(function () {
                 me.onWindowResize.apply(me, arguments);
+                me.notifyResize.apply(me, arguments);
             }, 100);
         });
     },
@@ -96,5 +97,9 @@ Blend.defineClass('Blend.mvc.Application', {
     notifyReady: function () {
         var me = this;
         me.fireEvent('ready');
+    },
+    notifyResize: function () {
+        var me = this;
+        me.fireEvent('resize', arguments);
     }
 });
