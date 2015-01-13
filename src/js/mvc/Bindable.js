@@ -22,10 +22,20 @@ Blend.defineClass('Blend.mvc.Bindable', {
                 context, model, setter;
         if (prop && m.length === 2) {
             context = me.getContext(me.mvcContextId);
-            model = context._models[m[0]];
-            setter = me.getSetterForProperty(prop);
-            if (model.hasField(m[1]) && setter) {
-                model.addBinding(m[1], setter, me);
+            model = context.getModel(m[0]);
+            if (model) {
+                if (model.hasField(m[1])) {
+                    setter = me.getSetterForProperty(prop);
+                    if (setter) {
+                        model.addBinding(m[1], setter, me);
+                    } else {
+                        throw new Error('Unable to bind ' + prop + ' to ' + modProp + ' due missing a setter for ' + prop);
+                    }
+                } else {
+                    throw new Error('Model ' + m[0] + ' does not have a field or a compisute field called: ' + m[1]);
+                }
+            } else {
+                throw new Error('Undefined model:' + m[0]);
             }
         }
     },

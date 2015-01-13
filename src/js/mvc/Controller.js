@@ -107,14 +107,12 @@ Blend.defineClass('Blend.mvc.Controller', {
          * Therefore models will be registered and/or referenced within the application/window itself
          */
         var me = this,
-                context = Blend.mvc.Context.getContext(me.mvcContextId);
-        context._models = context._models || {};
+                context = me.getContext();
         Blend.foreach(me.models, function (model, name) {
-            if (context._models[name]) {
-                me.models[name] = context._models[name];
+            if (context.hasModel(name)) {
+                me.models[name] = context.getModel(name);
             } else {
-                context._models[name] = Blend.create(model);
-                me.models[name] = context._models[name];
+                me.models[name] = context.setModel(name, Blend.create(model));
             }
         });
     },

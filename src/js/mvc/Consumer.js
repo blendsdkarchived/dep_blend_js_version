@@ -94,9 +94,13 @@ Blend.defineClass('Blend.mvc.Consumer', {
             });
         }
     },
+    getContextId: function () {
+        var me = this;
+        return me.mvcContextId;
+    },
     getContext: function () {
         var me = this;
-        return Blend.mvc.Context.getContext(me.mvcContextId)
+        return Blend.mvc.Context.getContext(me.getContextId())
     },
     hasControllers: function () {
         var me = this;
@@ -110,7 +114,7 @@ Blend.defineClass('Blend.mvc.Consumer', {
             }
             evt = arguments[0];
             Blend.foreach(me.controllers, function (controller) {
-                mvcContext = Blend.mvc.Context.getContext(me.mvcContextId);
+                mvcContext = Blend.mvc.Context.getContext(me.getContextId());
                 if (mvcContext) {
                     mvcContext.getController(controller).delegate(me.reference, evt, args);
                 } else {
