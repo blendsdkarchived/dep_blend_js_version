@@ -6,8 +6,17 @@ Blend.defineClass('Blend.layout.Util', {
      * @param {HTMLElement} destElement
      */
     fit: function (parentElement, childElement) {
+        var pSize;
         Blend.CSS.set(childElement, Blend.cssPrefix('fitable'));
-        Blend.Style.set(childElement, Blend.Element.getSize(parentElement));
+        if (parentElement === window) {
+            pSize = {
+                width: window.innerWidth,
+                height: window.innerHeight
+            }
+        } else {
+            pSize = Blend.Element.getSize(parentElement);
+        }
+        Blend.Style.set(childElement, pSize);
     }
 }, function (clazz) {
     Blend.LayoutUtil = clazz;
