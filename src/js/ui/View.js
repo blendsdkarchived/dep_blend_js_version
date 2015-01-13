@@ -5,6 +5,7 @@ Blend.defineClass('Blend.ui.View', {
         var me = this;
         if (!me._rendered) {
             me.render();
+            me._rendered = true;
         }
         return me.element;
     },
