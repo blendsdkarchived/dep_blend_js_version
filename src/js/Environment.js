@@ -197,5 +197,16 @@ Blend.defineClass('Blend.Environment', {
             });
             return r;
         };
+    },
+    /**
+     * Check if the current browser environment is a Mobile device
+     * @returns {Boolean}
+     */
+    isMobileDevice: function () {
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 });
