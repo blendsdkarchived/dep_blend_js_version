@@ -63,7 +63,7 @@ Blend.defineClass('Blend.dom.Element', {
                 });
             } else if (key === 'text') {
                 el.textContent = value;
-            } else if (key !== 'tag' && key !== 'oid' && key !== 'type') {
+            } else if (key !== 'tag' && key !== 'oid' && key !== 'type' && key !== 'cls') {
                 el.setAttribute(key, value);
             }
         });
