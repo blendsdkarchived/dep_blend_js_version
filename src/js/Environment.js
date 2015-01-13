@@ -7,6 +7,11 @@ Blend.defineClass('Blend.Environment', {
         'Blend.dom.Dom',
         'Blend.utils.String'
     ],
+    statics: {
+        ORIENTATION_DEFAULT: 'D',
+        ORIENTATION_LANDSCAPE: 'L',
+        ORIENTATION_PORTRAIT: 'P'
+    },
     singleton: true,
     /**
      * Default CSS prefix in BlendJS
@@ -185,7 +190,7 @@ Blend.defineClass('Blend.Environment', {
                 me.$id = 1;
             }
             return 'b' + (me.$id++);
-        }
+        };
     },
     cssPrefix: function () {
         var me = this;
@@ -208,5 +213,31 @@ Blend.defineClass('Blend.Environment', {
         } else {
             return false;
         }
+    },
+    /**
+     * Gets the orientation of current window or device
+     * @returns {Blend.Environment.ORIENTATION_LANDSCAPE|Blend.Environment.ORIENTATION_PORTRAIT|Blend.Environment.ORIENTATION_DEFAULT}
+     */
+    getOrientation: function () {
+        var me = this;
+        if (me.isMobileDevice()) {
+            if (window.innerWidth >= window.innerHeight) {
+                return Blend.Environment.ORIENTATION_LANDSCAPE;
+            } else {
+                return Blend.Environment.ORIENTATION_PORTRAIT;
+            }
+        } else {
+            return Blend.Environment.ORIENTATION_DEFAULT;
+        }
+    },
+    /**
+     * Gets the size of window or device
+     * @returns {object}
+     */
+    getSize: function () {
+        return {
+            width: window.innerWidth,
+            height: window.innerHeight
+        };
     }
 });
