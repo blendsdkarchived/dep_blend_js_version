@@ -19,6 +19,7 @@ Blend.defineClass('Blend.ui.Rect', {
         el.style['background-color'] = color;
         el.style.width = me.width;
         el.style.height = me.height;
+        el.cls = ['rect'];
         return el;
     },
     getRandomGrayColor: function () {
