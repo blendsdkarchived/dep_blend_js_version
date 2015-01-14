@@ -1,11 +1,24 @@
 Blend.defineClass('Blend.ui.View', {
     extend: 'Blend.mvc.View',
+    requires: [
+        'Blend.layout.Layout'
+    ],
     element: null,
     init: function () {
         var me = this;
         me._rendered = false;
         me._layout = true;
         me.callParent.apply(me, arguments);
+        me.layout = me.layout || 'base';
+        me.initLayout();
+    },
+    /**
+     * @private initializes the layout object for this view
+     * @returns {undefined}
+     */
+    initLayout: function () {
+        var me = this;
+        me.layout = Blend.layout.Layout.createLayout(me, me.layout);
     },
     getElement: function () {
         var me = this;
@@ -41,6 +54,8 @@ Blend.defineClass('Blend.ui.View', {
         }
     },
     layoutView: function () {
+        var me = this;
+        me.layout.performLayout.apply(me.layout, arguments);
     },
     render: function (renderCtx) {
         var me = this,
