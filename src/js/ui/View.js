@@ -10,7 +10,11 @@ Blend.defineClass('Blend.ui.View', {
     getElement: function () {
         var me = this;
         if (!me._rendered) {
-            me.render();
+            /**
+             * We do this to be able to pass a renderContext without the need
+             * to explicitly defining the function parameters
+             */
+            me.render.apply(me, arguments);
             me._rendered = true;
         }
         return me.element;
@@ -38,10 +42,11 @@ Blend.defineClass('Blend.ui.View', {
     },
     layoutView: function () {
     },
-    render: function () {
+    render: function (renderCtx) {
         var me = this,
                 el = me.initElement(me.element || {});
-        el = Blend.Element.create(el, function (oid, element) {
+
+        el = Blend.Element.create(Blend.apply(el, renderCtx || {}, false, true), function (oid, element) {
             /**
              * Check if we can find a setter for the oid and if possible assign
              * the element using the setter.
