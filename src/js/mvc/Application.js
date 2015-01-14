@@ -3,7 +3,7 @@ Blend.defineClass('Blend.mvc.Application', {
         'Blend.mvc.Controller',
         'Blend.Environment',
         'Blend.layout.Util',
-        'Blend.ui.View',
+        'Blend.ui.Component'
     ],
     mixins: {
         mvcProvider: 'Blend.mvc.Provider',
