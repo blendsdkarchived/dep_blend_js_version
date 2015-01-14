@@ -56,6 +56,7 @@ Blend.defineClass('Blend.mvc.Application', {
     layoutMainView: function () {
         var me = this;
         Blend.LayoutUtil.fit(Blend.dom.Dom.getWindow(), me.mainView.getElement());
+        me.mainView.performLayout();
     },
     /**
      * @private

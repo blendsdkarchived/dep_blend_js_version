@@ -1,6 +1,12 @@
 Blend.defineClass('Blend.ui.View', {
     extend: 'Blend.mvc.View',
     element: null,
+    init: function () {
+        var me = this;
+        me._rendered = false;
+        me._layout = true;
+        me.callParent.apply(me, arguments);
+    },
     getElement: function () {
         var me = this;
         if (!me._rendered) {
@@ -8,6 +14,29 @@ Blend.defineClass('Blend.ui.View', {
             me._rendered = true;
         }
         return me.element;
+    },
+    canLayout: function () {
+        var me = this;
+        return me._layout;
+    },
+    suspendLayout: function () {
+        var me = this;
+        me._layout = false;
+    },
+    resumeLayout: function () {
+        var me = this;
+        me._layout = true;
+        me.layoutView();
+    },
+    performLayout: function () {
+        var me = this;
+        if (me.canLayout()) {
+            me._layout = false;
+            me.layoutView();
+            me._layout = true;
+        }
+    },
+    layoutView: function () {
     },
     render: function () {
         var me = this,
