@@ -7,6 +7,7 @@ Blend.defineClass('Blend.ui.Rect', {
     height: 100,
     gray: false,
     alias: 'ui.rect',
+    text: null,
     initElement: function (el) {
         var me = this, color;
         el = me.callParent.apply(me, [el]);
@@ -20,7 +21,16 @@ Blend.defineClass('Blend.ui.Rect', {
         el.style.width = me.width;
         el.style.height = me.height;
         el.cls = ['rect'];
+        el.text = me.text;
         return el;
+    },
+    setText: function (value) {
+        var me = this;
+        me.element.innerHTML = value;
+    },
+    getText: function () {
+        var me = this;
+        return me.element.innerHTML;
     },
     getRandomGrayColor: function () {
         var colors = ['#FFFFFF', '#FEFEFE', '#FDFDFD', '#FCFCFC', '#FBFBFB', '#FAFAFA', '#F9F9F9', '#F8F8F8',
