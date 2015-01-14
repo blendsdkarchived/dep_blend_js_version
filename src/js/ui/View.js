@@ -40,7 +40,7 @@ Blend.defineClass('Blend.ui.View', {
     },
     render: function () {
         var me = this,
-                el = me.initElement(me.element);
+                el = me.initElement(me.element || {});
         el = Blend.Element.create(el, function (oid, element) {
             /**
              * Check if we can find a setter for the oid and if possible assign
