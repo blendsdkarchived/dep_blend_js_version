@@ -2,8 +2,7 @@ Blend.defineClass('Blend.layout.Layout', {
     alias: 'layout.base',
     view: null,
     performLayout: function () {
-        var me = this;
-        console.log(me.view.$className$);
+        return;
     },
     statics: {
         createLayout: function (view, layoutConfig) {
