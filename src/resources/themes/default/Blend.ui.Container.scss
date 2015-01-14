@@ -1,8 +1,12 @@
 @import "var/_bootstrap.scss";
 
-#{$prefix}-fitable {
+#{$prefix}-conatiner-body {
     display: block;
     position: relative;
     top:0px;
     left:0px;
+
+    #{$prefix}-conatiner-item {
+
+    }
 }
