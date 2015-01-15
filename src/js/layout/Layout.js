@@ -1,11 +1,6 @@
 Blend.defineClass('Blend.layout.Layout', {
     alias: 'layout.base',
     view: null,
-    viewLayoutContext: null,
-    setLayoutContext: function (ctx) {
-        var me = this;
-        me.viewLayoutContext = ctx;
-    },
     performLayout: function () {
         return;
     },
