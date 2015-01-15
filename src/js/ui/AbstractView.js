@@ -93,15 +93,18 @@ Blend.defineClass('Blend.ui.AbstractView', {
         return el;
     },
     finalizeRender: function (setterMap) {
-        var me = this, setterFn;
+        var me = this, setterFn, ival;
         setterMap = setterMap || {};
         me.disableEvents();
         Blend.foreach(setterMap, function (setter, config) {
-            me[setter].apply(me, [me[config]]);
+            ival = me[config];
+            me[config] = null;
+            me[setter].apply(me, [ival]);
         });
         Blend.foreach(me, function (value, config) {
             setterFn = me['set' + Blend.camelCase(config)];
             if (!Blend.isFunction(value) && Blend.isFunction(setterFn)) {
+                me[config] = null;
                 setterFn.apply(me, [value]);
             }
         });
