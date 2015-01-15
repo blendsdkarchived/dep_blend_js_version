@@ -6,6 +6,7 @@ Blend.defineClass('UITest.core.Main', {
         'Blend.Environment',
         'Blend.collection.Array',
         'Blend.collection.Object',
-        'Blend.mvc.Application'
+        'Blend.mvc.Application',
+        'Blend.Environment'
     ]
 });
