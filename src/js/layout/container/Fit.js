@@ -1,7 +1,7 @@
 Blend.defineClass('Blend.layout.container.Fit', {
     extend: 'Blend.layout.container.Layout',
     alias: 'layout.fit',
-    itemCSSClass: 'fit',
+    cssPrefix: 'fit',
     getVisibleItemIndex: function () {
         return 0;
     },

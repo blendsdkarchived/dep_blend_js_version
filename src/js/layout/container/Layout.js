@@ -1,15 +1,16 @@
 Blend.defineClass('Blend.layout.container.Layout', {
     extend: 'Blend.layout.Layout',
-    itemCSSClass: null,
+    cssPrefix: null,
     containerEl: null,
     init: function () {
         var me = this;
         me.callParent.apply(me, arguments);
-        me.itemCSSClass = Blend.cssPrefix(me.itemCSSClass + '-layout-item');
+        me._itemCSS = Blend.cssPrefix(me.cssPrefix + '-layout-item');
     },
     setContainerElement: function (el) {
         var me = this;
         me.containerEl = el;
+        Blend.CSS.set(me.containerEl, Blend.cssPrefix(me.cssPrefix + '-layout'));
     },
     renderItems: function () {
         var me = this, view,
@@ -19,7 +20,7 @@ Blend.defineClass('Blend.layout.container.Layout', {
             me.createItemLayoutContext(view);
             vitems.push(view);
             elements.push(view.getElement({
-                cls: [me.getItemCSS()]
+                cls: me.getItemCSS()
             }));
         });
         me.view.items = vitems;
@@ -27,7 +28,7 @@ Blend.defineClass('Blend.layout.container.Layout', {
     },
     getItemCSS: function (view) {
         var me = this;
-        return [Blend.cssPrefix('conatiner-item'), me.itemCSSClass];
+        return [Blend.cssPrefix('conatiner-item'), me._itemCSS];
     },
     createItemView: function (viewCfg) {
         var me = this;
