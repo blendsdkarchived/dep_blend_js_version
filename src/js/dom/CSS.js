@@ -4,6 +4,7 @@
  */
 Blend.defineClass('Blend.dom.CSS', {
     singleton: true,
+    CSS_HIDDEN: 'hidden',
     /**
      * Checks if the DOM element has a css class
      * @param {HTMLElement} el the html element
