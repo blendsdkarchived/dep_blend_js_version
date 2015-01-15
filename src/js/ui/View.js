@@ -13,7 +13,7 @@ Blend.defineClass('Blend.ui.View', {
      */
     height: null,
     /**
-     * Sets the current with of this component
+     * Sets the current width of this component
      * @param {number} value
      */
     setWidth: function (value) {
@@ -31,8 +31,30 @@ Blend.defineClass('Blend.ui.View', {
      */
     getWidth: function () {
         var me = this,
-                w = Blend.Style.get(me.element, 'width');
-        return (me.width = w);
+                val = Blend.Style.get(me.element, 'width');
+        return (me.width = val);
+    },
+    /**
+     * Sets the current height of this component
+     * @param {number} value
+     */
+    setHeight: function (value) {
+        var me = this;
+        if (me.height !== value) {
+            me.height = value;
+            Blend.Style.set(me.element, {height: value});
+            me.notifySizeChanged();
+        }
+        return me;
+    },
+    /**
+     * Gets the height of this component
+     * @returns {number}
+     */
+    getHeight: function () {
+        var me = this,
+                val = Blend.Style.get(me.element, 'height');
+        return (me.height = val);
     },
     /**
      * Sets the current visibility status. This method internally calls the
@@ -90,7 +112,7 @@ Blend.defineClass('Blend.ui.View', {
      */
     notifySizeChanged: function () {
         var me = this;
-        me.fireEvent('sizeChanhed', me.width, me.height);
+        me.fireEvent('sizeChanged', me.width, me.height);
     },
     finalizeRender: function (map) {
         var me = this;
