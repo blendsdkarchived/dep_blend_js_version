@@ -240,4 +240,10 @@ Blend.defineClass('Blend.Environment', {
             height: window.innerHeight
         };
     }
+}, function () {
+    Blend.foreach(Blend.CSS, function (v, k) {
+        if (k.startsWith('CSS_')) {
+            Blend.CSS[k] = Blend.cssPrefix(v);
+        }
+    });
 });
