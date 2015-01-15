@@ -14,7 +14,8 @@ Blend.defineClass('Blend.layout.Layout', {
             } else if (Blend.isString(layoutConfig)) {
                 layoutConfig = Blend.isAliasOfType('layout', layoutConfig) ? 'layout.' + layoutConfig : layoutConfig;
                 return Blend.create(layoutConfig, cfg);
-            } else if (Blend.isObject(layoutConfig)) {
+            } else if (Blend.isObject(layoutConfig) && layoutConfig.type) {
+                layoutConfig.type = 'layout.' + layoutConfig.type;
                 return Blend.create(Blend.apply(cfg, layoutConfig));
             } else {
                 throw new Error('Unable to create a layout based on: ' + layoutConfig);
