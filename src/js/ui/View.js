@@ -1,9 +1,39 @@
 Blend.defineClass('Blend.ui.View', {
     extend: 'Blend.ui.AbstractView',
     /**
-     * Configuration parameter for making this view hidden or visible
+     * Config parameter for making this view hidden or visible
      */
     hidden: false,
+    /**
+     * Config parameter for setting the initial with of this view.
+     */
+    width: null,
+    /**
+     * Config parameter for setting the initial height of this view.
+     */
+    height: null,
+    /**
+     * Sets the current with of this component
+     * @param {number} value
+     */
+    setWidth: function (value) {
+        var me = this;
+        if (me.width !== value) {
+            me.width = value;
+            Blend.Style.set(me.element, {width: value});
+            me.notifySizeChanged();
+        }
+        return me;
+    },
+    /**
+     * Gets the width of this component
+     * @returns {number}
+     */
+    getWidth: function () {
+        var me = this,
+                w = Blend.Style.get(me.element, 'width');
+        return (me.width = w);
+    },
     /**
      * Sets the current visibility status. This method internally calls the
      * show() or the hide() method and is made available here for purpose of binding
@@ -16,6 +46,7 @@ Blend.defineClass('Blend.ui.View', {
         } else {
             me.hide();
         }
+        return me;
     },
     /**
      * Makes this view visible
@@ -53,6 +84,13 @@ Blend.defineClass('Blend.ui.View', {
     notifyHide: function () {
         var me = this;
         me.fireEvent('hide');
+    },
+    /**
+     * Fires when the size of this view is changed
+     */
+    notifySizeChanged: function () {
+        var me = this;
+        me.fireEvent('sizeChanhed', me.width, me.height);
     },
     finalizeRender: function (map) {
         var me = this;
