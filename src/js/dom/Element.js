@@ -126,6 +126,36 @@ Blend.defineClass('Blend.dom.Element', {
         return r;
     },
     /**
+     * Sets the potition of an HTMLElement. In order for this to work correctly
+     * the element must have a position:static or position:relative style
+     * @param {HTMLElement} el
+     * @param {number} top
+     * @param {number} left
+     */
+    setPosition: function (el, top, left) {
+        Blend.Style.set(el, {
+            top: top,
+            left: left
+        });
+    },
+    /**
+     * Gets the top,left,width, and the height of an HTMLElement
+     * @param {HTMLElement} el
+     * @returns {object}
+     */
+    getBounds: function (el) {
+        if (el === window) {
+            return  {
+                top: 0,
+                left: 0,
+                width: window.innerWidth,
+                height: window.innerHeight
+            }
+        } else {
+            return Blend.Style.get(el, ['top', 'left', 'width', 'height']);
+        }
+    },
+    /**
      * Get the width and the height of an element
      */
     getSize: function (el) {
