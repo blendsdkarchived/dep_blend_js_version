@@ -5,6 +5,7 @@ Blend.defineClass('Blend.ui.AbstractView', {
     ],
     element: null,
     layoutContext: null,
+    unselectable: true,
     init: function () {
         var me = this;
         me._rendered = false;
@@ -83,6 +84,7 @@ Blend.defineClass('Blend.ui.AbstractView', {
         return me.element;
     },
     initElement: function (el) {
+        var me = this;
         /**
          * Ini the element
          */
@@ -90,6 +92,9 @@ Blend.defineClass('Blend.ui.AbstractView', {
             style: {},
             cls: []
         }, false, true);
+        if (me.unselectable) {
+            el.unselectable = "on";
+        }
         return el;
     },
     finalizeRender: function (setterMap) {
