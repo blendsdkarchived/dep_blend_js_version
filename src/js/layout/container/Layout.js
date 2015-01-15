@@ -17,10 +17,10 @@ Blend.defineClass('Blend.layout.container.Layout', {
         Blend.foreach(me.view.items, function (itemCfg, idx) {
             view = me.createItemView(itemCfg);
             me.createItemLayoutContext(view);
-            vitems.push(view)
+            vitems.push(view);
             elements.push(view.getElement({
                 cls: [me.getItemCSS()]
-            }))
+            }));
         });
         me.view.items = vitems;
         return elements;
