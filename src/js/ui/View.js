@@ -53,5 +53,13 @@ Blend.defineClass('Blend.ui.View', {
     notifyHide: function () {
         var me = this;
         me.fireEvent('hide');
+    },
+    finalizeRender: function (map) {
+        var me = this;
+        me.hidden = !me.hidden;
+        map = Blend.apply(map || {}, {
+            hidden: 'setVisibility'
+        });
+        me.callParent.apply(me, [map]);
     }
 });

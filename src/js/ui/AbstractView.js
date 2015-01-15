@@ -78,7 +78,9 @@ Blend.defineClass('Blend.ui.AbstractView', {
                 me[oid] = element;
             }
         }, me);
-        return (me.element = me.finalizeRender(el));
+        me.element = el;
+        me.finalizeRender({});
+        return me.element;
     },
     initElement: function (el) {
         /**
@@ -90,7 +92,19 @@ Blend.defineClass('Blend.ui.AbstractView', {
         }, false, true);
         return el;
     },
-    finalizeRender: function (el) {
-        return el;
+    finalizeRender: function (setterMap) {
+        var me = this, setterFn;
+        setterMap = setterMap || {};
+        me.disableEvents();
+        Blend.foreach(setterMap, function (setter, config) {
+            me[setter].apply(me, [me[config]]);
+        });
+        Blend.foreach(me, function (value, config) {
+            setterFn = me['set' + Blend.camelCase(config)];
+            if (!Blend.isFunction(value) && Blend.isFunction(setterFn)) {
+                setterFn.apply(me, [value]);
+            }
+        });
+        me.enableEvents();
     }
 });
