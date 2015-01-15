@@ -34,8 +34,13 @@ Blend.defineClass('Blend.ui.Container', {
         me.layout.setContainerElement(me.bodyEl);
         return el;
     },
+    layoutBodyElement: function () {
+        var me = this;
+        Blend.LayoutUtil.fit(me.getElement(), me.bodyEl);
+    },
     performLayout: function () {
         var me = this;
+        me.layoutBodyElement();
         me.layout.performLayout.apply(me.layout, arguments);
     },
     renderItems: function () {
