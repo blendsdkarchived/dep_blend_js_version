@@ -4,6 +4,7 @@ Blend.defineClass('Blend.ui.View', {
         'Blend.layout.Layout'
     ],
     element: null,
+    layoutContext: null,
     init: function () {
         var me = this;
         me._rendered = false;
@@ -11,6 +12,10 @@ Blend.defineClass('Blend.ui.View', {
         me.callParent.apply(me, arguments);
         me.layout = me.layout || 'base';
         me.initLayout();
+    },
+    setLayoutContext: function (ctx) {
+        var me = this;
+        me.layoutContext = ctx;
     },
     /**
      * @private initializes the layout object for this view

@@ -21,28 +21,6 @@ Blend.defineClass('Blend.ui.Container', {
         me.createBodyElement(el);
         return el;
     },
-    createChildViews: function () {
-        var me = this, view;
-        Blend.foreach(me.items, function (item, idx) {
-            view = me.createChildView(item);
-            me.items[idx] = view;
-        });
-        me.items = me.layout.processChildViews(me.items);
-    },
-    renderItems: function () {
-        var me = this, items = [];
-        me.createChildViews();
-        Blend.foreach(me.items, function (view, idx) {
-            items.push(view.getElement({
-                cls: [Blend.cssPrefix('conatiner-item')]
-            }));
-        });
-        return me.layout.processChildElements(items);
-    },
-    createChildView: function (viewCfg) {
-        var me = this;
-        return Blend.ui.Component.createView.apply(me, arguments);
-    },
     createBodyElement: function (el) {
         var me = this;
         el.items.push({
@@ -53,7 +31,15 @@ Blend.defineClass('Blend.ui.Container', {
     },
     finalizeRender: function (el) {
         var me = this;
-        me.layout.processViewElement(me.bodyEl);
+        me.layout.setContainerElement(me.bodyEl);
         return el;
+    },
+    performLayout: function () {
+        var me = this;
+        me.layout.performLayout.apply(me.layout, arguments);
+    },
+    renderItems: function () {
+        var me = this;
+        return me.layout.renderItems.apply(me.layout, arguments);
     }
 });

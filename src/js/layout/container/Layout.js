@@ -1,32 +1,39 @@
 Blend.defineClass('Blend.layout.container.Layout', {
     extend: 'Blend.layout.Layout',
     itemCSSClass: null,
+    containerEl: null,
     init: function () {
         var me = this;
         me.callParent.apply(me, arguments);
+        me.itemCSSClass = Blend.cssPrefix(me.itemCSSClass + '-layout-item');
     },
-    performLayout: function () {
+    setContainerElement: function (el) {
         var me = this;
-        Blend.foreach(me.view.items, function (child) {
-            child.performLayout();
-        });
+        me.containerEl = el;
     },
-    processChildViews: function (views) {
-        return views;
-    },
-    processChildElements: function (elements) {
-        var me = this;
-        Blend.foreach(elements, function (el, idx) {
-            me.processChildElement(el, idx);
+    renderItems: function () {
+        var me = this, view,
+                elements = [], vitems = [];
+        Blend.foreach(me.view.items, function (itemCfg, idx) {
+            view = me.createItemView(itemCfg);
+            me.createItemLayoutContext(view);
+            vitems.push(view)
+            elements.push(view.getElement({
+                cls: [me.getItemCSS()]
+            }))
         });
+        me.view.items = vitems;
         return elements;
     },
-    processViewElement: function (el) {
+    getItemCSS: function (view) {
         var me = this;
-        Blend.CSS.set(el, Blend.cssPrefix(me.itemCSSClass + "-layout"));
+        return [Blend.cssPrefix('conatiner-item'), me.itemCSSClass];
     },
-    processChildElement: function (el, idx) {
+    createItemView: function (viewCfg) {
         var me = this;
-        Blend.CSS.set(el, Blend.cssPrefix(me.itemCSSClass + "-layout-item"));
+        return Blend.ui.Component.createView.apply(me.view, arguments);
+    },
+    createItemLayoutContext: function (view) {
+        view.setLayoutContext({});
     }
 });
