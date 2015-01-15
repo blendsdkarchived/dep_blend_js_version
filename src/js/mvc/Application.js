@@ -34,7 +34,7 @@ Blend.defineClass('Blend.mvc.Application', {
     },
     createMainView: function (viewCfg) {
         var me = this;
-        return Blend.ui.Component.createView.apply(me, arguments);
+        return Blend.ui.Component.createView.apply(me, [viewCfg, me]);
     },
     /**
      * @private

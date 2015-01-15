@@ -31,7 +31,7 @@ Blend.defineClass('Blend.layout.container.Layout', {
     },
     createItemView: function (viewCfg) {
         var me = this;
-        return Blend.ui.Component.createView.apply(me.view, arguments);
+        return Blend.ui.Component.createView.apply(me.view, [viewCfg, me.view]);
     },
     createItemLayoutContext: function (view) {
         view.setLayoutContext({});
