@@ -53,6 +53,10 @@ body {
     }
 }
 
+#{$prefix}-hidden {
+    display:none;
+}
+
 [unselectable=on] {
     @include user-select(none);
 }
