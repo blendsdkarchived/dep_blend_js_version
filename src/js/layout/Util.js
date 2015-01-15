@@ -2,21 +2,18 @@ Blend.defineClass('Blend.layout.Util', {
     singleton: true,
     /**
      * Fits the source element into the parent element
-     * @param {HTMLElement} sourceElement
-     * @param {HTMLElement} destElement
+     * @param {Blend.ui.View/HTMLElement} parent
+     * @param {Blend.ui.View/HTMLElement} child
      */
-    fit: function (parentElement, childElement) {
-        var pSize;
+    fit: function (parent, child) {
+        var me = this,
+                parentElement = me.getEl(parent),
+                childElement = me.getEl(child);
         Blend.CSS.set(childElement, Blend.cssPrefix('fitable'));
-        if (parentElement === window) {
-            pSize = {
-                width: window.innerWidth,
-                height: window.innerHeight
-            }
-        } else {
-            pSize = Blend.Element.getSize(parentElement);
-        }
-        Blend.Style.set(childElement, pSize);
+        Blend.Style.set(childElement, Blend.Element.getSize(parentElement));
+    },
+    getEl: function (view) {
+        return view.getElement ? view.getElement() : view;
     }
 }, function (clazz) {
     Blend.LayoutUtil = clazz;
