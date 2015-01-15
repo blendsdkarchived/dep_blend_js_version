@@ -126,7 +126,9 @@ Blend.defineClass('Blend.mvc.Consumer', {
         if (me._eventsEnable) {
             if (arguments.length !== 0 && Blend.isString(arguments[0])) {
                 for (a = 0; a !== arguments.length; a++) {
-                    args.push(arguments[a]);
+                    if (a !== 0) {
+                        args.push(arguments[a]);
+                    }
                 }
                 evt = arguments[0];
                 Blend.foreach(me.controllers, function (controller) {
