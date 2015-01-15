@@ -11,14 +11,14 @@ BlendTest.defineTest('mvc', 'mvc sanity', function (t) {
         }
     });
 
-    Blend.defineClass('Test.mvc.Application', {
+    Blend.defineClass('Test.test.Application', {
         extend: 'Blend.mvc.Application',
         controllers: 'Test.mvc.Controller',
         prepareBodyElement: function () {
 
         }
     });
-    var app = Blend.create('Test.mvc.Application');
+    var app = Blend.create('Test.test.Application');
     app.start();
     t.delay(function () {
         t.ok(app.getContextId(), 'has context id');

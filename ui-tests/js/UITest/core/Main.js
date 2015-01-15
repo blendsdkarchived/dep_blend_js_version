@@ -10,3 +10,10 @@ Blend.defineClass('UITest.core.Main', {
         'Blend.Environment'
     ]
 });
+
+Blend.defineClass('Test.mvc.Application', {
+    extend: 'Blend.mvc.Application',
+    prepareBodyElement: function () {
+
+    }
+});
