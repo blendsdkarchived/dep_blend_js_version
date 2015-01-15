@@ -21,6 +21,9 @@ Blend.defineClass('Blend.mvc.Application', {
         var me = this;
         return me.mainView;
     },
+    prepareBodyElement: function (body) {
+        Blend.Element.clear(body);
+    },
     /**
      * Set the main view for this application.
      * @param {object/string} viewcfg
@@ -28,7 +31,7 @@ Blend.defineClass('Blend.mvc.Application', {
     setMainView: function (viewcfg) {
         var me = this, body = Blend.getBody();
         me.mainView = me.createMainView(viewcfg);
-        Blend.Element.clear(body);
+        me.prepareBodyElement();
         body.appendChild(me.mainView.getElement());
         me.layoutMainView();
     },
