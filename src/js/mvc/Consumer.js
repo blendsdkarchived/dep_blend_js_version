@@ -23,6 +23,7 @@ Blend.defineClass('Blend.mvc.Consumer', {
         me.callParent.apply(me, arguments);
         me.events = me.events || {};
         me._events = {};
+        me._eventsEnable = true;
         me.initContext();
         me.initEvents();
     },
@@ -106,35 +107,51 @@ Blend.defineClass('Blend.mvc.Consumer', {
         var me = this;
         return Blend.isArray(me.controllers) && me.controllers.length !== 0;
     },
+    /**
+     * Disables all events from firing for this component
+     */
+    disableEvents: function () {
+        var me = this;
+        me._eventsEnable = false;
+    },
+    /**
+     * Enables all events for this component
+     */
+    enableEvents: function () {
+        var me = this;
+        me._eventsEnable = true;
+    },
     fireEvent: function () {
         var me = this, evt, args = [me], a, mvcContext;
-        if (arguments.length !== 0 && Blend.isString(arguments[0])) {
-            for (a = 0; a !== arguments.length; a++) {
-                args.push(arguments[a]);
-            }
-            evt = arguments[0];
-            Blend.foreach(me.controllers, function (controller) {
-                mvcContext = Blend.mvc.Context.getContext(me.getContextId());
-                if (mvcContext) {
-                    mvcContext.getController(controller).delegate(me.reference, evt, args);
-                } else {
-                    throw new Error('This consumer is not in any MVC provider context!');
+        if (me._eventsEnable) {
+            if (arguments.length !== 0 && Blend.isString(arguments[0])) {
+                for (a = 0; a !== arguments.length; a++) {
+                    args.push(arguments[a]);
                 }
-            }, me);
-            if (Blend.isObject(me._events) && Blend.isArray(me._events[evt])) {
-                Blend.foreach(me._events[evt], function (evt) {
-                    if (Blend.isString(evt) && me[evt]) {
-                        evt = me[evt];
+                evt = arguments[0];
+                Blend.foreach(me.controllers, function (controller) {
+                    mvcContext = Blend.mvc.Context.getContext(me.getContextId());
+                    if (mvcContext) {
+                        mvcContext.getController(controller).delegate(me.reference, evt, args);
+                    } else {
+                        throw new Error('This consumer is not in any MVC provider context!');
                     }
-                    if (Blend.isFunction(evt)) {
-                        setTimeout(function () {
-                            evt.apply(me, args);
-                        }, 3);
-                    }
-                });
+                }, me);
+                if (Blend.isObject(me._events) && Blend.isArray(me._events[evt])) {
+                    Blend.foreach(me._events[evt], function (evt) {
+                        if (Blend.isString(evt) && me[evt]) {
+                            evt = me[evt];
+                        }
+                        if (Blend.isFunction(evt)) {
+                            setTimeout(function () {
+                                evt.apply(me, args);
+                            }, 3);
+                        }
+                    });
+                }
+            } else {
+                throw new Error('Invalid parameters to fire and event. The first parameter must be the name of the event and optionally followed by other paremeters.');
             }
-        } else {
-            throw new Error('Invalid parameters to fire and event. The first parameter must be the name of the event and optionally followed by other paremeters.');
         }
     }
 });
