@@ -1,96 +1,57 @@
 Blend.defineClass('Blend.ui.View', {
-    extend: 'Blend.mvc.View',
-    requires: [
-        'Blend.layout.Layout'
-    ],
-    element: null,
-    layoutContext: null,
-    init: function () {
+    extend: 'Blend.ui.AbstractView',
+    /**
+     * Configuration parameter for making this view hidden or visible
+     */
+    hidden: false,
+    /**
+     * Sets the current visibility status. This method internally calls the
+     * show() or the hide() method and is made available here for purpose of binding
+     * @param {boolean} value
+     */
+    setVisibility: function (value) {
         var me = this;
-        me._rendered = false;
-        me._layout = true;
-        me.callParent.apply(me, arguments);
-        me.layout = me.layout || 'base';
-        me.initLayout();
-    },
-    setLayoutContext: function (ctx) {
-        var me = this;
-        me.layoutContext = ctx;
+        if (value) {
+            me.show();
+        } else {
+            me.hide();
+        }
     },
     /**
-     * @private initializes the layout object for this view
+     * Makes this view visible
      * @returns {undefined}
      */
-    initLayout: function () {
+    show: function () {
         var me = this;
-        me.layout = Blend.layout.Layout.createLayout(me, me.layout);
-    },
-    getElement: function () {
-        var me = this;
-        if (!me._rendered) {
-            /**
-             * We do this to be able to pass a renderContext without the need
-             * to explicitly defining the function parameters
-             */
-            me.render.apply(me, arguments);
-            me._rendered = true;
-        }
-        return me.element;
-    },
-    canLayout: function () {
-        var me = this;
-        return me._layout;
-    },
-    suspendLayout: function () {
-        var me = this;
-        me._layout = false;
-    },
-    resumeLayout: function () {
-        var me = this;
-        me._layout = true;
-        me.layoutView();
-    },
-    performLayout: function () {
-        var me = this;
-        if (me.canLayout()) {
-            me._layout = false;
-            me.layoutView();
-            me._layout = true;
+        if (me.hidden) {
+            me.hidden = false;
+            Blend.CSS.unset(me.element, Blend.CSS.CSS_HIDDEN);
+            me.notifyShow();
         }
     },
-    layoutView: function () {
+    /**
+     * Makes this view hidden
+     */
+    hide: function () {
         var me = this;
-        me.layout.performLayout.apply(me.layout, arguments);
+        if (!me.hidden) {
+            me.hidden = true;
+            Blend.CSS.set(me.element, Blend.CSS.CSS_HIDDEN);
+            me.notifyHide();
+        }
     },
-    render: function (renderCtx) {
-        var me = this,
-                el = me.initElement(me.element || {});
-
-        el = Blend.Element.create(Blend.apply(el, renderCtx || {}, false, true), function (oid, element) {
-            /**
-             * Check if we can find a setter for the oid and if possible assign
-             * the element using the setter.
-             */
-            var setterName = 'set' + Blend.camelCase(oid);
-            if (Blend.isFunction(me[setterName])) {
-                me[setterName].apply(me, [element]);
-            } else {
-                me[oid] = element;
-            }
-        }, me);
-        return (me.element = me.finalizeRender(el));
+    /**
+     * Fires when this view is made visible.
+     */
+    notifyShow: function () {
+        var me = this;
+        me.fireEvent('show');
     },
-    initElement: function (el) {
-        /**
-         * Ini the element
-         */
-        el = Blend.apply(el || {}, {
-            style: {},
-            cls: []
-        }, false, true);
-        return el;
-    },
-    finalizeRender: function (el) {
-        return el;
+    /**
+     * Fires when this view is made hidden.
+     */
+    notifyHide: function () {
+        var me = this;
+        me.fireEvent('hide');
     }
 });
