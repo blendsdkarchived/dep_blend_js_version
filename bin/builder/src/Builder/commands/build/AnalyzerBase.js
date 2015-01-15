@@ -47,7 +47,13 @@ Blend.defineClass('Builder.commands.build.AnalyzerBase', {
                 if (!Blend.isObject(dmap)) {
                     Logger.error('Unable to build this application due previous errors!');
                 }
+            } else if (dmap.length === 0) {
+                /**
+                 * If no JS files where updated then use the previous dependecy map
+                 */
+                dmap = me.depMap;
             }
+
             /**
              * If the dmap is null when something has gone wrong in parsing/analyzing
              * the JS files. If so there is no reason to build the application.

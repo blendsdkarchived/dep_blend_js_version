@@ -21,7 +21,7 @@ Blend.defineClass('Builder.cache.Cache', {
         var me = this, list, updates = {}, hash, update = false;
         me.root = Blend.wrapInArray(me.root);
         Blend.foreach(me.root, function (item, key) {
-            me.root[key] = path.resolve(item)
+            me.root[key] = path.resolve(item);
         });
         list = me.scanFolder(me.root);
         Blend.foreach(me.cache, function (citem, key) {

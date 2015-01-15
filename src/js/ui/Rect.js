@@ -3,8 +3,8 @@ Blend.defineClass('Blend.ui.Rect', {
     border: false,
     borderColor: '#000',
     color: 'random',
-    width: 100,
-    height: 100,
+    width: 150,
+    height: 50,
     gray: false,
     alias: 'ui.rect',
     text: null,
@@ -21,7 +21,6 @@ Blend.defineClass('Blend.ui.Rect', {
         el.style.width = me.width;
         el.style.height = me.height;
         el.cls = ['rect'];
-        el.text = me.text;
         return el;
     },
     setText: function (value) {

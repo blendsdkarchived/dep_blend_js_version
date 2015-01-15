@@ -129,7 +129,14 @@ Blend.defineClass('Blend.dom.Element', {
      * Get the width and the height of an element
      */
     getSize: function (el) {
-        return Blend.Style.get(el, ['width', 'height']);
+        if (el === window) {
+            return  {
+                width: window.innerWidth,
+                height: window.innerHeight
+            }
+        } else {
+            return Blend.Style.get(el, ['width', 'height']);
+        }
     },
     /**
      * Clone an element

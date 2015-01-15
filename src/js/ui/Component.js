@@ -1,9 +1,10 @@
 Blend.defineClass('Blend.ui.Component', {
     extend: 'Blend.ui.View',
     statics: {
-        createView: function (viewConfig) {
+        createView: function (viewConfig, parent) {
             var me = this, cfg = {
-                mvcContextId: me.getContextId()
+                mvcContextId: me.getContextId(),
+                parent: parent || null,
             };
             if (Blend.isInstanceOf(viewConfig, Blend.ui.View)) {
                 return viewConfig;
