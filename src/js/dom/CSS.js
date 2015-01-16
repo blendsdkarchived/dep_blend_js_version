@@ -5,6 +5,10 @@
 Blend.defineClass('Blend.dom.CSS', {
     singleton: true,
     CSS_HIDDEN: 'hidden',
+    CSS_SCROLL_X: 'xscroll',
+    CSS_SCROLL_Y: 'yscroll',
+    CSS_SCROLL_NONE: 'noscroll',
+    CSS_SCROLL_AUTO: 'autoscroll',
     /**
      * Checks if the DOM element has a css class
      * @param {HTMLElement} el the html element

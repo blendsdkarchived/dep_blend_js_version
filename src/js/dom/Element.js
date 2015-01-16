@@ -7,6 +7,33 @@ Blend.defineClass('Blend.dom.Element', {
         'Blend.dom.Style'
     ],
     /**
+     * Sets the scrol state for a HTMLElement
+     * @param {boolean/string} state true/false or 'x' 'y'
+     */
+    scrollable: function (el, state) {
+        var clearScroll = function () {
+            Blend.CSS.unset(el, [
+                Blend.CSS.CSS_SCROLL_X,
+                Blend.CSS.CSS_SCROLL_Y,
+                Blend.CSS.CSS_SCROLL_NONE,
+                Blend.CSS.CSS_SCROLL_AUTO
+            ]);
+        }
+        if (el && !Blend.isNullOrUndef(state)) {
+            clearScroll();
+            if (state === true) {
+                state = Blend.CSS.CSS_SCROLL_AUTO;
+            } else if (state === false) {
+                state = Blend.CSS.CSS_SCROLL_NONE;
+            } else if (state === 'x') {
+                state = Blend.CSS.CSS_SCROLL_X;
+            } else if (state === 'y') {
+                state = Blend.CSS.CSS_SCROLL_Y;
+            }
+            Blend.CSS.set(el, state);
+        }
+    },
+    /**
      * Clears the contents of the given element.
      * @param {HTMLElement} el th element to hide
      */
