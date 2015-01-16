@@ -88,6 +88,7 @@ Blend.defineClass('Builder.utils.CommandLine', {
                     command: 'build',
                     watch: (command.indexOf('--watch') !== -1),
                     release: (command.indexOf('--release') !== -1),
+                    noserve: (command.indexOf('--noserve') !== -1),
                     path: me.getPathOption(command)
                 };
             } else {

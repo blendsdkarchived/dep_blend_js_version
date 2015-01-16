@@ -16,6 +16,26 @@ Blend.defineClass('Builder.commands.build.Command', {
         var me = this,
                 working = false,
                 builder = me.createBuilder();
+
+        if (!me.options.noserve) {
+
+            var express = require('express');
+            var portfinder = require('portfinder');
+            var open = require('open');
+            var app = express();
+            var servePath = path.dirname(me.options.path) + path.sep + 'build';
+            app.use(express.static(servePath));
+
+            portfinder.basePort = 8080;
+            portfinder.getPort(function (err, port) {
+                console.log("Listening to port:" + port);
+                console.log("Happy BlendJS Developing :)");
+                console.log("Press CTRL-C to stop the local webserver.");
+                open("http://127.0.0.1:" + port);
+                app.listen(port);
+            });
+        }
+
         _run = function () {
             if (working === false) {
                 working = true;
