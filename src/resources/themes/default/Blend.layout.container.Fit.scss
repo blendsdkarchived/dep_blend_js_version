@@ -1,0 +1,8 @@
+@import "var/_bootstrap.scss";
+
+#{$prefix}-columnlayout-item {
+    display:block;
+    position: absolute;
+    top: 0px;
+    height: 100%;
+}
