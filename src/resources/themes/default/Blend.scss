@@ -55,22 +55,3 @@ body {
     }
 }
 
-#{$prefix}-hidden {
-    display:none !important;
-}
-
-[unselectable=on] {
-    @include user-select(none);
-}
-
-#{$prefix}-vscroll {
-    overflow-y: auto;
-}
-
-#{$prefix}-hscroll {
-    overflow-x: auto;
-}
-
-#{$prefix}-noscroll {
-    overflow: hidden;
-}
