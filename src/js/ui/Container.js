@@ -41,7 +41,9 @@ Blend.defineClass('Blend.ui.Container', {
     performLayout: function () {
         var me = this;
         me.layoutBodyElement();
-        me.layout.performLayout.apply(me.layout, arguments);
+        setTimeout(function () {
+            me.layout.performLayout.apply(me.layout, arguments);
+        }, 5);
     },
     renderItems: function () {
         var me = this;
