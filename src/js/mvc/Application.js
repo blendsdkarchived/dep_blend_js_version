@@ -74,7 +74,7 @@ Blend.defineClass('Blend.mvc.Application', {
             setTimeout(function () {
                 me.onWindowResize.apply(me, arguments);
                 me.notifyResize.apply(me, arguments);
-            }, 100);
+            }, 50);
         });
     },
     run: function () {
