@@ -6,9 +6,10 @@ Blend.defineClass('Blend.layout.container.Fit', {
         return 0;
     },
     performLayout: function () {
-        var me = this;
+        var me = this,
+                ax = me.getVisibleItemIndex();
         Blend.foreach(me.view.items, function (view, idx) {
-            if (idx === me.getVisibleItemIndex()) {
+            if (idx === ax) {
                 view.show();
                 Blend.LayoutUtil.fit(me.containerEl, view.getElement());
             } else {
