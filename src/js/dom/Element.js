@@ -18,7 +18,8 @@ Blend.defineClass('Blend.dom.Element', {
                 Blend.CSS.CSS_SCROLL_NONE,
                 Blend.CSS.CSS_SCROLL_AUTO
             ]);
-        }
+        };
+
         if (el && !Blend.isNullOrUndef(state)) {
             clearScroll();
             if (state === true) {
