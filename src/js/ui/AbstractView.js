@@ -14,9 +14,19 @@ Blend.defineClass('Blend.ui.AbstractView', {
         me.layout = me.layout || 'base';
         me.initLayout();
     },
+    /**
+     * @internal
+     */
     setLayoutContext: function (ctx) {
         var me = this;
         me.layoutContext = ctx;
+    },
+    /**
+     * @internal
+     */
+    getLayoutContext: function () {
+        var me = this;
+        return me.layoutContext;
     },
     /**
      * @private initializes the layout object for this view
@@ -51,22 +61,21 @@ Blend.defineClass('Blend.ui.AbstractView', {
         me._layout = true;
         me.layoutView();
     },
-    performLayout: function () {
+    performLayout: function (force) {
         var me = this;
         if (me.canLayout()) {
             me._layout = false;
-            me.layoutView();
+            me.layoutView.apply(me, arguments);
             me._layout = true;
         }
     },
-    layoutView: function () {
+    layoutView: function (force) {
         var me = this;
         me.layout.performLayout.apply(me.layout, arguments);
     },
     render: function (renderCtx) {
         var me = this,
                 el = me.initElement(me.element || {});
-
         el = Blend.Element.create(Blend.apply(el, renderCtx || {}, false, true), function (oid, element) {
             /**
              * Check if we can find a setter for the oid and if possible assign

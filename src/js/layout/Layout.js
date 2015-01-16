@@ -1,7 +1,10 @@
 Blend.defineClass('Blend.layout.Layout', {
     alias: 'layout.base',
     view: null,
-    performLayout: function () {
+    performLayout: function (force) {
+        return;
+    },
+    reset: function () {
         return;
     },
     statics: {

@@ -39,11 +39,11 @@ Blend.defineClass('Blend.ui.Container', {
         var me = this;
         Blend.LayoutUtil.fit(me.getElement(), me.bodyEl);
     },
-    performLayout: function () {
-        var me = this;
+    layoutView: function (force) {
+        var me = this, args = arguments;
         me.layoutBodyElement();
         setTimeout(function () {
-            me.layout.performLayout.apply(me.layout, arguments);
+            me.layout.performLayout.apply(me.layout, args);
         }, 5);
     },
     renderItems: function () {

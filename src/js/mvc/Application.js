@@ -46,10 +46,10 @@ Blend.defineClass('Blend.mvc.Application', {
      * page when the layout is complete.
      * @returns {undefined}
      */
-    layoutMainView: function () {
+    layoutMainView: function (force) {
         var me = this;
         Blend.LayoutUtil.fit(Blend.dom.Dom.getWindow(), me.mainView.getElement());
-        me.mainView.performLayout();
+        me.mainView.performLayout(force);
     },
     /**
      * @private
@@ -59,7 +59,8 @@ Blend.defineClass('Blend.mvc.Application', {
         var me = this;
         if (!me._resizing) {
             me._resizing = true;
-            me.layoutMainView();
+            me.layoutMainView(true);
+            me.notifyResize.apply(me, arguments);
             me._resizing = false;
         }
     },
@@ -69,12 +70,14 @@ Blend.defineClass('Blend.mvc.Application', {
      * responsive events.
      */
     setupWindowListeners: function () {
-        var me = this;
+        var me = this, tm = -1;
+
         Blend.Environment.addEventListener(window, 'resize', function () {
-            setTimeout(function () {
+            clearTimeout(tm)
+            tm = setTimeout(function () {
+                console.log('resize', new Date());
                 me.onWindowResize.apply(me, arguments);
-                me.notifyResize.apply(me, arguments);
-            }, 50);
+            }, 100);
         });
     },
     run: function () {
