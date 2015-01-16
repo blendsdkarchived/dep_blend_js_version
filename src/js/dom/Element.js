@@ -59,7 +59,7 @@ Blend.defineClass('Blend.dom.Element', {
                         eventScope = eventScope || this;
                         fn.apply(eventScope, arguments);
                     };
-                    Blend.addEventListener(el, evt, handler);
+                    Blend.Environment.addEventListener(el, evt, handler);
                 });
             } else if (key === 'text') {
                 el.textContent = value;
