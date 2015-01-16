@@ -6,6 +6,7 @@ Blend.defineClass('Blend.ui.Container', {
         'Blend.layout.container.Default'
     ],
     items: null,
+    defaults: null,
     init: function () {
         var me = this;
         me.callParent.apply(me, arguments);
@@ -26,7 +27,7 @@ Blend.defineClass('Blend.ui.Container', {
         el.items.push({
             oid: 'bodyEl',
             cls: [Blend.cssPrefix('container-body')],
-            items: me.renderItems()
+            items: me.renderItems(me.defaults)
         });
     },
     finalizeRender: function (el) {

@@ -12,11 +12,11 @@ Blend.defineClass('Blend.layout.container.Layout', {
         me.containerEl = el;
         Blend.CSS.set(me.containerEl, Blend.cssPrefix(me.cssPrefix + '-layout'));
     },
-    renderItems: function () {
+    renderItems: function (defaults) {
         var me = this, view,
                 elements = [], vitems = [];
         Blend.foreach(me.view.items, function (itemCfg, idx) {
-            view = me.createItemView(itemCfg);
+            view = me.createItemView(itemCfg, defaults);
             me.createItemLayoutContext(view);
             vitems.push(view);
             elements.push(view.getElement({
@@ -30,9 +30,9 @@ Blend.defineClass('Blend.layout.container.Layout', {
         var me = this;
         return [Blend.cssPrefix('conatiner-item'), me._itemCSS];
     },
-    createItemView: function (viewCfg) {
+    createItemView: function (viewCfg, defaults) {
         var me = this;
-        return Blend.ui.Component.createView.apply(me.view, [viewCfg, me.view]);
+        return Blend.ui.Component.createView.apply(me.view, [viewCfg, me.view, defaults]);
     },
     createItemLayoutContext: function (view) {
         view.setLayoutContext({});
