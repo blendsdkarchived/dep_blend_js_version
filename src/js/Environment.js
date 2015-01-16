@@ -243,7 +243,7 @@ Blend.defineClass('Blend.Environment', {
 }, function () {
     Blend.foreach(Blend.CSS, function (v, k) {
         if (k.startsWith('CSS_')) {
-            Blend.CSS[k] = Blend.cssPrefix(v);
+            Blend.CSS[k] = Blend.cssPrefix(v).join('');
         }
     });
 });
