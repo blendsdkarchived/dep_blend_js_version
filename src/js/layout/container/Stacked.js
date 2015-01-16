@@ -6,6 +6,10 @@ Blend.defineClass('Blend.layout.container.Stacked', {
     init: function () {
         var me = this;
         me.callParent.apply(me, arguments);
+        /**
+         * Install the setActiveItem to the view for convenience
+         * @returns {undefined}
+         */
         me.view.setActiveItem = function () {
             me.setActiveItem.apply(me, arguments);
         }
