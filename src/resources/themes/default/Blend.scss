@@ -56,7 +56,7 @@ body {
 }
 
 #{$prefix}-hidden {
-    display:none;
+    display:none !important;
 }
 
 [unselectable=on] {
