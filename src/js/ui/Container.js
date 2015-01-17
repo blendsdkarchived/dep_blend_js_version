@@ -26,8 +26,7 @@ Blend.defineClass('Blend.ui.Container', {
         var me = this;
         el.items.push({
             oid: 'bodyEl',
-            cls: [Blend.cssPrefix('container-body')],
-            items: me.renderItems(me.defaults)
+            cls: [Blend.cssPrefix('container-body')]
         });
     },
     finalizeRender: function (el) {
@@ -44,10 +43,6 @@ Blend.defineClass('Blend.ui.Container', {
         me.layoutBodyElement();
         setTimeout(function () {
             me.layout.performLayout.apply(me.layout, args);
-        }, 5);
-    },
-    renderItems: function () {
-        var me = this;
-        return me.layout.renderItems.apply(me.layout, arguments);
+        }, 10);
     }
 });

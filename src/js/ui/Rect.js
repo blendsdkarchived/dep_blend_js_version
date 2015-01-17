@@ -17,9 +17,15 @@ Blend.defineClass('Blend.ui.Rect', {
         if (me.color === 'random') {
             color = me.gray ? me.getRandomGrayColor() : me.getRandomColor();
         }
+        el.id = Blend.id();
         el.style['background-color'] = color;
         el.style.width = me.width;
         el.style.height = me.height;
+        el.listeners = {
+            click: function () {
+                me.fireEvent("click");
+            }
+        };
         el.cls = ['rect'];
         return el;
     },

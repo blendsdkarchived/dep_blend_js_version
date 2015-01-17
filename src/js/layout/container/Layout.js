@@ -12,19 +12,26 @@ Blend.defineClass('Blend.layout.container.Layout', {
         me.containerEl = el;
         Blend.CSS.set(me.containerEl, Blend.cssPrefix(me.cssPrefix + '-layout'));
     },
-    renderItems: function (defaults) {
+    getElements: function () {
         var me = this, view,
-                elements = [], vitems = [];
-        Blend.foreach(me.view.items, function (itemCfg, idx) {
-            view = me.createItemView(itemCfg, defaults);
-            me.createItemLayoutContext(view);
-            vitems.push(view);
-            elements.push(view.getElement({
-                cls: me.getItemCSS()
-            }));
-        });
-        me.view.items = vitems;
-        return elements;
+                elements = [], vitems = [], defaults = me.view.defaults, el;
+        if (!me._rendered) {
+            Blend.foreach(me.view.items, function (itemCfg, idx) {
+                view = me.createItemView(itemCfg, defaults);
+                me.createItemLayoutContext(view);
+                vitems.push(view);
+                el = view.getElement({
+                    cls: me.getItemCSS()
+                });
+                me.containerEl.appendChild(el);
+                elements.push(el);
+            });
+            ;
+            me.view.items = vitems;
+            me._elements = elements;
+            me._rendered = true;
+        }
+        return me._elements;
     },
     getItemCSS: function (view) {
         var me = this;
