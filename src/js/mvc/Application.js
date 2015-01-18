@@ -31,7 +31,7 @@ Blend.defineClass('Blend.mvc.Application', {
     setMainView: function (viewcfg) {
         var me = this, body = Blend.getBody();
         me.mainView = me.createMainView(viewcfg);
-        me.prepareBodyElement();
+        me.prepareBodyElement(body);
         body.appendChild(me.mainView.getElement());
         me.layoutMainView();
     },

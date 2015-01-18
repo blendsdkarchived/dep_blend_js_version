@@ -12,11 +12,8 @@ BlendTest.defineTest('mvc', 'mvc sanity', function (t) {
     });
 
     Blend.defineClass('Test.test.Application', {
-        extend: 'Blend.mvc.Application',
-        controllers: 'Test.mvc.Controller',
-        prepareBodyElement: function () {
-
-        }
+        extend: 'Test.mvc.Application',
+        controllers: 'Test.mvc.Controller'
     });
     var app = Blend.create('Test.test.Application');
     app.start();
