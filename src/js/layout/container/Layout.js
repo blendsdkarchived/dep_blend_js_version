@@ -12,6 +12,30 @@ Blend.defineClass('Blend.layout.container.Layout', {
         me.containerEl = el;
         Blend.CSS.set(me.containerEl, Blend.cssPrefix(me.cssPrefix + '-layout'));
     },
+    /**
+     * @internal
+     */
+    queueElements: function () {
+        var me = this;
+        if (!me._queue) {
+            me._queue = Blend.createDocumentFragment();
+            Blend.foreach(me.view.items, function (el) {
+                me._queue.appendChild(el);
+            });
+        }
+    },
+    /**
+     * @internal
+     */
+    deQueueElements: function (parent) {
+        var me = this;
+        if (me._queue) {
+            Blend.foreach(me._queue, function (el) {
+                parent.appendChild(el);
+            });
+            me._queue = null;
+        }
+    },
     getElements: function () {
         var me = this, view,
                 elements = [], vitems = [], defaults = me.view.defaults, el;
