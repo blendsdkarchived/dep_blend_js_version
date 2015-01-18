@@ -7,7 +7,8 @@ Blend.defineClass('UITest.core.Main', {
         'Blend.collection.Array',
         'Blend.collection.Object',
         'Blend.mvc.Application',
-        'Blend.Environment'
+        'Blend.Environment',
+        'Blend.ui.Rect'
     ]
 });
 
