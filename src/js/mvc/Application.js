@@ -2,7 +2,7 @@ Blend.defineClass('Blend.mvc.Application', {
     requires: [
         'Blend.mvc.Controller',
         'Blend.Environment',
-        'Blend.layout.Util',
+        'Blend.layout.utils.Fit',
         'Blend.ui.Component'
     ],
     mixins: {
@@ -48,7 +48,7 @@ Blend.defineClass('Blend.mvc.Application', {
      */
     layoutMainView: function (force) {
         var me = this;
-        Blend.LayoutUtil.fit(Blend.dom.Dom.getWindow(), me.mainView.getElement());
+        Blend.layout.utils.Fit.fit(Blend.dom.Dom.getWindow(), me.mainView.getElement());
         me.mainView.performLayout(force);
     },
     /**
