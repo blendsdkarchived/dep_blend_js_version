@@ -37,6 +37,9 @@
             "src": "js/tests/10020-fit-layout.js"
         },
         {
+            "src": "js/tests/10020-center-layout.js"
+        },
+        {
             "src": "js/bootstrap.js"
         }
     ],
