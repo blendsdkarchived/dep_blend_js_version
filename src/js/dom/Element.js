@@ -205,6 +205,14 @@ Blend.defineClass('Blend.dom.Element', {
         deep = deep || true;
         return  Blend.dom.Dom.initEl(el.cloneNode(deep));
     },
+    setOpacity: function (el, value) {
+        value = value || 1;
+        if (el) {
+            Blend.Style.set(el, {
+                opacity: value
+            });
+        }
+    },
     /**
      * Gets the position and the size of an element [top,left,width,height]
      * as an object.
