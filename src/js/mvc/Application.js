@@ -49,7 +49,11 @@ Blend.defineClass('Blend.mvc.Application', {
     layoutMainView: function (force) {
         var me = this;
         Blend.layout.utils.Fit.fit(Blend.dom.Dom.getWindow(), me.mainView.getElement());
+        Blend.Element.setOpacity(Blend.getBody(), 0.01);
         me.mainView.performLayout(force);
+        setTimeout(function () {
+            Blend.Element.setOpacity(Blend.getBody(), 1);
+        }, 250);
     },
     /**
      * @private

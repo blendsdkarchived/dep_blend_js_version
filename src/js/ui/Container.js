@@ -26,7 +26,8 @@ Blend.defineClass('Blend.ui.Container', {
         var me = this;
         el.items.push({
             oid: 'bodyEl',
-            cls: [Blend.cssPrefix('container-body')]
+            cls: [Blend.cssPrefix('container-body')],
+            items: me.layout.render()
         });
     },
     finalizeRender: function (el) {
@@ -36,13 +37,13 @@ Blend.defineClass('Blend.ui.Container', {
     },
     layoutBodyElement: function () {
         var me = this;
-        Blend.LayoutUtil.fit(me.getElement(), me.bodyEl);
+        Blend.layout.utils.Fit.fit(me.getElement(), me.bodyEl);
     },
     layoutView: function (force) {
-        var me = this, args = arguments;
+        var me = this;
         me.layoutBodyElement();
         setTimeout(function () {
-            me.layout.performLayout.apply(me.layout, args);
+            me.layout.performLayout.apply(me.layout, [force]);
         }, 10);
     }
 });
