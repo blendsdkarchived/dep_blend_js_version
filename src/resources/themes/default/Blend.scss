@@ -12,7 +12,7 @@ $experimental-support-for-svg:true;
     font-style: normal;
 }
 
-* {
+html, * {
     @include box-sizing(border-box);
 }
 
