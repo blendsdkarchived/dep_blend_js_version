@@ -250,6 +250,7 @@ Blend.defineClass('Blend.layout.utils.Box', {
                 }
             }
         });
+
         if (need_all_totals) {
             if (!Blend.isNumeric(omrg) && omrg === true) {
                 /*

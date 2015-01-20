@@ -29,18 +29,13 @@ Blend.defineClass('Blend.layout.container.Box', {
                 align: me.align,
                 margin: me.margin,
                 direction: me.direction,
-                bounds: Blend.Element.getBounds(me.containerEl),
-                maxFlex: me._maxFlex
+                bounds: Blend.Element.getBounds(me.containerEl)
             };
         }
     },
     getItemLayoutContexts: function () {
         var me = this, ctx = [];
-        me._maxFlex = 0;
         Blend.foreach(me.view.items, function (view) {
-            if (view.flex) {
-                me._maxFlex++;
-            }
             ctx.push(view.getLayoutContext());
         });
         return ctx;
