@@ -7,7 +7,7 @@ Blend.defineClass('Blend.layout.utils.Box', {
     singleton: true,
     /**
      * @internal
-     * Arranges given elements in to a vertical box layout. This function
+     * Arranges given elements in to a horizontal box layout. This function
      * needs a layoutContext and a list of item layout context configuration for
      * each item.
      * @param {type} parent
