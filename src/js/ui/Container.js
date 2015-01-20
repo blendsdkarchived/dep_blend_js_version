@@ -30,10 +30,10 @@ Blend.defineClass('Blend.ui.Container', {
             items: me.layout.render()
         });
     },
-    finalizeRender: function (el) {
+    finalizeRender: function (setterMap) {
         var me = this;
         me.layout.setContainerElement(me.bodyEl);
-        return el;
+        me.callParent.apply(me, arguments);
     },
     layoutBodyElement: function () {
         var me = this;
@@ -42,8 +42,6 @@ Blend.defineClass('Blend.ui.Container', {
     layoutView: function (force) {
         var me = this;
         me.layoutBodyElement();
-        setTimeout(function () {
-            me.layout.performLayout.apply(me.layout, [force]);
-        }, 100);
+        me.layout.performLayout.apply(me.layout, [force]);
     }
 });

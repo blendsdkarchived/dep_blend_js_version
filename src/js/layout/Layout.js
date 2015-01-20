@@ -4,8 +4,9 @@ Blend.defineClass('Blend.layout.Layout', {
     performLayout: function (force) {
         return;
     },
-    reset: function () {
-        return;
+    render: function (renderCtx) {
+        var me = this;
+        return me.view.render.apply(me.view, arguments);
     },
     statics: {
         createLayout: function (view, layoutConfig) {

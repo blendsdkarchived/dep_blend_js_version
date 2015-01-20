@@ -7,6 +7,12 @@ Blend.defineClass('Blend.layout.container.Layout', {
         me.callParent.apply(me, arguments);
         me._itemCSS = Blend.cssPrefix(me.cssPrefix + '-layout-item');
     },
+    performLayout: function (force) {
+        var me = this;
+        Blend.foreach(me.view.items, function (view) {
+            view.performLayout(force);
+        });
+    },
     setContainerElement: function (el) {
         var me = this;
         me.containerEl = el;

@@ -36,14 +36,14 @@ Blend.defineClass('Blend.ui.AbstractView', {
         var me = this;
         me.layout = Blend.layout.Layout.createLayout(me, me.layout);
     },
-    getElement: function () {
+    getElement: function (renderCtx) {
         var me = this;
         if (!me._rendered) {
             /**
              * We do this to be able to pass a renderContext without the need
              * to explicitly defining the function parameters
              */
-            me.render.apply(me, arguments);
+            me.element = me.render.apply(me, arguments);
             me._rendered = true;
         }
         return me.element;

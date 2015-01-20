@@ -30,12 +30,29 @@ Blend.defineClass('Blend.mvc.Application', {
      */
     setMainView: function (viewcfg) {
         var me = this, body = Blend.getBody();
+        me.startInitialLayout();
         me.mainView = me.createMainView(viewcfg);
         me.prepareBodyElement(body);
         body.appendChild(me.mainView.getElement({
             cls: Blend.cssPrefix('mainview')
         }));
         me.layoutMainView();
+        me.finishInitialLayout();
+    },
+    finishInitialLayout: function () {
+        var me = this;
+        if (!me._initialLayout) {
+            setTimeout(function () {
+                Blend.CSS.unset(Blend.getBody(), Blend.cssPrefix('launch')[0]);
+            }, 250);
+            me._initialLayout = true;
+        }
+    },
+    startInitialLayout: function () {
+        var me = this;
+        if (!me._initialLayout) {
+            Blend.CSS.set(Blend.getBody(), Blend.cssPrefix('launch')[0]);
+        }
     },
     createMainView: function (viewCfg) {
         var me = this;
@@ -51,16 +68,7 @@ Blend.defineClass('Blend.mvc.Application', {
     layoutMainView: function (force) {
         var me = this;
         Blend.layout.utils.Fit.fit(Blend.dom.Dom.getWindow(), me.mainView.getElement());
-        if (!me._initialLayout) {
-            Blend.CSS.set(Blend.getBody(), Blend.cssPrefix('launch')[0]);
-        }
         me.mainView.performLayout(force);
-        if (!me._initialLayout) {
-            setTimeout(function () {
-                Blend.CSS.unset(Blend.getBody(), Blend.cssPrefix('launch')[0]);
-            }, 250);
-            me._initialLayout = true;
-        }
     },
     /**
      * @private
