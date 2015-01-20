@@ -41,7 +41,7 @@ BlendTest.defineTest('center-layout', 'general', function (t) {
         }
     });
 
-    Blend.Environment.runApplication('Test.centerlayout.Application')
+    Blend.Environment.runApplication('Test.centerlayout.Application');
     t.delay(function () {
         t.almost(bounds.top, 112, 'center layout rect');
         t.almost(bounds.left, 112, 'center layout rect');
