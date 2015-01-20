@@ -106,6 +106,8 @@ Blend.defineClass('Blend.dom.CSS', {
             var res = el.$$.cls.join(' ');
             if (res !== "") {
                 el.setAttribute('class', res);
+            } else if (res === "") {
+                el.removeAttribute('class');
             }
         }
         return el;
