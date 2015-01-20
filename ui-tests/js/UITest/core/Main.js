@@ -11,7 +11,8 @@ Blend.defineClass('UITest.core.Main', {
         'Blend.ui.Rect',
         'Blend.ui.Container',
         'Blend.layout.container.Fit',
-        'Blend.layout.container.Center'
+        'Blend.layout.container.Center',
+        'Blend.layout.container.Stacked'
     ]
 });
 
