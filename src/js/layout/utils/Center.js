@@ -3,7 +3,7 @@
  * HTMLElement
  */
 Blend.defineClass('Blend.layout.utils.Center', {
-    extend: 'Blend.layout.util.Util',
+    extend: 'Blend.layout.utils.Util',
     singleton: true,
     /**
      * Center a HTMLElement only on the horizontal axis of its parent element

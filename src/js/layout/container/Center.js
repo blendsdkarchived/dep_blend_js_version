@@ -1,5 +1,8 @@
 Blend.defineClass('Blend.layout.container.Center', {
     extend: 'Blend.layout.container.Layout',
+    requires: [
+        'Blend.layout.utils.Center'
+    ],
     alias: 'layout.center',
     cssPrefix: 'center',
     centerX: true,
@@ -7,12 +10,13 @@ Blend.defineClass('Blend.layout.container.Center', {
     getVisibleItemIndex: function () {
         return 0;
     },
-    performLayout: function () {
+    performLayout: function (force) {
         var me = this;
         Blend.foreach(me.view.items, function (view, idx) {
             if (idx === me.getVisibleItemIndex()) {
                 view.show();
-                Blend.LayoutUtil.center(me.containerEl, view.getElement(), me.centerY, me.centerX);
+                Blend.layout.utils.Center.center(me.containerEl, view.getElement(), me.centerY, me.centerX);
+                view.performLayout(force);
             } else {
                 view.hide();
             }
