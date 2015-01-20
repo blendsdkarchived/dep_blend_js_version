@@ -289,6 +289,7 @@ var BlendTest = {};
             }
         } else {
             show();
+
             statusbar.innerHTML += "<span class='blend-test-pass-log'>" + allpass + " passed</span>" +
                     "<span class='blend-test-error-log'>" + allfail + " failed</span>";
         }
@@ -337,6 +338,7 @@ var BlendTest = {};
     };
 
     var show = function () {
+        document.body.setAttribute('class', '');
         show_messages();
     };
 
