@@ -2,6 +2,7 @@ Blend.defineClass('Blend.layout.container.Layout', {
     extend: 'Blend.layout.Layout',
     cssPrefix: null,
     containerEl: null,
+    itemIndex: null,
     init: function () {
         var me = this;
         me.callParent.apply(me, arguments);
@@ -24,6 +25,7 @@ Blend.defineClass('Blend.layout.container.Layout', {
         Blend.foreach(me.view.items, function (itemCfg, idx) {
             view = me.createItemView(itemCfg, defaults);
             me.createItemLayoutContext(view);
+            view.itemIndex = idx;
             views.push(view);
             el = view.getElement({
                 cls: me.getItemCSS()
@@ -67,6 +69,13 @@ Blend.defineClass('Blend.layout.container.Layout', {
     createItemLayoutContext: function (view) {
         view.setLayoutContext({
             flex: view.flex || null
+        });
+    },
+    createItemIndex: function () {
+        var me = this;
+        me.itemIndex = {};
+        Blend.foreach(me.views, function (view, idx) {
+            me.itemIndex[view]
         });
     }
 });
