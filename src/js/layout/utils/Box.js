@@ -16,6 +16,78 @@ Blend.defineClass('Blend.layout.utils.Box', {
      * @param {type} lctx
      * @returns {undefined}
      */
+    hflex: function (parent, children, ilctx, lctx) {
+        var me = this, needtotals, nextleft = -1, margin, proccessors = {
+            pack: {
+                start: function (bounds) {
+                    var r;
+                    if (nextleft === -1) {
+                        nextleft = margin;
+                    }
+                    r = nextleft;
+                    nextleft += (bounds.width + margin)
+                    bounds.left = r;
+                },
+                center: function (bounds) {
+                    var r;
+                    if (nextleft === -1) {
+                        nextleft = ((lctx.bounds.width / 2) - (lctx.width / 2)) - (margin * 2);
+                    }
+                    r = nextleft;
+                    nextleft += (bounds.width + margin);
+                    bounds.left = r;
+                },
+                end: function (bounds) {
+                    var r;
+                    if (nextleft === -1) {
+                        nextleft = (lctx.bounds.width - (lctx.total_width)) + margin;
+                    }
+                    r = nextleft;
+                    nextleft += (bounds.width + margin);
+                    bounds.left = r;
+                }
+            },
+            align: {
+                start: function (bounds) {
+                    bounds.top = margin;
+                },
+                stretch: function (bounds) {
+                    bounds.top = margin;
+                    bounds.height = lctx.bounds.height - (bounds.top * 2);
+                },
+                center: function (bounds) {
+                    bounds.top = (lctx.bounds.height / 2) - (bounds.height / 2); // no margins
+                },
+                end: function (bounds) {
+                    bounds.top = lctx.bounds.height - (bounds.height + margin);
+                }
+            }, bounds: function (el, ctx) {
+                var b = Blend.Element.getBounds(el);
+                if (Blend.Environment.isIE) {
+                    b.width = ctx.width;
+                }
+                return b;
+            }
+        };
+        lctx.pack = lctx.margin === true ? 'center' : lctx.pack;
+        needtotals = (lctx.pack === 'center' || lctx.pack === 'end');
+        parent = me.getEl(parent);
+        children = me.getEl(children);
+        me.calculateSetBounds(parent, children, ilctx, lctx, 'width', needtotals);
+        margin = lctx.margin;
+        me.flex(parent, children, ilctx, lctx, proccessors);
+    },
+    /**
+     * @internal
+     * Arranges given elements in to a vertical box layout. This function
+     * needs a layoutContext and a list of item layout context configuration for
+     * each item.
+     * @param {type} parent
+     * @param {type} children
+     * @param {type} ilctx
+     * @param {type} lctx
+     * @returns {undefined}
+     */
     vflex: function (parent, children, ilctx, lctx) {
         var me = this, needtotals, nexttop = -1, margin, proccessors = {
             pack: {
@@ -173,8 +245,8 @@ Blend.defineClass('Blend.layout.utils.Box', {
                     unit = null;
                 } else {
                     var b = Blend.Element.getBounds(itm);
-                    ctx[flexed_prop] = b.height;
-                    alltotals += b.height;
+                    ctx[flexed_prop] = b[flexed_prop];
+                    alltotals += b[flexed_prop];
                 }
             }
         });
