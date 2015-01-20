@@ -200,7 +200,7 @@ Blend.defineClass('Blend.Environment', {
             Blend.foreach(className, function (itm) {
                 r.push(me.CSS_PREFIX + itm);
             });
-            return r;
+            return r.join(' ');
         };
     },
     /**
@@ -243,7 +243,7 @@ Blend.defineClass('Blend.Environment', {
 }, function () {
     Blend.foreach(Blend.CSS, function (v, k) {
         if (k.startsWith('CSS_')) {
-            Blend.CSS[k] = Blend.cssPrefix(v).join('');
+            Blend.CSS[k] = Blend.cssPrefix(v);
         }
     });
 });

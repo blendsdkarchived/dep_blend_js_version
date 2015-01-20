@@ -43,7 +43,7 @@ Blend.defineClass('Blend.mvc.Application', {
         var me = this;
         if (!me._initialLayout) {
             setTimeout(function () {
-                Blend.CSS.unset(Blend.getBody(), Blend.cssPrefix('launch')[0]);
+                Blend.CSS.unset(Blend.getBody(), Blend.cssPrefix('launch'));
             }, 250);
             me._initialLayout = true;
         }
@@ -51,7 +51,7 @@ Blend.defineClass('Blend.mvc.Application', {
     startInitialLayout: function () {
         var me = this;
         if (!me._initialLayout) {
-            Blend.CSS.set(Blend.getBody(), Blend.cssPrefix('launch')[0]);
+            Blend.CSS.set(Blend.getBody(), Blend.cssPrefix('launch'));
         }
     },
     createMainView: function (viewCfg) {

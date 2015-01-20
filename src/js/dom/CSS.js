@@ -77,8 +77,8 @@ Blend.defineClass('Blend.dom.CSS', {
             el = Blend.get(el);
         }
         if (el) {
-            if (!Blend.isArray(cls) && cls !== "") {
-                cls = [cls];
+            if (Blend.isString(cls) && cls !== "") {
+                cls = cls.split(' ');
             }
             if (cmd === 's') {
                 Blend.foreach(cls, function (itm) {
