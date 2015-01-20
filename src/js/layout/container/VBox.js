@@ -4,6 +4,7 @@ Blend.defineClass('Blend.layout.container.VBox', {
     cssPrefix: 'vbox',
     direction: 'v',
     handler: function () {
-        return Blend.LayoutUtil.vflex.apply(Blend.LayoutUtil, arguments);
+        var util = Blend.layout.utils.Box;
+        return util.vflex.apply(util, arguments);
     }
 });
