@@ -31,7 +31,7 @@ Blend.defineClass('Blend.layout.utils.Box', {
                 center: function (bounds) {
                     var r;
                     if (nextleft === -1) {
-                        nextleft = ((lctx.bounds.width / 2) - (lctx.width / 2)) - (margin * 2);
+                        nextleft = ((lctx.bounds.width / 2) - (lctx.total_width / 2)) + margin;
                     }
                     r = nextleft;
                     nextleft += (bounds.width + margin);
