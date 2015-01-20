@@ -9,7 +9,8 @@ Blend.defineClass('UITest.core.Main', {
         'Blend.mvc.Application',
         'Blend.Environment',
         'Blend.ui.Rect',
-        'Blend.ui.Container'
+        'Blend.ui.Container',
+        'Blend.layout.container.Fit'
     ]
 });
 

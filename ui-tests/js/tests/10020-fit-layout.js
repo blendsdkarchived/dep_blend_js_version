@@ -1,28 +1,47 @@
 BlendTest.defineTest('fit-layout', 'general', function (t) {
 
-    var appSize = null;
+    var size = null;
+
+    Blend.defineClass('Test.layout.view.Fit', {
+        extend: 'Blend.ui.Container',
+        alias: 'ui.fittest',
+        layout: 'fit',
+        width: 300,
+        height: 300,
+        items: [
+            {
+                type: 'ui.rect',
+                reference: 'rect'
+            }
+        ]
+    });
 
     Blend.defineClass('Test.fitlayout.Controller', {
         extend: 'Blend.mvc.Controller',
         application: {
             ready: function (app) {
                 var me = this;
-                appSize = Blend.Element.getSize(app.getMainView().getElement());
+                size = Blend.Element.getSize(me.getRect().getElement());
             }
         }
     });
 
     Blend.defineClass('Test.fitlayout.Application', {
         extend: 'Blend.mvc.Application',
-        controllers: 'Test.fitlayout.Controller',
+        controllers: ['Test.fitlayout.Controller'],
         mainView: {
-            type: 'ui.rect'
+            type: 'ui.container',
+            items: [
+                {
+                    type: 'ui.fittest'
+                }
+            ]
         }
     });
+
     Blend.Environment.runApplication('Test.fitlayout.Application')
     t.delay(function () {
-        var winSize = Blend.Element.getSize(window);
-        t.equal(appSize, winSize, 'same app size');
+        t.equal(size, {width: 300, height: 300}, 'fit layout rect');
         t.done();
     });
 });
