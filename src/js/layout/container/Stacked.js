@@ -7,12 +7,16 @@ Blend.defineClass('Blend.layout.container.Stacked', {
         var me = this;
         me.callParent.apply(me, arguments);
         /**
-         * Install the setActiveItem to the view for convenience
-         * @returns {undefined}
+         * Install the setActiveItem  and getActiveItem to the view for
+         * convenience
          */
         me.view.setActiveItem = function () {
             me.setActiveItem.apply(me, arguments);
         }
+        me.view.getActiveItem = function () {
+            return me.getActiveItem.apply(me, arguments);
+        }
+
     },
     getVisibleItemIndex: function () {
         var me = this, index;
@@ -31,6 +35,16 @@ Blend.defineClass('Blend.layout.container.Stacked', {
             index = me.activeItem;
         }
         return index;
+    },
+    getActiveItem: function (returnView) {
+        var me = this,
+                idx = me.getVisibleItemIndex();
+        returnView = returnView || false;
+        if (returnView === true) {
+            return me.view.items[idx];
+        } else {
+            return idx;
+        }
     },
     setActiveItem: function (item) {
         var me = this;
