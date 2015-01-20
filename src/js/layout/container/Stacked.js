@@ -12,39 +12,31 @@ Blend.defineClass('Blend.layout.container.Stacked', {
          */
         me.view.setActiveItem = function () {
             me.setActiveItem.apply(me, arguments);
-        }
+        };
+
         me.view.getActiveItem = function () {
             return me.getActiveItem.apply(me, arguments);
-        }
+        };
 
     },
     getVisibleItemIndex: function () {
-        var me = this, index;
-        me.activeItem = me.activeItem || (me.view.items.length !== 0 ? 0 : null);
-        if (Blend.isObject(me.activeItem) && me.activeItem.$className$) {
-            /**
-             * Need to find the index from view items
-             */
-            Blend.foreach(me.view.items, function (view, idx) {
-                if (view === me.activeItem) {
-                    index = idx;
-                    return false; // will stop the iteration;
-                }
-            });
-        } else {
-            index = me.activeItem;
+        var me = this, view;
+        me.activeItem = me.activeItem || (me.view.items.length > 0 ? me.view.items[0] : null);
+        if (Blend.isInstanceOf(me.activeItem, Blend.ui.Component)) {
+            return me.activeItem.itemIndex;
+        } else if (Blend.isNumeric(me.activeItem)) {
+            view = me.view.items[me.activeItem];
+            if (view) {
+                return view.itemIndex;
+            }
         }
-        return index;
+        me.activeItem = -1;
+        return -1;
     },
-    getActiveItem: function (returnView) {
+    getActiveItem: function () {
         var me = this,
                 idx = me.getVisibleItemIndex();
-        returnView = returnView || false;
-        if (returnView === true) {
-            return me.view.items[idx];
-        } else {
-            return idx;
-        }
+        return me.view.items[idx];
     },
     setActiveItem: function (item) {
         var me = this;
