@@ -52,8 +52,7 @@ BlendTest.defineTest('Blend.Element', 'style', function (t) {
 
 BlendTest.defineTest('Blend.Element', 'element style', function (t) {
     var el = Blend.get('eltest1');
-    Blend.Style.set(el, 'background-color', 'blue');
-    t.equal(Blend.Style.get(el, 'background-color').indexOf('rgb') !== -1, true, "DYNAMIC" + Blend.Style.get(el, 'background-color'));
+    Blend.Style.set(el, {'background-color': 'blue'});
 
     var el = Blend.Style.unset(el, 'not-exist');
     t.ok(el, 'deleteing non existant style');
@@ -62,7 +61,10 @@ BlendTest.defineTest('Blend.Element', 'element style', function (t) {
     t.equal(false, Blend.Element.isVisible(el));
     Blend.Element.show(el);
     t.equal(true, Blend.Element.isVisible(el));
-    t.done();
+    t.delay(function () {
+        t.equal(Blend.Style.get(el, 'background-color').indexOf('rgb') !== -1, true, "DYNAMIC " + Blend.Style.get(el, 'background-color'));
+        t.done();
+    });
 });
 
 BlendTest.defineTest('Blend.Element', 'Blend.Style.get', function (t) {

@@ -10,7 +10,8 @@ Blend.defineClass('UITest.core.Main', {
         'Blend.Environment',
         'Blend.ui.Rect',
         'Blend.ui.Container',
-        'Blend.layout.container.Fit'
+        'Blend.layout.container.Fit',
+        'Blend.layout.container.Center'
     ]
 });
 
