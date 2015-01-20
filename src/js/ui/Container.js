@@ -44,6 +44,6 @@ Blend.defineClass('Blend.ui.Container', {
         me.layoutBodyElement();
         setTimeout(function () {
             me.layout.performLayout.apply(me.layout, [force]);
-        }, 10);
+        }, 100);
     }
 });

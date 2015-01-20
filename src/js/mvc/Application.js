@@ -50,12 +50,12 @@ Blend.defineClass('Blend.mvc.Application', {
         var me = this;
         Blend.layout.utils.Fit.fit(Blend.dom.Dom.getWindow(), me.mainView.getElement());
         if (!me._initialLayout) {
-            Blend.Element.setOpacity(Blend.getBody(), 0.01);
+            Blend.CSS.set(Blend.getBody(), Blend.cssPrefix('launch')[0]);
         }
         me.mainView.performLayout(force);
         if (!me._initialLayout) {
             setTimeout(function () {
-                Blend.Style.unset(Blend.getBody(), ['opacity']);
+                Blend.CSS.unset(Blend.getBody(), Blend.cssPrefix('launch')[0]);
             }, 250);
             me._initialLayout = true;
         }
@@ -82,9 +82,8 @@ Blend.defineClass('Blend.mvc.Application', {
         var me = this, tm = -1;
 
         Blend.Environment.addEventListener(window, 'resize', function () {
-            clearTimeout(tm)
+            clearTimeout(tm);
             tm = setTimeout(function () {
-                console.log('resize', new Date());
                 me.onWindowResize.apply(me, arguments);
             }, 1);
         });

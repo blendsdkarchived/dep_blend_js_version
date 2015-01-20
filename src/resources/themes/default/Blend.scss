@@ -15,6 +15,9 @@ $experimental-support-for-svg:true;
 html, * {
     @include box-sizing(border-box);
 }
+#{$prefix}-launch {
+    @include opacity(0.001);
+}
 
 body {
     font-family: $default-font-family;
