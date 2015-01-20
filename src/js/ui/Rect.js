@@ -31,6 +31,7 @@ Blend.defineClass('Blend.ui.Rect', {
     },
     setText: function (value) {
         var me = this;
+        value = value || Blend.id();
         me.element.innerHTML = value;
     },
     getText: function () {

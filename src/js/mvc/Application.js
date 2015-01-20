@@ -90,7 +90,6 @@ Blend.defineClass('Blend.mvc.Application', {
      */
     setupWindowListeners: function () {
         var me = this, tm = -1;
-
         Blend.Environment.addEventListener(window, 'resize', function () {
             clearTimeout(tm);
             tm = setTimeout(function () {
