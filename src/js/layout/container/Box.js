@@ -18,6 +18,7 @@ Blend.defineClass('Blend.layout.container.Box', {
         ctx = me.getItemLayoutContexts();
         me.createLayoutContext();
         me.handler(me.containerEl, me.getElements(), ctx, me.layoutContext);
+        // call the parent to layout the children
         me.callParent.apply(me, arguments);
     },
     createLayoutContext: function () {

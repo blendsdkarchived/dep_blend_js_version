@@ -9,6 +9,7 @@ Blend.defineClass('Blend.layout.container.Layout', {
     },
     performLayout: function (force) {
         var me = this;
+        // layout the chidlren
         Blend.foreach(me.view.items, function (view) {
             view.performLayout(force);
         });
@@ -32,18 +33,37 @@ Blend.defineClass('Blend.layout.container.Layout', {
         me.view.items = views;
         return els;
     },
+    /**
+     * @internal getter function to return the containerEls children
+     */
     getElements: function () {
         var me = this;
         return me.containerEl.children;
     },
-    getItemCSS: function (view) {
+    /**
+     * @internal returns the item css for this layout
+     */
+    getItemCSS: function () {
         var me = this;
         return [Blend.cssPrefix('conatiner-item'), me._itemCSS];
     },
+    /**
+     * @internal
+     * Creates a View based on the view config and the provided defaults
+     * @param {type} viewCfg
+     * @param {type} defaults
+     * @returns {unresolved}
+     */
     createItemView: function (viewCfg, defaults) {
         var me = this;
         return Blend.ui.Component.createView.apply(me.view, [viewCfg, me.view, defaults]);
     },
+    /**
+     * @internal
+     * Creates layoutContext for this view
+     * @param {type} view
+     * @returns {undefined}
+     */
     createItemLayoutContext: function (view) {
         view.setLayoutContext({
             flex: view.flex || null
