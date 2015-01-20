@@ -5,7 +5,7 @@ $layout_name:'hbox';
 
     #{$prefix}-#{$layout_name}-layout-item {
         display: block;
-        position: relative;
+        position: absolute;
     }
 
 }
