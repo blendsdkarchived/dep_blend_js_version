@@ -206,11 +206,16 @@ Blend.defineClass('Blend.dom.Element', {
         return  Blend.dom.Dom.initEl(el.cloneNode(deep));
     },
     setOpacity: function (el, value) {
+        var o = {};
         value = value || 1;
         if (el) {
-            Blend.Style.set(el, {
-                opacity: value
-            });
+            if (Blend.Environment.isIE) {
+                o['filter'] = 'alpha(opacity=' + (value * 100) + ')';
+            } else {
+                o['opacity'] = value;
+            }
+            Blend.Style.set(el, o);
+
         }
     },
     /**
