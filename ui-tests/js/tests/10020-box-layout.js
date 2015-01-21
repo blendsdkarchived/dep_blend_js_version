@@ -8,6 +8,59 @@ BlendTest.defineTest('box-layout', 'general', function (t) {
         {
             layout: {
                 type: 'vbox',
+                align: 'start',
+                pack: 'center',
+                margin: 10
+            },
+            flex: 1,
+            test: function (r1, r2, r3, name) {
+                t.almost(r1.height, 120, name + ' flex+m10');
+                t.almost(r2.height, 120, name + ' flex+m10');
+                t.almost(r3.height, 120, name + ' flex+m10');
+
+                t.almost(r1.top, 10, name + ' flex+1tm10');
+                t.almost(r2.top, 140, name + ' flex+2tm10');
+                t.almost(r3.top, 270, name + ' flex+3tm10');
+            }
+        },
+        {
+            layout: {
+                type: 'vbox',
+                align: 'start',
+                pack: 'center'
+            },
+            flex: 1,
+            test: function (r1, r2, r3, name) {
+                t.almost(r1.height, 133, name + ' flex');
+                t.almost(r2.height, 133, name + ' flex');
+                t.almost(r3.height, 133, name + ' flex');
+            }
+        },
+        {
+            layout: {
+                type: 'vbox',
+                align: 'start',
+                pack: 'center',
+                margin: true
+            },
+            test: function (r1, r2, r3, name) {
+                t.almost(r1.top, 41, name + 'mt1');
+            }
+        },
+        {
+            layout: {
+                type: 'vbox',
+                align: 'start',
+                pack: 'center',
+                margin: 10
+            },
+            test: function (r1, r2, r3, name) {
+                t.equal(r1.left, 10, name + 'm1');
+            }
+        },
+        {
+            layout: {
+                type: 'vbox',
                 align: 'end',
                 pack: 'end'
             },
@@ -234,7 +287,14 @@ BlendTest.defineTest('box-layout', 'general', function (t) {
                 type: 'ui.rect',
                 reference: 'rect3',
             }
-        ]
+        ],
+        init: function () {
+            var me = this;
+            me.callParent.apply(me, arguments);
+            if (me.flex) {
+                me.defaults.flex = me.flex;
+            }
+        }
     });
 
     Blend.defineClass('Test.boxed.Application', {
@@ -252,7 +312,7 @@ BlendTest.defineTest('box-layout', 'general', function (t) {
                     var me = this;
                     var bounds = function (view) {
                         return Blend.Element.getBounds(view.getElement());
-                    }
+                    };
                     test.test.apply(me, [
                         bounds(me.getRect1()),
                         bounds(me.getRect2()),
@@ -271,7 +331,8 @@ BlendTest.defineTest('box-layout', 'general', function (t) {
                 items: [
                     {
                         type: 'ui.boxed',
-                        layout: test.layout
+                        layout: test.layout,
+                        flex: test.flex || null
                     }
                 ]
             }
@@ -291,6 +352,6 @@ BlendTest.defineTest('box-layout', 'general', function (t) {
             clearInterval(timer);
             t.done();
         }
-    }, 600);
+    }, 500);
 
 });
