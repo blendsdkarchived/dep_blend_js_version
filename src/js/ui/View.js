@@ -13,7 +13,31 @@ Blend.defineClass('Blend.ui.View', {
      */
     height: null,
     /**
-     * Sets the current width of this component
+     * Config parameter for setting the base CSS class for this view.
+     */
+    ui: null,
+    /**
+     * Sets a base CSS class for this view
+     * @param {string/string[]} value
+     */
+    setUi: function (value) {
+        var me = this;
+        if (me.ui !== value) {
+            me.ui = value;
+            Blend.CSS.set(me.element, value);
+            me.notifyUIChanged();
+        }
+    },
+    /**
+     * Gets the base CSS class of this view. The retuned value is the result of
+     * {Blend.dom.CSS.get} which is an array of css class names
+     */
+    getUi: function () {
+        var me = this;
+        return (me.ui = Blend.CSS.get(me.element));
+    },
+    /**
+     * Sets the current width of this view
      * @param {number} value
      */
     setWidth: function (value) {
@@ -114,11 +138,20 @@ Blend.defineClass('Blend.ui.View', {
         var me = this;
         me.fireEvent('sizeChanged', me.width, me.height);
     },
+    /**
+     * Fires when the UI css class of this view is changed
+     * @returns {undefined}
+     */
+    notifyUIChanged: function () {
+        var me = this;
+        me.fireEvent('UIChanged', me.ui);
+    },
     finalizeRender: function (map) {
         var me = this;
         me.hidden = !me.hidden;
         map = Blend.apply(map || {}, {
-            hidden: 'setVisibility'
+            hidden: 'setVisibility',
+            ui: 'setUi'
         });
         me.callParent.apply(me, [map]);
     }
