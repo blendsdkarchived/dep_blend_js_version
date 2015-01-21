@@ -70,6 +70,7 @@ Blend.defineClass('Blend.layout.utils.Box', {
             }
         };
         lctx.pack = lctx.margin === true ? 'center' : lctx.pack;
+        lctx.align = lctx.margin === true ? 'center' : lctx.align;
         needtotals = (lctx.pack === 'center' || lctx.pack === 'end');
         parent = me.getEl(parent);
         children = me.getEl(children);
