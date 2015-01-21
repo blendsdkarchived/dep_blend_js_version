@@ -64,7 +64,7 @@ Blend.defineClass('Blend.layout.utils.Box', {
             }, bounds: function (el, ctx) {
                 var b = Blend.Element.getBounds(el);
                 if (Blend.Environment.isIE) {
-                    b.width = ctx.width;
+                    b.width = ctx.width || b.width;
                 }
                 return b;
             }
@@ -137,7 +137,7 @@ Blend.defineClass('Blend.layout.utils.Box', {
             bounds: function (el, ctx) {
                 var b = Blend.Element.getBounds(el);
                 if (Blend.Environment.isIE) {
-                    b.height = ctx.height;
+                    b.height = ctx.height || b.height;
                 }
                 return b;
             }
