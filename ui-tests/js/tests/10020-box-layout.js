@@ -1,4 +1,4 @@
-BlendTest.defineTest('box-layout', 'general', function (t) {
+BlendTest.defineTest('box-layout', 'box-layout', function (t) {
 
     var apps = [];
     var nextTest = 0;
