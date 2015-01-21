@@ -76,8 +76,8 @@ Blend.defineClass('Blend.mvc.Controller', {
         if (!me.refs[refName]) {
             getterName = 'get' + Blend.camelCase(refName);
             me[getterName] = function (filter) {
-                filter = Blend.isFunction(filter) ? filter : function () {
-                    return arguments;
+                filter = Blend.isFunction(filter) ? filter : function (vals) {
+                    return vals;
                 };
                 var values = me.getReference(refName);
                 if (Blend.isArray(values)) {
