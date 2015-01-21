@@ -171,7 +171,11 @@ Blend.defineClass('Blend.layout.utils.Box', {
             packFn = proccessors.pack[lctx.pack];
             packFn.apply(me, [bounds]);
             alignFn.apply(me, [bounds]);
-            Blend.Style.set(el, bounds);
+            if (lctx.boundsSetter) {
+                lctx.boundsSetter(el, bounds, a);
+            } else {
+                Blend.Style.set(el, bounds);
+            }
         }
     },
     /**
@@ -191,7 +195,7 @@ Blend.defineClass('Blend.layout.utils.Box', {
             itm = children[idx];
             bounds = Blend.Element.getBounds(itm);
             if (ctx.flex) {
-                maxFlex++;
+                maxFlex += ctx.flex;
             } else {
                 total += bounds[flexed_prop];
             }
@@ -216,13 +220,9 @@ Blend.defineClass('Blend.layout.utils.Box', {
         var me = this, alltotals = 0,
                 ctx, unit,
                 mrg = lctx.margin, omrg = mrg, avail, totalMargin = 0;
-
-
         need_all_totals = need_all_totals || false;
-
         //Update the layout context to get maxFlex and total width/height that is taken
         me.updateLayoutContext(children, lctx, ilctx, flexed_prop);
-
         if (lctx.maxFlex !== 0) {
             //omrg is the original margin
             mrg = Blend.isNumeric(omrg) ? mrg : 0;
@@ -251,7 +251,6 @@ Blend.defineClass('Blend.layout.utils.Box', {
                 }
             }
         });
-
         if (need_all_totals) {
             if (!Blend.isNumeric(omrg) && omrg === true) {
                 /*

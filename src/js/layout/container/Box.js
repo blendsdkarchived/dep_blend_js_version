@@ -29,7 +29,19 @@ Blend.defineClass('Blend.layout.container.Box', {
                 align: me.align,
                 margin: me.margin,
                 direction: me.direction,
-                bounds: Blend.Element.getBounds(me.containerEl)
+                bounds: Blend.Element.getBounds(me.containerEl),
+                boundsSetter: function (el, bounds, idx) {
+                    var view = me.view.items[idx];
+                    var vbounds = Blend.Element.getBounds(view.getElement());
+                    Blend.Style.set(el, bounds);
+                    if (vbounds.top !== bounds.top ||
+                            vbounds.left !== bounds.left ||
+                            vbounds.width !== bounds.width ||
+                            vbounds.height !== bounds.height) {
+                        me.view.items[idx].fireEvent('sizeChanged', bounds.width, bounds.height);
+                    }
+
+                }
             };
         }
     },
