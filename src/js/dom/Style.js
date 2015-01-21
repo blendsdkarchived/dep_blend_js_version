@@ -91,7 +91,7 @@ Blend.defineClass('Blend.dom.Style', {
             if (v === null) {
                 el.style.setProperty(k, '');
             } else {
-                if (Blend.isIE) {
+                if (Blend.Environment.isIE) {
                     el.style[k] = v;
                 } else {
                     el.style.setProperty(k, v);
