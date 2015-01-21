@@ -122,15 +122,16 @@ Blend.defineClass('Blend.mvc.Consumer', {
         me._eventsEnable = true;
     },
     fireEvent: function () {
-        var me = this, evt, args = [me], a, mvcContext;
+        var me = this, evt = null, evtName, args, a, mvcContext, _arguments = [];
         if (me._eventsEnable) {
-            if (arguments.length !== 0 && Blend.isString(arguments[0])) {
-                for (a = 0; a !== arguments.length; a++) {
-                    if (a !== 0) {
-                        args.push(arguments[a]);
-                    }
-                }
-                evt = arguments[0];
+            Blend.foreach(arguments, function (arg) {
+                _arguments.push(arg);
+            });
+            if (_arguments.length !== 0 && Blend.isString(_arguments[0])) {
+                evt = evtName = _arguments[0];
+                _arguments.shift(); // remove the first element which is the event name
+                args = [me].concat(_arguments);
+
                 Blend.foreach(me.controllers, function (controller) {
                     mvcContext = Blend.mvc.Context.getContext(me.getContextId());
                     if (mvcContext) {
@@ -155,5 +156,6 @@ Blend.defineClass('Blend.mvc.Consumer', {
                 throw new Error('Invalid parameters to fire and event. The first parameter must be the name of the event and optionally followed by other paremeters.');
             }
         }
+        return evtName;
     }
 });
