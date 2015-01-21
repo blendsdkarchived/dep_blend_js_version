@@ -276,15 +276,18 @@ var BlendTest = {};
 
     var runNextTest = function () {
         currentTest = tests[nextTest];
+
         if (currentTest) {
-            try {
+            if (getQueryParam('break')) {
                 log_info('Starting');
                 currentTest.fn(me);
-            } catch (e) {
-                log_error(e);
-                show();
-                if (getQueryParam('break')) {
-                    throw e;
+            } else {
+                try {
+                    log_info('Starting');
+                    currentTest.fn(me);
+                } catch (e) {
+                    log_error(e);
+                    show();
                 }
             }
         } else {
