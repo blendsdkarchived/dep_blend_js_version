@@ -4,7 +4,278 @@ BlendTest.defineTest('box-layout', 'general', function (t) {
     var nextTest = 0;
     var currentTest = -1;
 
-    var tests = [
+    var hbox = [
+        {
+            layout: {
+                type: 'hbox',
+                align: 'stretch',
+                pack: 'start'
+            },
+            test: function (r1, r2, r3, name) {
+                //pack
+                t.equal(r1.left, 0, name + ' p1');
+                t.equal(r2.left, 50, name + ' p2');
+                t.equal(r3.left, 100, name + ' p3');
+                //align
+                t.equal(r1.height, 400, name + ' p4');
+                t.equal(r2.height, 400, name + ' p5');
+                t.equal(r3.height, 400, name + ' p6');
+            }
+        },
+        {
+            layout: {
+                type: 'hbox',
+                align: 'stretch',
+                pack: 'center'
+            },
+            test: function (r1, r2, r3, name) {
+                //pack
+                t.equal(r1.left, 125, name + ' p1');
+                t.equal(r2.left, 175, name + ' p2');
+                t.equal(r3.left, 225, name + ' p3');
+                //align
+                t.equal(r1.height, 400, name + ' p4');
+                t.equal(r2.height, 400, name + ' p5');
+                t.equal(r3.height, 400, name + ' p6');
+            }
+        },
+        {
+            layout: {
+                type: 'hbox',
+                align: 'stretch',
+                pack: 'end'
+            },
+            test: function (r1, r2, r3, name) {
+                //pack
+                t.equal(r1.left, 250, name + ' p1');
+                t.equal(r2.left, 300, name + ' p2');
+                t.equal(r3.left, 350, name + ' p3');
+                //align
+                t.equal(r1.height, 400, name + ' p4');
+                t.equal(r2.height, 400, name + ' p5');
+                t.equal(r3.height, 400, name + ' p6');
+            }
+        },
+        {
+            layout: {
+                type: 'hbox',
+                align: 'start',
+                pack: 'start'
+            },
+            test: function (r1, r2, r3, name) {
+                //pack
+                t.equal(r1.left, 0, name + ' p1');
+                t.equal(r2.left, 50, name + ' p2');
+                t.equal(r3.left, 100, name + ' p3');
+                //align
+                t.equal(r1.top, 0, name + ' p4');
+                t.equal(r2.top, 0, name + ' p5');
+                t.equal(r3.top, 0, name + ' p6');
+
+            }
+        },
+        {
+            layout: {
+                type: 'hbox',
+                align: 'start',
+                pack: 'center'
+            },
+            test: function (r1, r2, r3, name) {
+                //pack
+                t.equal(r1.left, 125, name + ' p1');
+                t.equal(r2.left, 175, name + ' p2');
+                t.equal(r3.left, 225, name + ' p3');
+                //align
+                t.equal(r1.top, 0, name + ' p4');
+                t.equal(r2.top, 0, name + ' p5');
+                t.equal(r3.top, 0, name + ' p6');
+
+            }
+        },
+        {
+            layout: {
+                type: 'hbox',
+                align: 'start',
+                pack: 'end'
+            },
+            test: function (r1, r2, r3, name) {
+                //pack
+                t.equal(r1.left, 250, name + ' p1');
+                t.equal(r2.left, 300, name + ' p2');
+                t.equal(r3.left, 350, name + ' p3');
+                //align
+                t.equal(r1.top, 0, name + ' p4');
+                t.equal(r2.top, 0, name + ' p5');
+                t.equal(r3.top, 0, name + ' p6');
+
+            }
+        },
+        {
+            layout: {
+                type: 'hbox',
+                align: 'center',
+                pack: 'start'
+            },
+            test: function (r1, r2, r3, name) {
+                //pack
+                t.equal(r1.left, 0, name + ' p1');
+                t.equal(r2.left, 50, name + ' p2');
+                t.equal(r3.left, 100, name + ' p3');
+
+                //align
+                t.equal(r1.top, 175, name + ' p4');
+                t.equal(r2.top, 175, name + ' p5');
+                t.equal(r3.top, 175, name + ' p6');
+            }
+        },
+        {
+            layout: {
+                type: 'hbox',
+                align: 'center',
+                pack: 'center'
+            },
+            test: function (r1, r2, r3, name) {
+                //pack
+                t.equal(r1.left, 125, name + ' p1');
+                t.equal(r2.left, 175, name + ' p2');
+                t.equal(r3.left, 225, name + ' p3');
+
+                //align
+                t.equal(r1.top, 175, name + ' p4');
+                t.equal(r2.top, 175, name + ' p5');
+                t.equal(r3.top, 175, name + ' p6');
+            }
+        },
+        {
+            layout: {
+                type: 'hbox',
+                align: 'center',
+                pack: 'end'
+            },
+            test: function (r1, r2, r3, name) {
+                //pack
+                t.equal(r1.left, 250, name + ' p1');
+                t.equal(r2.left, 300, name + ' p2');
+                t.equal(r3.left, 350, name + ' p3');
+
+                //align
+                t.equal(r1.top, 175, name + ' p4');
+                t.equal(r2.top, 175, name + ' p5');
+                t.equal(r3.top, 175, name + ' p6');
+            }
+        },
+        {
+            layout: {
+                type: 'hbox',
+                align: 'end',
+                pack: 'start'
+            },
+            test: function (r1, r2, r3, name) {
+                //pack
+                t.equal(r1.left, 0, name + ' p1');
+                t.equal(r2.left, 50, name + ' p2');
+                t.equal(r3.left, 100, name + ' p3');
+
+                //align
+                t.equal(r1.top, 350, name + ' p4');
+                t.equal(r2.top, 350, name + ' p5');
+                t.equal(r3.top, 350, name + ' p6');
+            }
+        },
+        {
+            layout: {
+                type: 'hbox',
+                align: 'end',
+                pack: 'center'
+            },
+            test: function (r1, r2, r3, name) {
+                //pack
+                t.equal(r1.left, 125, name + ' p1');
+                t.equal(r2.left, 175, name + ' p2');
+                t.equal(r3.left, 225, name + ' p3');
+
+                //align
+                t.equal(r1.top, 350, name + ' p4');
+                t.equal(r2.top, 350, name + ' p5');
+                t.equal(r3.top, 350, name + ' p6');
+            }
+        },
+        {
+            layout: {
+                type: 'hbox',
+                align: 'end',
+                pack: 'end'
+            },
+            test: function (r1, r2, r3, name) {
+                //pack
+                t.equal(r1.left, 250, name + ' p1');
+                t.equal(r2.left, 300, name + ' p2');
+                t.equal(r3.left, 350, name + ' p3');
+
+                //align
+                t.equal(r1.top, 350, name + ' p4');
+                t.equal(r2.top, 350, name + ' p5');
+                t.equal(r3.top, 350, name + ' p6');
+            }
+        },
+        {
+            layout: {
+                type: 'hbox',
+                align: 'start',
+                pack: 'center',
+                margin: 10
+            },
+            flex: 1,
+            test: function (r1, r2, r3, name) {
+                t.almost(r1.top, 10, name + ' flex+m10');
+                t.almost(r2.top, 10, name + ' flex+m10');
+                t.almost(r3.top, 10, name + ' flex+m10');
+
+                t.almost(r1.left, 10, name + ' flex+1tm10');
+                t.almost(r2.left, 140, name + ' flex+2tm10');
+                t.almost(r3.left, 270, name + ' flex+3tm10');
+            }
+        },
+        {
+            layout: {
+                type: 'hbox',
+                align: 'start',
+                pack: 'center'
+            },
+            flex: 1,
+            test: function (r1, r2, r3, name) {
+                t.almost(r1.width, 133, name + ' flex');
+                t.almost(r2.width, 133, name + ' flex');
+                t.almost(r3.width, 133, name + ' flex');
+            }
+        },
+        {
+            layout: {
+                type: 'hbox',
+                align: 'center',
+                pack: 'center',
+                margin: true
+            },
+            test: function (r1, r2, r3, name) {
+                t.almost(r1.top, 175, name + 'mt1');
+            }
+        },
+        {
+            layout: {
+                type: 'hbox',
+                align: 'start',
+                pack: 'center',
+                margin: 10
+            },
+            test: function (r1, r2, r3, name) {
+                t.equal(r1.top, 10, name + 'm1');
+            }
+        },
+    ];
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    var vbox = [
         {
             layout: {
                 type: 'vbox',
@@ -39,7 +310,7 @@ BlendTest.defineTest('box-layout', 'general', function (t) {
         {
             layout: {
                 type: 'vbox',
-                align: 'start',
+                align: 'center',
                 pack: 'center',
                 margin: true
             },
@@ -264,6 +535,8 @@ BlendTest.defineTest('box-layout', 'general', function (t) {
         }
     ];
 
+    var tests = [].concat(hbox).concat(vbox);
+
     Blend.defineClass('Test.layout.view.Boxed', {
         extend: 'Blend.ui.Container',
         alias: 'ui.boxed',
@@ -342,16 +615,21 @@ BlendTest.defineTest('box-layout', 'general', function (t) {
     });
 
 
+    var done_status;
     var timer = setInterval(function () {
+
         if (nextTest !== null && nextTest !== currentTest && !Blend.isNullOrUndef(apps[nextTest])) {
             currentTest = nextTest;
+            done_status = true;
             apps[nextTest].start();
         }
 
         if (Blend.isNullOrUndef(apps[nextTest])) {
             clearInterval(timer);
-            t.done();
+            if (done_status !== false) {
+                t.done();
+            }
         }
-    }, 500);
+    }, 250);
 
 });
