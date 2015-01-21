@@ -12,7 +12,9 @@ Blend.defineClass('UITest.core.Main', {
         'Blend.ui.Container',
         'Blend.layout.container.Fit',
         'Blend.layout.container.Center',
-        'Blend.layout.container.Stacked'
+        'Blend.layout.container.Stacked',
+        'Blend.layout.container.VBox',
+        'Blend.layout.container.HBox'
     ]
 });
 

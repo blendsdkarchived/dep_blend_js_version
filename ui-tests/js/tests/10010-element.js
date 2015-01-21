@@ -84,3 +84,15 @@ BlendTest.defineTest('Blend.Element', 'Blend.Style.get', function (t) {
         t.done();
     });
 });
+
+BlendTest.defineTest('Blend.Element', 'CSS get', function (t) {
+    var el = Blend.get('eltest1');
+
+    t.delay(function () {
+        Blend.CSS.clear(el);
+        t.equal(Blend.CSS.get(el), [], 'empty css');
+        Blend.CSS.set(el, 'hello world');
+        t.equal(Blend.CSS.get(el).length, 2, '2 elements');
+        t.done();
+    });
+});

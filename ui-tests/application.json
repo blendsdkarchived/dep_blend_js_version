@@ -43,6 +43,9 @@
             "src": "js/tests/10020-stacked-layout.js"
         },
         {
+            "src": "js/tests/10020-box-layout.js"
+        },
+        {
             "src": "js/bootstrap.js"
         }
     ],
