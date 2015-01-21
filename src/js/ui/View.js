@@ -154,5 +154,13 @@ Blend.defineClass('Blend.ui.View', {
             ui: 'setUi'
         });
         me.callParent.apply(me, [map]);
+    },
+    getDefaultLayoutTriggers: function () {
+        return [
+            'sizeChanged',
+            'UIChanged',
+            'show',
+            'hide'
+        ];
     }
 });

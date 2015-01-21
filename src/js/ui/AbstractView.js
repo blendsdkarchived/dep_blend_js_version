@@ -4,7 +4,6 @@ Blend.defineClass('Blend.ui.AbstractView', {
         'Blend.layout.Layout'
     ],
     element: null,
-    layoutContext: null,
     unselectable: true,
     init: function () {
         var me = this;
@@ -12,7 +11,11 @@ Blend.defineClass('Blend.ui.AbstractView', {
         me._layout = true;
         me.callParent.apply(me, arguments);
         me.layout = me.layout || 'base';
+        me._layoutTriggers = me.getDefaultLayoutTriggers();
         me.initLayout();
+    },
+    getDefaultLayoutTriggers: function () {
+        return [];
     },
     /**
      * @internal
@@ -123,5 +126,21 @@ Blend.defineClass('Blend.ui.AbstractView', {
             }
         });
         me.enableEvents();
+    },
+    /**
+     * @private
+     */
+    fireEvent: function () {
+        var me = this, args = [];
+        Blend.foreach(arguments, function (arg) {
+            args.push(arg);
+        });
+        var evtFired = me.callParent.apply(me, args);
+        if (evtFired && me._layoutTriggers.indexOf(evtFired) !== -1) {
+            if (me.parent) {
+                me.parent.performLayout(true);
+            }
+        }
+        return evtFired;
     }
 });
