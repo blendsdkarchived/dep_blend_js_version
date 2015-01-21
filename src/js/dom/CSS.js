@@ -61,6 +61,18 @@ Blend.defineClass('Blend.dom.CSS', {
         return this.proc(el, cls, 'u');
     },
     /**
+     * Retuns a array of CSS classes used on this element
+     * @param {type} el
+     */
+    get: function (el) {
+        el = Blend.get(el);
+        if (el) {
+            return el.$$.cls;
+        } else {
+            return null;
+        }
+    },
+    /**
      * Sets one or more classes on the DOM element
      * @param {HTMLElement} el the html element
      * @param {string/array[]) cls an array of string or a single string.
