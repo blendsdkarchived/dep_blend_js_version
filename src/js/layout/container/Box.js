@@ -30,7 +30,7 @@ Blend.defineClass('Blend.layout.container.Box', {
                 margin: me.margin,
                 direction: me.direction,
                 bounds: Blend.Element.getBounds(me.containerEl),
-                boundsSetter: function (el, bounds, idx) {
+                layoutHandler: function (el, bounds, idx) {
                     /**
                      * Only call the sizeChanged event if the bounds of the
                      * view is changed. This will avoid unnecessary layout flows

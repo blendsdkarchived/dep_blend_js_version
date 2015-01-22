@@ -171,8 +171,8 @@ Blend.defineClass('Blend.layout.utils.Box', {
             packFn = proccessors.pack[lctx.pack];
             packFn.apply(me, [bounds]);
             alignFn.apply(me, [bounds]);
-            if (lctx.boundsSetter) {
-                lctx.boundsSetter(el, bounds, a);
+            if (lctx.layoutHandler) {
+                lctx.layoutHandler(el, bounds, a);
             } else {
                 Blend.Style.set(el, bounds);
             }

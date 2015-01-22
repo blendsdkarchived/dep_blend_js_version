@@ -15,7 +15,7 @@ Blend.defineClass('Blend.layout.container.Center', {
         Blend.foreach(me.view.items, function (view, idx) {
             if (idx === me.getVisibleItemIndex()) {
                 view.show();
-                Blend.layout.utils.Center.center(me.containerEl, view.getElement(), me.centerY, me.centerX, me);
+                Blend.layout.utils.Center.center(me.containerEl, view.getElement(), me.centerY, me.centerX);
                 view.performLayout(force);
             } else {
                 view.hide();
