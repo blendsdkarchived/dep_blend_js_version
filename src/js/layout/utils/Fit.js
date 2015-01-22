@@ -9,11 +9,16 @@ Blend.defineClass('Blend.layout.utils.Fit', {
      * @param {Blend.ui.View/HTMLElement} parent
      * @param {Blend.ui.View/HTMLElement} child
      */
-    fit: function (parent, child) {
+    fit: function (parent, child, lctx) {
         var me = this,
                 parentElement = me.getEl(parent),
                 childElement = me.getEl(child);
         Blend.CSS.set(childElement, Blend.cssPrefix('fitable'));
-        Blend.Style.set(childElement, Blend.Element.getSize(parentElement));
+        var bounds = Blend.Element.getSize(parentElement)
+        if (lctx && lctx.layoutHandler) {
+            lctx.layoutHandler(childElement, bounds)
+        } else {
+            Blend.Style.set(childElement, bounds);
+        }
     }
 });

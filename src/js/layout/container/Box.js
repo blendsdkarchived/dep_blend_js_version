@@ -38,13 +38,9 @@ Blend.defineClass('Blend.layout.container.Box', {
                     var view = me.view.items[idx];
                     var vbounds = Blend.Element.getBounds(view.getElement());
                     Blend.Style.set(el, bounds);
-                    if (vbounds.top !== bounds.top ||
-                            vbounds.left !== bounds.left ||
-                            vbounds.width !== bounds.width ||
-                            vbounds.height !== bounds.height) {
+                    if (!me.boundsEqual(vbounds, bounds)) {
                         me.view.items[idx].fireEvent('sizeChanged', bounds.width, bounds.height);
                     }
-
                 }
             };
         }

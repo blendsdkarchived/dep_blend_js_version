@@ -15,12 +15,20 @@ Blend.defineClass('Blend.layout.container.Fit', {
             Blend.foreach(me.view.items, function (view, idx) {
                 if (idx === ax) {
                     view.show();
-                    Blend.layout.utils.Fit.fit(me.containerEl, view.getElement());
-                    view.performLayout(force);
+                    me._currentView = view;
+                    Blend.layout.utils.Fit.fit(me.containerEl, view.getElement(), me);
                 } else {
                     view.hide();
                 }
             });
+        }
+    },
+    layoutHandler: function (element, bounds) {
+        var me = this,
+                vbounds = Blend.Element.getBounds(me._currentView.getElement());
+        Blend.Style.set(element, bounds);
+        if (!me.boundsEqual(bounds, vbounds)) {
+            me._currentView.fireEvent('sizeChaged', bounds.width, bounds.height);
         }
     }
 });
