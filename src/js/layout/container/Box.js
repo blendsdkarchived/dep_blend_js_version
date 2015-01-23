@@ -21,18 +21,15 @@ Blend.defineClass('Blend.layout.container.Box', {
     },
     performLayout: function (force) {
         var me = this, ctx;
-        force = force || false;
-        if (force) {
-            me.layoutContext = null;
-        }
-        ctx = me.prepareLayout();
+        ctx = me.prepareLayout(force);
         me.createLayoutContext();
         me.handler(me.containerEl, me.getElements(), ctx, me.layoutContext);
         // call the parent to layout the children
         me.callParent.apply(me, arguments);
     },
-    createLayoutContext: function () {
+    createLayoutContext: function (force) {
         var me = this;
+        me.layoutContext = force ? null : me.layoutContext;
         if (!me.layoutContext) {
             me.layoutContext = {
                 pack: me._hasSplitter ? 'center' : me.pack,
@@ -106,6 +103,7 @@ Blend.defineClass('Blend.layout.container.Box', {
         me.containerEl.appendChild(docFrag);
         me.view.items = views;
         me._didSplitters = true;
+        me.bindSplitters();
         return;
     },
     createNewSplitter: function () {
@@ -116,6 +114,23 @@ Blend.defineClass('Blend.layout.container.Box', {
         });
         me.createItemLayoutContext(splitter);
         return splitter;
+    },
+    /**
+     * @private
+     * Binds the splitters to their corresponding components
+     */
+    bindSplitters: function () {
+        var me = this, items = me.view.items;
+        Blend.foreach(items, function (cmp, index) {
+            if (Blend.isInstanceOf(cmp, Blend.ui.Splitter)) {
+                cmp.getAComponent = function () {
+                    return items[index - 1];
+                };
+                cmp.getBComponent = function () {
+                    return items[index + 1];
+                };
+            }
+        });
     },
     /**
      * @private
@@ -139,8 +154,7 @@ Blend.defineClass('Blend.layout.container.Box', {
         }
     },
     isSplitter: function (itm) {
-        if (
-                (Blend.isString(itm) && itm.indexOf('splitter')) ||
+        if ((Blend.isString(itm) && itm.indexOf('splitter')) ||
                 (Blend.isObject(itm) && itm.type && itm.type === 'ui.splitter')) {
             return true;
         } else {
