@@ -110,7 +110,7 @@ Blend.defineClass('Blend.layout.container.Box', {
         var me = this, splitter;
         splitter = me.createItemView({
             type: 'ui.splitter',
-            reference: 'splitter' + (me.splitCnt++),
+            reference: 'splitter' + (me.splitCnt++)
         });
         me.createItemLayoutContext(splitter);
         return splitter;
