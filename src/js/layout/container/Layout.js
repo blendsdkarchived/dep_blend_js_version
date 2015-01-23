@@ -67,15 +67,20 @@ Blend.defineClass('Blend.layout.container.Layout', {
      * @returns {undefined}
      */
     createItemLayoutContext: function (view) {
+        var me = this;
         view.setLayoutContext({
-            flex: view.flex || null
+            flex: view.flex || null,
+            split: view.split || null
         });
+        if (view.split) {
+            me._hasSplitter = true;
+        }
     },
     createItemIndex: function () {
         var me = this;
         me.itemIndex = {};
         Blend.foreach(me.views, function (view, idx) {
-            me.itemIndex[view]
+            me.itemIndex[view];
         });
     }
 });

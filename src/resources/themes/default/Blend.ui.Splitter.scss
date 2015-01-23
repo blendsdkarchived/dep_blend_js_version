@@ -1,0 +1,27 @@
+@import "var/_bootstrap.scss";
+@import "compass/css3";
+
+#{$prefix}-splitter {
+    background-color: limegreen;
+    z-index: 100000;
+}
+
+#{$prefix}-splitter-active {
+    @include opacity(0.5);
+    background-color: coral !important;
+    z-index: 100010;
+}
+
+#{$prefix}-splitter-vertical {
+    display:block;
+    position: absolute;
+    height:100%;
+    top:0px;
+}
+
+#{$prefix}-splitter-horizontal {
+    display:block;
+    position: absolute;
+    width:100%;
+    left:0px;
+}
