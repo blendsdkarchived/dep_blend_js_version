@@ -24,7 +24,6 @@ Blend.defineClass('Blend.layout.container.Layout', {
         var me = this, view, els = [], views = [], el, defaults = me.view.defaults;
         Blend.foreach(me.view.items, function (itemCfg, idx) {
             view = me.createItemView(itemCfg, defaults);
-            me.createItemLayoutContext(view);
             view.itemIndex = idx;
             views.push(view);
             el = view.getElement({
@@ -59,17 +58,6 @@ Blend.defineClass('Blend.layout.container.Layout', {
     createItemView: function (viewCfg, defaults) {
         var me = this;
         return Blend.ui.Component.createView.apply(me.view, [viewCfg, me.view, defaults]);
-    },
-    /**
-     * @internal
-     * Creates layoutContext for this view
-     * @param {type} view
-     * @returns {undefined}
-     */
-    createItemLayoutContext: function (view) {
-        view.setLayoutContext({
-            flex: view.flex || null
-        });
     },
     createItemIndex: function () {
         var me = this;
