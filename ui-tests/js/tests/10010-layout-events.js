@@ -15,7 +15,6 @@ BlendTest.defineTest('layout-events', 'layout-events', function (t) {
                 var me = this;
                 setTimeout(function () {
                     var r = me.getRect();
-                    r[0].layoutContext.flex = 0.25;
                     r[0].flex = 0.25;
                     r[0].setWidth(0);
                 }, 10);
