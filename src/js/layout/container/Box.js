@@ -53,11 +53,12 @@ Blend.defineClass('Blend.layout.container.Box', {
         var me = this, list = [], ctx, bounds, el;
         /**
          * The Box layout needs to know several properties of the views it is
-         * going to layout. These properties are the width/hright and the flex
-         * properties of a view.
+         * going to layout. These properties are the width/hright/top/left
+         * and the flex properties of a view. Next to that wee need to original
+         * bounds later to see if we need to fire the sizeChanged event.
          */
         Blend.foreach(me.view.items, function (view) {
-            el = view.getElement()
+            el = view.getElement();
             bounds = Blend.Element.getBounds(el);
             ctx = {
                 el: el,
@@ -78,7 +79,7 @@ Blend.defineClass('Blend.layout.container.Box', {
                 height: ctx.width,
                 top: ctx.top,
                 left: ctx.left
-            }
+            };
             list.push(ctx);
         });
         return list;

@@ -73,8 +73,6 @@ Blend.defineClass('Blend.layout.utils.Box', {
      * Arranges given elements in to a vertical box layout. This function
      * needs a layoutContext and a list of item layout context configuration for
      * each item.
-     * @param {type} parent
-     * @param {type} children
      * @param {type} ilctx
      * @param {type} lctx
      * @returns {undefined}
@@ -134,8 +132,6 @@ Blend.defineClass('Blend.layout.utils.Box', {
     },
     /**
      * Common processor for both vflex and hflex layout utilities
-     * @param {type} parent
-     * @param {type} children
      * @param {type} ilctx
      * @param {type} lctx
      * @param {type} proccessors
@@ -159,7 +155,6 @@ Blend.defineClass('Blend.layout.utils.Box', {
      * Update/Set the given layoutContext with:
      * [1] Maximum flex units of elements that are flexed
      * [2] Total width/height of fixed elements
-     * @param {type} children
      * @param {type} lctx
      * @param {type} ilctx
      * @param {type} flexed_prop
@@ -182,8 +177,6 @@ Blend.defineClass('Blend.layout.utils.Box', {
      * Calculates and sets the bounds of flexed elements. This function also
      * sets the total units of widths/heights of all the elements to be used
      * later in the width/height calculations
-     * @param {type} parent
-     * @param {type} children
      * @param {type} ilctx
      * @param {type} lctx
      * @param {type} flexed_prop
