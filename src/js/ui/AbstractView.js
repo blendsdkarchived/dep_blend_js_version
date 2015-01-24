@@ -18,20 +18,6 @@ Blend.defineClass('Blend.ui.AbstractView', {
         return [];
     },
     /**
-     * @internal
-     */
-    setLayoutContext: function (ctx) {
-        var me = this;
-        me.layoutContext = ctx;
-    },
-    /**
-     * @internal
-     */
-    getLayoutContext: function () {
-        var me = this;
-        return me.layoutContext;
-    },
-    /**
      * @private initializes the layout object for this view
      * @returns {undefined}
      */
