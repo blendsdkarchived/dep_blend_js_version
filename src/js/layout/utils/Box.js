@@ -184,8 +184,7 @@ Blend.defineClass('Blend.layout.utils.Box', {
      * @returns {undefined}
      */
     calculateBounds: function (ilctx, lctx, flexed_prop, need_all_totals) {
-        var me = this, alltotals = 0,
-                result = [], unit,
+        var me = this, alltotals = 0, unit,
                 mrg = lctx.margin, omrg = mrg, avail, totalMargin = 0;
         need_all_totals = need_all_totals || false;
         //Update the layout context to get maxFlex and total width/height that is taken
