@@ -10,13 +10,11 @@ Blend.defineClass('Blend.layout.utils.Box', {
      * Arranges given elements in to a horizontal box layout. This function
      * needs a layoutContext and a list of item layout context configuration for
      * each item.
-     * @param {type} parent
-     * @param {type} children
      * @param {type} ilctx
      * @param {type} lctx
      * @returns {undefined}
      */
-    hflex: function (parent, children, ilctx, lctx) {
+    hflex: function (ilctx, lctx) {
         var me = this, needtotals, nextleft = -1, margin, proccessors = {
             pack: {
                 start: function (bounds) {
@@ -61,22 +59,14 @@ Blend.defineClass('Blend.layout.utils.Box', {
                 end: function (bounds) {
                     bounds.top = lctx.bounds.height - (bounds.height + margin);
                 }
-            }, bounds: function (el, ctx) {
-                var b = Blend.Element.getBounds(el);
-                if (Blend.Environment.isIE) {
-                    b.width = ctx.width || b.width;
-                }
-                return b;
             }
         };
         lctx.pack = lctx.margin === true ? 'center' : lctx.pack;
         lctx.align = lctx.margin === true ? 'center' : lctx.align;
         needtotals = (lctx.pack === 'center' || lctx.pack === 'end');
-        parent = me.getEl(parent);
-        children = me.getEl(children);
-        me.calculateSetBounds(parent, children, ilctx, lctx, 'width', needtotals);
+        me.calculateBounds(ilctx, lctx, 'width', needtotals);
         margin = lctx.margin;
-        me.flex(parent, children, ilctx, lctx, proccessors);
+        me.flex(ilctx, lctx, proccessors);
     },
     /**
      * @internal
@@ -89,7 +79,7 @@ Blend.defineClass('Blend.layout.utils.Box', {
      * @param {type} lctx
      * @returns {undefined}
      */
-    vflex: function (parent, children, ilctx, lctx) {
+    vflex: function (ilctx, lctx) {
         var me = this, needtotals, nexttop = -1, margin, proccessors = {
             pack: {
                 start: function (bounds) {
@@ -134,22 +124,13 @@ Blend.defineClass('Blend.layout.utils.Box', {
                 end: function (bounds) {
                     bounds.left = lctx.bounds.width - (bounds.width + margin);
                 }
-            },
-            bounds: function (el, ctx) {
-                var b = Blend.Element.getBounds(el);
-                if (Blend.Environment.isIE) {
-                    b.height = ctx.height || b.height;
-                }
-                return b;
             }
         };
         lctx.pack = lctx.margin === true ? 'center' : lctx.pack;
         needtotals = (lctx.pack === 'center' || lctx.pack === 'end');
-        parent = me.getEl(parent);
-        children = me.getEl(children);
-        me.calculateSetBounds(parent, children, ilctx, lctx, 'height', needtotals);
+        me.calculateBounds(ilctx, lctx, 'height', needtotals);
         margin = lctx.margin;
-        me.flex(parent, children, ilctx, lctx, proccessors);
+        me.flex(ilctx, lctx, proccessors);
     },
     /**
      * Common processor for both vflex and hflex layout utilities
@@ -160,21 +141,16 @@ Blend.defineClass('Blend.layout.utils.Box', {
      * @param {type} proccessors
      * @returns {undefined}
      */
-    flex: function (parent, children, ilctx, lctx, proccessors) {
-        var me = this, alignFn, packFn, ctx, a, len, el, bounds;
-        len = children.length;
-        for (a = 0; a !== len; a++) {
-            el = children[a];
+    flex: function (ilctx, lctx, proccessors) {
+        var me = this, alignFn, packFn, ctx, a, bounds;
+        for (a = 0; a !== ilctx.length; a++) {
             ctx = ilctx[a];
-            bounds = proccessors.bounds.apply(me, [el, ctx]);
             alignFn = proccessors.align[lctx.align];
             packFn = proccessors.pack[lctx.pack];
-            packFn.apply(me, [bounds]);
-            alignFn.apply(me, [bounds]);
+            packFn.apply(me, [ctx]);
+            alignFn.apply(me, [ctx]);
             if (lctx.layoutHandler) {
-                lctx.layoutHandler(el, bounds, a);
-            } else {
-                Blend.Style.set(el, bounds);
+                lctx.layoutHandler(ctx, a);
             }
         }
     },
@@ -189,15 +165,13 @@ Blend.defineClass('Blend.layout.utils.Box', {
      * @param {type} flexed_prop
      * @returns {undefined}
      */
-    updateLayoutContext: function (children, lctx, ilctx, flexed_prop) {
-        var me = this, maxFlex = 0, itm, total = 0, bounds;
+    updateLayoutContext: function (lctx, ilctx, flexed_prop) {
+        var me = this, maxFlex = 0, total = 0;
         Blend.foreach(ilctx, function (ctx, idx) {
-            itm = children[idx];
-            bounds = Blend.Element.getBounds(itm);
-            if (ctx.flex) {
-                maxFlex += ctx.flex;
+            if (ctx.flex === true) {
+                maxFlex += ctx[flexed_prop];
             } else {
-                total += bounds[flexed_prop];
+                total += ctx[flexed_prop];
             }
         });
         lctx.maxFlex = maxFlex;
@@ -216,38 +190,34 @@ Blend.defineClass('Blend.layout.utils.Box', {
      * @param {type} need_all_totals
      * @returns {undefined}
      */
-    calculateSetBounds: function (parent, children, ilctx, lctx, flexed_prop, need_all_totals) {
+    calculateBounds: function (ilctx, lctx, flexed_prop, need_all_totals) {
         var me = this, alltotals = 0,
-                ctx, unit,
+                result = [], unit,
                 mrg = lctx.margin, omrg = mrg, avail, totalMargin = 0;
         need_all_totals = need_all_totals || false;
         //Update the layout context to get maxFlex and total width/height that is taken
-        me.updateLayoutContext(children, lctx, ilctx, flexed_prop);
+        me.updateLayoutContext(lctx, ilctx, flexed_prop);
         if (lctx.maxFlex !== 0) {
             //omrg is the original margin
             mrg = Blend.isNumeric(omrg) ? mrg : 0;
-            totalMargin = (children.length + 1) * mrg;
-            var pbounds = Blend.Element.getBounds(parent);
-            avail = (pbounds[flexed_prop] - totalMargin) - lctx[flexed_prop];
+            totalMargin = (ilctx.length + 1) * mrg;
+            avail = (lctx.bounds[flexed_prop] - totalMargin) - lctx[flexed_prop];
         }
 
-        Blend.foreach(children, function (itm, idx) {
-            ctx = ilctx[idx];
-            if (ctx.flex) {
-                unit = (avail * ctx.flex) / lctx.maxFlex;
-                var o = {};
-                o[flexed_prop] = unit;
-                Blend.Style.set(itm, o);
+        Blend.foreach(ilctx, function (ctx, idx) {
+            if (ctx.flex === true) {
+                unit = (avail * ctx[flexed_prop]) / lctx.maxFlex;
+                // save the calculated flex property for later to be set
+                // on the element
+                ctx[flexed_prop] = unit;
+                ctx.calculated = true;
             }
             if (need_all_totals) {
                 if (unit) {
                     alltotals += unit;
-                    ctx[flexed_prop] = unit; // For F** IE that does not return the
                     unit = null;
                 } else {
-                    var b = Blend.Element.getBounds(itm);
-                    ctx[flexed_prop] = b[flexed_prop];
-                    alltotals += b[flexed_prop];
+                    alltotals += ctx[flexed_prop];
                 }
             }
         });
@@ -256,13 +226,12 @@ Blend.defineClass('Blend.layout.utils.Box', {
                 /*
                  * Calculate the distributed margin value
                  */
-                mrg = (lctx.bounds[flexed_prop] - alltotals) / children.length;
+                mrg = (lctx.bounds[flexed_prop] - alltotals) / ilctx.length;
                 lctx.margin = mrg;
             }
-            totalMargin = (children.length + 1) * mrg; // +1 is for the margin before the first element
+            totalMargin = (ilctx.length + 1) * mrg; // +1 is for the margin before the first element
             alltotals += totalMargin;
             lctx['total_' + flexed_prop] = alltotals;
         }
-
     }
 });
