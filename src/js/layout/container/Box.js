@@ -11,17 +11,17 @@ Blend.defineClass('Blend.layout.container.Box', {
     handler: null,
     performLayout: function (force) {
         var me = this;
+        var ctx = me.createItemLayoutContext();
+        me.createLayoutContext(force);
+        me.handler(ctx, me.layoutContext);
+        me.callParent.apply(me, arguments);
+    },
+    createLayoutContext: function (force) {
+        var me = this;
         force = force || false;
         if (force) {
             me.layoutContext = null;
         }
-        var ctx = me.createItemLayoutContext();
-        me.createLayoutContext();
-        me.handler(ctx, me.layoutContext);
-        me.callParent.apply(me, arguments);
-    },
-    createLayoutContext: function () {
-        var me = this;
         if (!me.layoutContext) {
             me.layoutContext = {
                 pack: me.pack,
