@@ -69,8 +69,9 @@ Blend.defineClass('Blend.layout.container.Layout', {
     createItemLayoutContext: function (view) {
         var me = this;
         view.setLayoutContext({
-            flex: view.flex || null,
-            split: view.split || null
+            flex: Blend.isNumeric(view.flex) ? true : false,
+            size: Blend.isNumeric(view.flex) ? view.flex : {width: view.width, height: view.height},
+            split: view.split === true ? true : false
         });
         if (view.split) {
             me._hasSplitter = true;

@@ -190,17 +190,19 @@ Blend.defineClass('Blend.layout.utils.Box', {
      * @returns {undefined}
      */
     updateLayoutContext: function (children, lctx, ilctx, flexed_prop) {
-        var me = this, maxFlex = 0, itm, total = 0, bounds;
+        var me = this, maxFlex = 0, itm, total = 0, bounds, ictx;
         Blend.foreach(ilctx, function (ctx, idx) {
             itm = children[idx];
             bounds = Blend.Element.getBounds(itm);
-            if (ctx.flex) {
-                maxFlex += ctx.flex;
+            if (ctx.flex === true) {
+                maxFlex += ctx.size;
             } else {
                 total += bounds[flexed_prop];
+                ctx['size'][flexed_prop] = bounds[flexed_prop];
             }
         });
         lctx.maxFlex = maxFlex;
+        lctx.pixelsPerFlex = (lctx.bounds[flexed_prop] - total) / maxFlex;
         lctx[flexed_prop] = total;
     },
     /**
@@ -233,21 +235,23 @@ Blend.defineClass('Blend.layout.utils.Box', {
 
         Blend.foreach(children, function (itm, idx) {
             ctx = ilctx[idx];
-            if (ctx.flex) {
-                unit = (avail * ctx.flex) / lctx.maxFlex;
-                var o = {};
-                o[flexed_prop] = unit;
-                Blend.Style.set(itm, o);
-            }
-            if (need_all_totals) {
-                if (unit) {
-                    alltotals += unit;
-                    ctx[flexed_prop] = unit; // For F** IE that does not return the
-                    unit = null;
-                } else {
-                    var b = Blend.Element.getBounds(itm);
-                    ctx[flexed_prop] = b[flexed_prop];
-                    alltotals += b[flexed_prop];
+            if (ctx) {
+                if (ctx.flex === true) {
+                    unit = (avail * ctx.size) / lctx.maxFlex;
+                    var o = {};
+                    o[flexed_prop] = unit;
+                    Blend.Style.set(itm, o);
+                }
+                if (need_all_totals) {
+                    if (unit) {
+                        alltotals += unit;
+                        ctx.size[flexed_prop] = unit; // For F** IE that does not return the
+                        unit = null;
+                    } else {
+                        var b = Blend.Element.getBounds(itm);
+                        ctx.size[flexed_prop] = b[flexed_prop];
+                        alltotals += b[flexed_prop];
+                    }
                 }
             }
         });
@@ -263,6 +267,5 @@ Blend.defineClass('Blend.layout.utils.Box', {
             alltotals += totalMargin;
             lctx['total_' + flexed_prop] = alltotals;
         }
-
     }
 });

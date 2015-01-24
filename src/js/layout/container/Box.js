@@ -24,7 +24,6 @@ Blend.defineClass('Blend.layout.container.Box', {
         ctx = me.prepareLayout(force);
         me.createLayoutContext();
         me.handler(me.containerEl, me.getElements(), ctx, me.layoutContext);
-        // call the parent to layout the children
         me.callParent.apply(me, arguments);
     },
     createLayoutContext: function (force) {
@@ -34,7 +33,7 @@ Blend.defineClass('Blend.layout.container.Box', {
             me.layoutContext = {
                 pack: me._hasSplitter ? 'center' : me.pack,
                 align: me._hasSplitter ? 'stretch' : me.align,
-                margin: me.margin,
+                margin: me._hasSplitter ? 0 : me.margin,
                 direction: me.direction,
                 bounds: Blend.Element.getBounds(me.containerEl),
                 layoutHandler: function (el, bounds, idx) {
@@ -160,5 +159,9 @@ Blend.defineClass('Blend.layout.container.Box', {
         } else {
             return false;
         }
+    },
+    unit2Flex: function (size) {
+        var me = this;
+        return size / me.layoutContext.pixelsPerFlex
     }
 });
