@@ -7,5 +7,4 @@ Blend.defineClass('Blend.layout.container.HBox', {
         var util = Blend.layout.utils.Box;
         return util.hflex.apply(util, arguments);
     }
-
 });
