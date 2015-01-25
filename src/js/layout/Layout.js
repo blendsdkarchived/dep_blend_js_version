@@ -33,7 +33,7 @@ Blend.defineClass('Blend.layout.Layout', {
      * @returns {Boolean}
      */
     boundsEqual: function (ba, bb) {
-        var p = ['top', 'right', 'bottom', 'left'], a, l = p.length, r = false, t;
+        var p = ['top', 'left', 'width', 'height'], a, l = p.length, r = false, t;
         for (a = 0; a !== l; a++) {
             t = p[a];
             if (ba[t] !== bb[t]) {
