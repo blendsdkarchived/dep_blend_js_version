@@ -170,6 +170,7 @@ Blend.defineClass('Blend.layout.utils.Box', {
             }
         });
         lctx.maxFlex = maxFlex;
+        lctx.pixelsPerFlex = (lctx.bounds[flexed_prop] - total) / maxFlex;
         lctx[flexed_prop] = total;
     },
     /**
