@@ -1,12 +1,14 @@
 Blend.defineClass('Blend.ui.Splitter', {
     extend: 'Blend.ui.Component',
     requires: [
-        'Blend.Environment'
+        'Blend.Environment',
+        'Blend.layout.plugins.Splitter'
     ],
     alias: 'ui.splitter',
-    size: 6,
+    size: 7,
     splitterType: null,
     ghostEl: null,
+    flex: false,
     element: {
         unselectable: true,
         listeners: {
@@ -151,5 +153,12 @@ Blend.defineClass('Blend.ui.Splitter', {
             pos = max + me.halfH;
         }
         return pos;
+    },
+    statics: {
+        initialize: function (layout) {
+            layout._splitter = Blend.create('Blend.layout.plugins.Splitter', {
+                layout: layout
+            });
+        }
     }
 });
