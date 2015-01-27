@@ -52,6 +52,7 @@ Blend.defineClass('Blend.ui.View', {
         var me = this;
         if (me.width !== value) {
             me.width = value;
+            Blend.Style.set(me.element, {width: value});
             me.notifySizeChanged();
         }
         return me;
