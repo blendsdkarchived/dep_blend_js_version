@@ -9,6 +9,17 @@ Blend.defineClass('Blend.layout.container.Box', {
     margin: 0,
     layoutContext: null,
     handler: null,
+    init: function () {
+        var me = this;
+        me.callParent.apply(me, arguments);
+        if (me.splitter === true) {
+            if (Blend.ClassBuilder.classDb.isClassDefined('Blend.ui.Splitter')) {
+                Blend.ui.Splitter.initialize(me);
+            } else {
+                throw new Error('Blend.ui.Splitter not defined! In order to enable the HBox/VBox layouts to have splitters you need to require Blend.ui.Splitter and set the splitter:true in your layout config!');
+            }
+        }
+    },
     performLayout: function (force) {
         var me = this;
         me.itemContext = me.createItemLayoutContext();
@@ -29,7 +40,7 @@ Blend.defineClass('Blend.layout.container.Box', {
                         view = views[idx];
                 view.setBounds(ctx);
             }
-        }
+        };
     },
     createItemLayoutContext: function () {
         var me = this, list = [], ctx;

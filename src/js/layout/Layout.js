@@ -2,7 +2,8 @@ Blend.defineClass('Blend.layout.Layout', {
     alias: 'layout.base',
     view: null,
     performLayout: function (force) {
-        return;
+        var me = this;
+        me.view.doneLayoutOrResize();
     },
     render: function (renderCtx) {
         var me = this;
@@ -25,24 +26,5 @@ Blend.defineClass('Blend.layout.Layout', {
                 throw new Error('Unable to create a layout based on: ' + layoutConfig);
             }
         }
-    },
-    /**
-     * @protected check if two provided bounds are equal
-     * @param {type} ba
-     * @param {type} bb
-     * @returns {Boolean}
-     */
-    boundsEqual: function (ba, bb) {
-        var p = ['top', 'left', 'width', 'height'], a, l = p.length, r = false, t;
-        for (a = 0; a !== l; a++) {
-            t = p[a];
-            if (ba[t] !== bb[t]) {
-                r = true;
-            }
-            if (r) {
-                break;
-            }
-        }
-        return !r;
     }
 });

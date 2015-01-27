@@ -59,10 +59,9 @@ Blend.defineClass('Blend.ui.AbstractView', {
         }
     },
     layoutView: function (force) {
-        var me = this, bh = me.getBoundsHash();
-        if (bh !== me._currentBoundsHash) {
+        var me = this;
+        if (me.shouldLayoutOrResize()) {
             me.layout.performLayout.apply(me.layout, arguments);
-            me._currentBoundsHash = me.getBoundsHash();
         }
     },
     render: function (renderCtx) {
@@ -111,12 +110,20 @@ Blend.defineClass('Blend.ui.AbstractView', {
             height: me.height
         };
     },
+    shouldLayoutOrResize: function () {
+        var me = this, cur = me.getSizeSig();
+        return me._sizeSig !== cur;
+    },
+    doneLayoutOrResize: function () {
+        var me = this;
+        me._sizeSig = me.getSizeSig();
+    },
     /**
      * @internal
      */
-    getBoundsHash: function () {
+    getSizeSig: function () {
         var me = this;
-        return [me.top, me.left, me.width || '', me.height || ''].join('');
+        return [parseInt(me.top), parseInt(me.left), parseInt(me.width || 0), parseInt(me.height || 0)].join('.');
     },
     finalizeRender: function (setterMap) {
         var me = this, setterFn, ival;
@@ -134,7 +141,7 @@ Blend.defineClass('Blend.ui.AbstractView', {
                 setterFn.apply(me, [value]);
             }
         });
-        me._currentBoundsHash = '';
+        me._sizeSig = 0;
         me.enableEvents();
     },
     /**

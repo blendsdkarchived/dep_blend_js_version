@@ -52,7 +52,6 @@ Blend.defineClass('Blend.ui.View', {
         var me = this;
         if (me.width !== value) {
             me.width = value;
-            Blend.Style.set(me.element, {width: value});
             me.notifySizeChanged();
         }
         return me;
@@ -200,7 +199,9 @@ Blend.defineClass('Blend.ui.View', {
      */
     notifySizeChanged: function () {
         var me = this;
-        me.fireEvent('sizeChanged', me.width, me.height);
+        if (me.shouldLayoutOrResize()) {
+            me.fireEvent('sizeChanged', me.width, me.height);
+        }
     },
     /**
      * Fires when the size of this view is changed
@@ -245,7 +246,6 @@ Blend.defineClass('Blend.ui.View', {
             }
         });
         Blend.Style.set(me.getElement(), b);
-
         if (b.width || b.height) {
             me.notifySizeChanged(b.width, b.height);
         }

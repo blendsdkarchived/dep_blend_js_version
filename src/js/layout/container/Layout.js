@@ -14,6 +14,7 @@ Blend.defineClass('Blend.layout.container.Layout', {
         Blend.foreach(me.view.items, function (view) {
             view.performLayout(force);
         });
+        me.callParent.apply(me, arguments);
     },
     setContainerElement: function (el) {
         var me = this;
