@@ -118,15 +118,19 @@ Blend.defineClass('Blend.ui.AbstractView', {
      */
     fireEvent: function () {
         var me = this, args = [];
-        Blend.foreach(arguments, function (arg) {
-            args.push(arg);
-        });
-        var evtFired = me.callParent.apply(me, args);
-        if (evtFired && me._layoutTriggers.indexOf(evtFired) !== -1) {
-            if (me.parent) {
-                me.parent.performLayout(true);
+        if (me._eventsEnable) {
+            Blend.foreach(arguments, function (arg) {
+                args.push(arg);
+            });
+            var evtFired = me.callParent.apply(me, args);
+            if (evtFired && me._layoutTriggers.indexOf(evtFired) !== -1) {
+                if (me.parent) {
+                    me.parent.performLayout();
+                }
             }
+            return evtFired;
+        } else {
+            return null;
         }
-        return evtFired;
     }
 });
