@@ -233,5 +233,24 @@ Blend.defineClass('Blend.ui.View', {
             'show',
             'hide'
         ];
+    },
+    setBounds: function (bounds) {
+        var me = this, list = ['top', 'left', 'width', 'height'], res_evt, rel_evt, b = {};
+        // initialize if needed
+        Blend.foreach(list, function (p) {
+            bounds[p] = bounds[p] || me[p];
+            if (me[p] !== bounds[p]) {
+                b[p] = bounds[p];
+                me[p] = b[p];
+            }
+        });
+        Blend.Style.set(me.getElement(), b);
+
+        if (b.width || b.height) {
+            me.notifySizeChanged(b.width, b.height);
+        }
+        if (b.top || b.left) {
+            me.notifyPositionChanged(b.top, b.left);
+        }
     }
 });

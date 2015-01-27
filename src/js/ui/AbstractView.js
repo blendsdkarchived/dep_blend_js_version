@@ -98,6 +98,22 @@ Blend.defineClass('Blend.ui.AbstractView', {
         }
         return el;
     },
+    /**
+     * Returns the bounts of this view
+     * @returns {object}
+     */
+    getBounds: function () {
+        var me = this;
+        return {
+            top: me.top,
+            left: me.left,
+            width: me.width,
+            height: me.height
+        };
+    },
+    /**
+     * @internal
+     */
     getBoundsHash: function () {
         var me = this;
         return [me.top, me.left, me.width || '', me.height || ''].join('');
@@ -132,7 +148,7 @@ Blend.defineClass('Blend.ui.AbstractView', {
             });
             var evtFired = me.callParent.apply(me, args);
             if (evtFired && me._layoutTriggers.indexOf(evtFired) !== -1) {
-                if (me.parent) {
+                if (me.parent && me.parent.performLayout) {
                     me.parent.performLayout();
                 }
             }
