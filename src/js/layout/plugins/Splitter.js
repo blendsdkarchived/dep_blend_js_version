@@ -24,8 +24,20 @@ Blend.defineClass('Blend.layout.plugins.Splitter', {
         };
 
         var layoutType = me.layout.alias.replace('layout.', '');
-        me.layout.updateLayoutContext = function () {
-            me[layoutType + '_updateLayoutContext'].apply(me, arguments);
+        me.layout.updateLayoutContext = function (ctx) {
+            var ctx_a, ctx_b, prop, setterName;
+            if (layoutType === 'vbox') {
+                ctx_a = 'top';
+                ctx_b = 'bottom';
+                prop = 'height';
+                setterName = 'setHeight';
+            } else {
+                ctx_a = 'left';
+                ctx_b = 'right';
+                prop = 'width';
+                setterName = 'setWidth';
+            }
+            me.updateLayoutContext.apply(me, [ctx, ctx_a, ctx_b, prop, setterName]);
         }
     },
     /**
@@ -135,53 +147,54 @@ Blend.defineClass('Blend.layout.plugins.Splitter', {
             }
         });
     },
-    vbox_updateLayoutContext: function (ctx) {
+    updateLayoutContext: function (ctx, ctx_a, ctx_b, prop, setterName) {
         var me = this, delta, displ,
-                topCtx = me.layout.itemContext[ctx.top.itemIndex],
-                btmCtx = me.layout.itemContext[ctx.bottom.itemIndex];
+                aCtx = me.layout.itemContext[ctx[ctx_a].itemIndex],
+                bCtx = me.layout.itemContext[ctx[ctx_b].itemIndex];
 
-        ctx.top.disableEvents();
-        ctx.bottom.disableEvents();
+        ctx[ctx_a].disableEvents();
+        ctx[ctx_b].disableEvents();
 
-        if (ctx.delta.top < 0) {
+        if (ctx.delta[ctx_a] < 0) {
 
-            displ = Math.abs(ctx.delta.top);
+            displ = Math.abs(ctx.delta[ctx_a]);
             delta = me.unit2Flex(displ);
 
             //moving splitter to top
-            if (topCtx.flex === true) {
-                ctx.top.flex = (topCtx.flexSize - delta); //reconfigure
+            if (aCtx.flex === true) {
+                ctx[ctx_a].flex = (aCtx.flexSize - delta); //reconfigure
             }
 
-            if (btmCtx.flex === true) {
-                ctx.bottom.flex = (btmCtx.flexSize + delta); // reconfigure
+            if (bCtx.flex === true) {
+                ctx[ctx_b].flex = (bCtx.flexSize + delta); // reconfigure
             }
 
-            ctx.top.setHeight(ctx.top.height - displ);
-            ctx.bottom.setHeight(ctx.bottom.height + displ);
+            ctx[ctx_a][setterName](ctx[ctx_a][prop] - displ);
+            ctx[ctx_b][setterName](ctx[ctx_b][prop] + displ);
 
         } else {
 
-            displ = Math.abs(ctx.delta.top);
+            displ = Math.abs(ctx.delta[ctx_a]);
             delta = me.unit2Flex(displ);
 
             //moving splitter to bottom
-            if (btmCtx.flex === true) {
-                ctx.bottom.flex = (btmCtx.flexSize - delta);
+            if (bCtx.flex === true) {
+                ctx[ctx_b].flex = (bCtx.flexSize - delta);
             }
 
-            if (topCtx.flex === true) {
-                ctx.top.flex = (topCtx.flexSize + delta);
+            if (aCtx.flex === true) {
+                ctx[ctx_a].flex = (aCtx.flexSize + delta);
             }
 
-            ctx.top.setHeight(ctx.top.height + displ);
-            ctx.bottom.setHeight(ctx.bottom.height - displ);
+            ctx[ctx_a][setterName](ctx[ctx_a][prop] + displ);
+            ctx[ctx_b][setterName](ctx[ctx_b][prop] - displ);
 
         }
 
         me.layout.view.performLayout();
-        ctx.top.enableEvents();
-        ctx.bottom.enableEvents();
+
+        ctx[ctx_a].disableEvents();
+        ctx[ctx_b].disableEvents();
 
     },
     unit2Flex: function (size) {
