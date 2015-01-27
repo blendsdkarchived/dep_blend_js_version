@@ -13,6 +13,14 @@ Blend.defineClass('Blend.ui.View', {
      */
     height: null,
     /**
+     * Config parameter for setting the initial top of this view.
+     */
+    top: 0,
+    /**
+     * Config parameter for setting the initial left of this view.
+     */
+    left: 0,
+    /**
      * Config parameter for setting the base CSS class for this view.
      */
     ui: null,
@@ -81,6 +89,50 @@ Blend.defineClass('Blend.ui.View', {
         return (me.height = val);
     },
     /**
+     * Gets the top of this component
+     * @returns {number}
+     */
+    getTop: function () {
+        var me = this,
+                val = Blend.Style.get(me.element, 'top');
+        return (me.top = val);
+    },
+    /**
+     * Gets the left of this component
+     * @returns {number}
+     */
+    getLeft: function () {
+        var me = this,
+                val = Blend.Style.get(me.element, 'left');
+        return (me.left = val);
+    },
+    /**
+     * Sets the current top of this component
+     * @param {number} value
+     */
+    setTop: function (value) {
+        var me = this;
+        if (me.top !== value) {
+            me.top = value;
+            Blend.Style.set(me.element, {top: value});
+            me.notifyPositionChanged();
+        }
+        return me;
+    },
+    /**
+     * Sets the current left of this component
+     * @param {number} value
+     */
+    setLeft: function (value) {
+        var me = this;
+        if (me.left !== value) {
+            me.left = value;
+            Blend.Style.set(me.element, {left: value});
+            me.notifyPositionChanged();
+        }
+        return me;
+    },
+    /**
      * Sets the current visibility status. This method internally calls the
      * show() or the hide() method and is made available here for purpose of binding
      * @param {boolean} value
@@ -137,6 +189,13 @@ Blend.defineClass('Blend.ui.View', {
     notifySizeChanged: function () {
         var me = this;
         me.fireEvent('sizeChanged', me.width, me.height);
+    },
+    /**
+     * Fires when the size of this view is changed
+     */
+    notifyPositionChanged: function () {
+        var me = this;
+        me.fireEvent('positionChanged', me.top, me.left);
     },
     /**
      * Fires when the UI css class of this view is changed
