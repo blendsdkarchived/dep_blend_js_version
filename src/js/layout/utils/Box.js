@@ -125,6 +125,7 @@ Blend.defineClass('Blend.layout.utils.Box', {
             }
         };
         lctx.pack = lctx.margin === true ? 'center' : lctx.pack;
+        lctx.align = lctx.margin === true ? 'center' : lctx.align;
         needtotals = (lctx.pack === 'center' || lctx.pack === 'end');
         me.calculateBounds(ilctx, lctx, 'height', needtotals);
         margin = lctx.margin;
