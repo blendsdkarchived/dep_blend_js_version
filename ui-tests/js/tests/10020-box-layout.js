@@ -621,6 +621,7 @@ BlendTest.defineTest('box-layout', 'box-layout', function (t) {
         if (nextTest !== null && nextTest !== currentTest && !Blend.isNullOrUndef(apps[nextTest])) {
             currentTest = nextTest;
             done_status = true;
+            document.title = nextTest;
             apps[nextTest].start();
         }
 
@@ -630,6 +631,6 @@ BlendTest.defineTest('box-layout', 'box-layout', function (t) {
                 t.done();
             }
         }
-    }, 250);
+    }, 500);
 
 });

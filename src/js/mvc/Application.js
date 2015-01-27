@@ -67,7 +67,11 @@ Blend.defineClass('Blend.mvc.Application', {
      */
     layoutMainView: function (force) {
         var me = this;
-        Blend.layout.utils.Fit.fit(Blend.dom.Dom.getWindow(), me.mainView.getElement());
+        Blend.layout.utils.Fit.fit(Blend.dom.Dom.getWindow(), me.mainView, {
+            handler: function (el, bounds) {
+                me.mainView.setBounds(bounds);
+            }
+        });
         me.mainView.performLayout(force);
     },
     /**

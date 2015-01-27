@@ -34,9 +34,6 @@
             "src": "js/tests/10010-element.js"
         },
         {
-            "src": "js/tests/10010-layout-events.js"
-        },
-        {
             "src": "js/tests/10020-fit-layout.js"
         },
         {

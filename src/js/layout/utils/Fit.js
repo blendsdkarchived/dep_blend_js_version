@@ -14,9 +14,9 @@ Blend.defineClass('Blend.layout.utils.Fit', {
                 parentElement = me.getEl(parent),
                 childElement = me.getEl(child);
         Blend.CSS.set(childElement, Blend.cssPrefix('fitable'));
-        var bounds = Blend.Element.getSize(parentElement)
-        if (lctx && lctx.layoutHandler) {
-            lctx.layoutHandler(childElement, bounds)
+        var bounds = Blend.Element.getSize(parentElement);
+        if (lctx && lctx.handler) {
+            lctx.handler(childElement, bounds);
         } else {
             Blend.Style.set(childElement, bounds);
         }

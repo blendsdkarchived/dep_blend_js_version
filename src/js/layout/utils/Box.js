@@ -23,7 +23,7 @@ Blend.defineClass('Blend.layout.utils.Box', {
                         nextleft = margin;
                     }
                     r = nextleft;
-                    nextleft += (bounds.width + margin)
+                    nextleft += (bounds.width + margin);
                     bounds.left = r;
                 },
                 center: function (bounds) {
@@ -145,8 +145,8 @@ Blend.defineClass('Blend.layout.utils.Box', {
             packFn = proccessors.pack[lctx.pack];
             packFn.apply(me, [ctx]);
             alignFn.apply(me, [ctx]);
-            if (lctx.layoutHandler) {
-                lctx.layoutHandler(ctx, a);
+            if (lctx.handler) {
+                lctx.handler(ctx, a);
             }
         }
     },
@@ -164,7 +164,7 @@ Blend.defineClass('Blend.layout.utils.Box', {
         var me = this, maxFlex = 0, total = 0;
         Blend.foreach(ilctx, function (ctx, idx) {
             if (ctx.flex === true) {
-                maxFlex += ctx[flexed_prop];
+                maxFlex += ctx.flexSize;
             } else {
                 total += ctx[flexed_prop];
             }
@@ -199,11 +199,10 @@ Blend.defineClass('Blend.layout.utils.Box', {
 
         Blend.foreach(ilctx, function (ctx, idx) {
             if (ctx.flex === true) {
-                unit = (avail * ctx[flexed_prop]) / lctx.maxFlex;
+                unit = (avail * ctx.flexSize) / lctx.maxFlex;
                 // save the calculated flex property for later to be set
                 // on the element
                 ctx[flexed_prop] = unit;
-                ctx.calculated = true;
             }
             if (need_all_totals) {
                 if (unit) {
