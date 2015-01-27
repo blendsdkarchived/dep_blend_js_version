@@ -146,6 +146,16 @@ Blend.defineClass('Blend.ui.View', {
         }
         return me;
     },
+    isVisible: function () {
+        var me = this;
+        return !me.hidden;
+    },
+    resetParentVisibilityCache: function () {
+        var me = this;
+        if (me.parent && me.parent.resetVisibleChildrenCache) {
+            me.parent.resetVisibleChildrenCache();
+        }
+    },
     /**
      * Makes this view visible
      * @returns {undefined}
@@ -155,6 +165,7 @@ Blend.defineClass('Blend.ui.View', {
         if (me.hidden) {
             me.hidden = false;
             Blend.CSS.unset(me.element, Blend.CSS.CSS_HIDDEN);
+            me.resetParentVisibilityCache();
             me.notifyShow();
         }
     },
@@ -166,6 +177,7 @@ Blend.defineClass('Blend.ui.View', {
         if (!me.hidden) {
             me.hidden = true;
             Blend.CSS.set(me.element, Blend.CSS.CSS_HIDDEN);
+            me.resetParentVisibilityCache();
             me.notifyHide();
         }
     },

@@ -43,5 +43,25 @@ Blend.defineClass('Blend.ui.Container', {
         var me = this;
         me.layoutBodyElement();
         me.layout.performLayout.apply(me.layout, [force]);
+    },
+    resetVisibleChildrenCache: function () {
+        var me = this;
+        me._visibleChildren = null;
+    },
+    getVisibleChildren: function (reset) {
+        var me = this;
+        reset = reset || false;
+        if (reset) {
+            me._visibleChildren = null;
+        }
+        if (!me._visibleChildren) {
+            me._visibleChildren = [];
+            Blend.foreach(me.items, function (view) {
+                if (view.isVisible()) {
+                    me._visibleChildren.push(view);
+                }
+            });
+        }
+        return me._visibleChildren;
     }
 });
