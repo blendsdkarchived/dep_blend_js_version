@@ -37,6 +37,29 @@ Blend.defineClass('Blend.ui.Splitter', {
         me.width = me.height = me.size;
     },
     /**
+     * Mousedown on a vertical splitter
+     */
+    vertical: function () {
+        var me = this;
+        var me = this;
+        var interactionHandler = function (evt) {
+            Blend.Style.set(me.ghostEl, {
+                left: me.checkSetVerticalPosition(evt.clientX - me.correction.left) - me.halfW,
+                top: 0
+            });
+        };
+        var placementHandler = function (evt) {
+            me.removeListeners(placementHandler, interactionHandler);
+            me.relocateSplitter();
+            me.parent.layout.updateLayoutContext({
+                left: me.getAComponent(),
+                right: me.getBComponent(),
+                delta: me.relocateSplitter()
+            });
+        };
+        me.setup(placementHandler, interactionHandler);
+    },
+    /**
      * Mousedown on a horizontal splitter
      */
     horizontal: function () {
@@ -152,6 +175,37 @@ Blend.defineClass('Blend.ui.Splitter', {
         if (pos > max) {
             pos = max + me.halfH;
         }
+        return pos;
+    },
+    /**
+     * Check if the new vertical position can actually be used
+     */
+    checkSetVerticalPosition: function (pos) {
+        var me = this, min, max;
+        // check for minWidth of the left component
+        if (me.aCompInfo.minWidth) {
+            min = me.aCompInfo.left + me.aCompInfo.minWidth;
+        } else {
+            min = me.aCompInfo.left;
+        }
+
+        // check for minWidth of the right component
+        if (me.bCompInfo.minWidth) {
+            max = me.bCompInfo.left + (me.bCompInfo.width - me.bCompInfo.minWidth);
+        } else {
+            max = (me.bCompInfo.left + (me.bCompInfo.width - me.width));
+        }
+
+        // check for not passing the left component
+        if (pos < min) {
+            pos = min + me.halfW;
+        }
+
+        // check for not passing the right component
+        if (pos > max) {
+            pos = max + me.halfW;
+        }
+
         return pos;
     },
     statics: {
