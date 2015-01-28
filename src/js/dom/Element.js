@@ -150,7 +150,7 @@ Blend.defineClass('Blend.dom.Element', {
         var r = {}, t = Blend.Style.get(el, ['margin-top', 'margin-bottom', 'margin-left', 'margin-right']);
         Blend.foreach(t, function (v, k) {
             r[k.replace('margin-', '')] = v;
-        })
+        });
         return r;
     },
     /**
@@ -191,7 +191,7 @@ Blend.defineClass('Blend.dom.Element', {
             return  {
                 width: window.innerWidth,
                 height: window.innerHeight
-            }
+            };
         } else {
             return Blend.Style.get(el, ['width', 'height']);
         }
