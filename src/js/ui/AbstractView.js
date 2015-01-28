@@ -54,14 +54,19 @@ Blend.defineClass('Blend.ui.AbstractView', {
         var me = this;
         if (me.canLayout()) {
             me._layout = false;
-            me.layoutView.apply(me, arguments);
+            if (me.shouldLayout()) {
+                me.layoutView.apply(me, arguments);
+            }
             me._layout = true;
         }
     },
     layoutView: function (force) {
         var me = this;
-        if (me.shouldLayoutOrResize()) {
-            me.layout.performLayout.apply(me.layout, arguments);
+        me.layout.performLayout.apply(me.layout, arguments);
+        if (me.setText) {
+            me.lcnt = me.lcnt || 0;
+            me.lcnt++;
+            me.setText(me.lcnt);
         }
     },
     render: function (renderCtx) {
@@ -110,11 +115,11 @@ Blend.defineClass('Blend.ui.AbstractView', {
             height: me.height
         };
     },
-    shouldLayoutOrResize: function () {
+    shouldLayout: function () {
         var me = this, cur = me.getSizeSig();
-        return me._sizeSig !== cur;
+        return (me._sizeSig !== cur) || (me.parent && Blend.isInstanceOf(me.parent, Blend.mvc.Application));
     },
-    doneLayoutOrResize: function () {
+    doneLayout: function () {
         var me = this;
         me._sizeSig = me.getSizeSig();
     },
