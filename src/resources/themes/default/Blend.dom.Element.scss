@@ -16,16 +16,16 @@
 
 [data-scroll=vertical] {
     overflow-x: hidden;
-    overflow-y: auto
+    overflow-y: scroll
 }
 
 [data-scroll=horizontal] {
-    overflow-x: auto;
+    overflow-x: scroll;
     overflow-y: hidden;
 }
 
 [data-scroll=both] {
-    overflow-x: auto;
-    overflow-y: auto;
+    overflow-x: scroll;
+    overflow-y: scroll;
 }
 
