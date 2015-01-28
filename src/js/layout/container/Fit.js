@@ -12,7 +12,7 @@ Blend.defineClass('Blend.layout.container.Fit', {
         var me = this,
                 ax = me.getVisibleItemIndex();
         if (ax !== -1) {
-            Blend.foreach(me.view.items, function (view, idx) {
+            Blend.foreach(me.view.getVisibleChildren(), function (view, idx) {
                 if (idx === ax) {
                     view.show();
                     me._currentView = view;
@@ -22,13 +22,11 @@ Blend.defineClass('Blend.layout.container.Fit', {
                 }
             });
         }
+        me.callParent.apply(me, arguments);
     },
-    layoutHandler: function (element, bounds) {
+    handler: function (element, bounds) {
         var me = this,
                 vbounds = Blend.Element.getBounds(me._currentView.getElement());
-        Blend.Style.set(element, bounds);
-        if (!me.boundsEqual(bounds, vbounds)) {
-            me._currentView.fireEvent('sizeChaged', bounds.width, bounds.height);
-        }
+        me._currentView.setBounds(bounds);
     }
 });
