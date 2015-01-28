@@ -44,7 +44,7 @@ Blend.defineClass('Blend.layout.container.Box', {
     },
     createItemLayoutContext: function () {
         var me = this, list = [], ctx;
-        Blend.foreach(me.view.getVisibleChildren(), function (view, idx) {
+        Blend.foreach(me.view.getVisibleChildren(), function (view) {
             ctx = view.getBounds();
             ctx.itemIndex = view.itemIndex;
             if (Blend.isNumeric(view.flex)) {
