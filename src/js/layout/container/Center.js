@@ -21,6 +21,7 @@ Blend.defineClass('Blend.layout.container.Center', {
                 view.hide();
             }
         });
+        me.callParent.apply(me, arguments);
     },
     layoutHandler: function (element, bounds) {
         var me = this,
