@@ -22,13 +22,5 @@ Blend.defineClass('Blend.layout.container.Center', {
             }
         });
         me.callParent.apply(me, arguments);
-    },
-    layoutHandler: function (element, bounds) {
-        var me = this,
-                vbounds = Blend.Element.getBounds(me._currentView.getElement());
-        Blend.Style.set(element, bounds);
-        if (!me.boundsEqual(bounds, vbounds)) {
-            me._currentView.fireEvent('sizeChaged', bounds.width, bounds.height);
-        }
     }
 });

@@ -25,8 +25,7 @@ Blend.defineClass('Blend.layout.container.Fit', {
         me.callParent.apply(me, arguments);
     },
     handler: function (element, bounds) {
-        var me = this,
-                vbounds = Blend.Element.getBounds(me._currentView.getElement());
+        var me = this;
         me._currentView.setBounds(bounds);
     }
 });
