@@ -224,6 +224,28 @@ Blend.defineClass('Blend.dom.Element', {
      */
     getSizeAndPosition: function (el) {
         return Blend.Style.get(el, ['width', 'height', 'top', 'left']);
+    },
+    /**
+     * Sets the scroll state of an HTMLElement
+     * @param {type} el
+     * @param {type} state true/false/horizontal/vertical/both
+     */
+    setScrollState: function (el, state) {
+        if (el) {
+            el.setAttribute('data-scroll', state);
+        }
+    },
+    /**
+     * retrives the current scroll state of an HTMLElement
+     * @param {type} el
+     * @returns {unresolved}
+     */
+    getScrollState: function (el) {
+        if (el) {
+            return el.getAttribute('data-scroll');
+        } else {
+            return null;
+        }
     }
 }, function (clazz) {
     Blend.Element = clazz;

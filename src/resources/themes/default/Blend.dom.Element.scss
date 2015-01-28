@@ -9,16 +9,22 @@
     @include user-select(none);
 }
 
-#{$prefix}-xscroll {
+[data-scroll=none] {
+    overflow: hidden;
+}
+
+[data-scroll=vertical] {
+    overflow-x: hidden;
+    overflow-y: auto
+}
+
+[data-scroll=horizontal] {
     overflow-x: auto;
     overflow-y: hidden;
 }
 
-#{$prefix}-yscroll {
-    overflow-x: hidden;
+[data-scroll=both] {
+    overflow-x: auto;
     overflow-y: auto;
 }
 
-#{$prefix}-noscroll {
-    overflow: hidden !important;
-}
