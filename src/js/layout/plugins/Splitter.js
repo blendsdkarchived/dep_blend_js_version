@@ -38,7 +38,7 @@ Blend.defineClass('Blend.layout.plugins.Splitter', {
                 setterName = 'setWidth';
             }
             me.updateLayoutContext.apply(me, [ctx, ctx_a, ctx_b, prop, setterName]);
-        }
+        };
     },
     /**
      * @private
