@@ -3,7 +3,7 @@ Blend.defineClass('Blend.layout.Layout', {
     view: null,
     performLayout: function (force) {
         var me = this;
-        me.view.doneLayoutOrResize();
+        me.view.doneLayout();
     },
     render: function (renderCtx) {
         var me = this;

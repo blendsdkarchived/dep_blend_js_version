@@ -200,9 +200,7 @@ Blend.defineClass('Blend.ui.View', {
      */
     notifySizeChanged: function () {
         var me = this;
-        if (me.shouldLayoutOrResize()) {
-            me.fireEvent('sizeChanged', me.width, me.height);
-        }
+        me.fireEvent('sizeChanged', me.width, me.height);
     },
     /**
      * Fires when the size of this view is changed
@@ -237,7 +235,7 @@ Blend.defineClass('Blend.ui.View', {
         ];
     },
     setBounds: function (bounds) {
-        var me = this, list = ['top', 'left', 'width', 'height'], res_evt, rel_evt, b = {};
+        var me = this, list = ['top', 'left', 'width', 'height'], b = {};
         // initialize if needed
         Blend.foreach(list, function (p) {
             bounds[p] = bounds[p] || me[p];

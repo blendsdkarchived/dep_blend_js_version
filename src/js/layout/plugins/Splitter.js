@@ -152,9 +152,6 @@ Blend.defineClass('Blend.layout.plugins.Splitter', {
                 aCtx = me.layout.itemContext[ctx[ctx_a].itemIndex],
                 bCtx = me.layout.itemContext[ctx[ctx_b].itemIndex];
 
-        ctx[ctx_a].disableEvents();
-        ctx[ctx_b].disableEvents();
-
         if (ctx.delta[ctx_a] < 0) {
 
             displ = Math.abs(ctx.delta[ctx_a]);
@@ -188,18 +185,12 @@ Blend.defineClass('Blend.layout.plugins.Splitter', {
 
             ctx[ctx_a][setterName](ctx[ctx_a][prop] + displ);
             ctx[ctx_b][setterName](ctx[ctx_b][prop] - displ);
-
         }
 
         me.layout.view.performLayout();
-
-        ctx[ctx_a].disableEvents();
-        ctx[ctx_b].disableEvents();
-
     },
     unit2Flex: function (size) {
         var me = this;
         return size / me.layout.layoutContext.pixelsPerFlex;
     }
-
 });
