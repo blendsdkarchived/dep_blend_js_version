@@ -20,6 +20,15 @@ Blend.defineClass('Blend.mvc.Controller', {
      * The context id of the mvc context hosting this controller
      */
     mvcContextId: null,
+    init: function () {
+        var me = this;
+        me.callParent.apply(me, arguments);
+        me.models = me.models || {};
+        if (!me.mvcContextId) {
+            throw new Error("This controller is not in any MVC context. Are you trying to instantiate this controller manually?");
+        }
+        me.initModels();
+    },
     /**
      * Runs a function that is delegated for an object reference.
      * @param {string} ref name ofthe reference
@@ -39,15 +48,9 @@ Blend.defineClass('Blend.mvc.Controller', {
             }
         }
     },
-    init: function () {
-        var me = this;
-        me.callParent.apply(me, arguments);
-        me.models = me.models || {};
-        if (!me.mvcContextId) {
-            throw new Error("This controller is not in any MVC context. Are you trying to instantiate this controller manually?");
-        }
-        me.initModels();
-    },
+    /**
+     * @private
+     */
     initModels: function () {
         /**
          * There can only be one instance of a model with a context (application or window).
@@ -63,6 +66,9 @@ Blend.defineClass('Blend.mvc.Controller', {
             }
         });
     },
+    /**
+     * @private
+     */
     getContext: function () {
         return Blend.mvc.Context.getContext(this.mvcContextId);
     }
