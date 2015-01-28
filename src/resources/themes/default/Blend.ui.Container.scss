@@ -1,12 +1,9 @@
 @import "var/_bootstrap.scss";
 
-#{$prefix}-conatiner-body {
+#{$prefix}-container-body {
     display: block;
     position: relative;
-    top:0px;
-    left:0px;
-    overflow: auto;
     #{$prefix}-conatiner-item {
-
+        position: absolute
     }
 }
