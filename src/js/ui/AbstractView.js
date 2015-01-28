@@ -90,7 +90,7 @@ Blend.defineClass('Blend.ui.AbstractView', {
         return me.element;
     },
     checkSetScrollState: function (el) {
-        var me = this;
+        var me = this, scroll;
         if (me.scroll === false || me.scroll === 'none') {
             scroll = 'none';
         } else if (me.scroll === true) {
@@ -99,24 +99,22 @@ Blend.defineClass('Blend.ui.AbstractView', {
             scroll = me.scroll;
         }
         el['data-scroll'] = scroll;
+        return el;
     },
     checkSetSelectableState: function (el) {
         var me = this;
         if (me.unselectable) {
             el.unselectable = "on";
         }
+        return el;
     },
     initElement: function (el) {
-        var me = this, scroll;
-        /**
-         * Ini the element
-         */
+        var me = this;
         el = Blend.apply(el || {}, {
             style: {},
             cls: []
         }, false, true);
         me.checkSetSelectableState(el);
-        me.checkSetScrollState(el);
         return el;
     },
     /**

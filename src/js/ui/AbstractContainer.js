@@ -13,11 +13,11 @@ Blend.defineClass('Blend.ui.AbstractContainer', {
     },
     createBodyElement: function () {
         var me = this;
-        return {
+        return me.checkSetScrollState({
             oid: 'bodyEl',
             cls: [Blend.cssPrefix('container-body')],
             items: me.layout.render()
-        };
+        });
     },
     finalizeRender: function (setterMap) {
         var me = this;
