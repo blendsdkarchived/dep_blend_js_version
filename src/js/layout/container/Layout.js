@@ -33,6 +33,9 @@ Blend.defineClass('Blend.layout.container.Layout', {
             els.push(el);
         });
         me.view.items = views;
+        if (me.view.autoCreateReferences) {
+            me.view.autoCreateReferences.apply(me.view, [views, 'itemId']);
+        }
         return els;
     },
     /**
