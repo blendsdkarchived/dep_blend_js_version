@@ -101,7 +101,7 @@ Blend.defineClass('Blend.mvc.Consumer', {
     },
     getContext: function () {
         var me = this;
-        return Blend.mvc.Context.getContext(me.getContextId())
+        return Blend.mvc.Context.getContext(me.getContextId());
     },
     hasControllers: function () {
         var me = this;
@@ -153,7 +153,7 @@ Blend.defineClass('Blend.mvc.Consumer', {
                     });
                 }
             } else {
-                throw new Error('Invalid parameters to fire and event. The first parameter must be the name of the event and optionally followed by other paremeters.');
+                throw new Error('Invalid parameters to fire and event. The first parameter must be the name of the event and optionally followed by other paremeters.:' + JSON.stringify(arguments));
             }
         }
         return evtName;
