@@ -1,3 +1,4 @@
+@import "compass";
 @import "compass/css3/user-interface";
 @import "var/_bootstrap.scss";
 
@@ -9,16 +10,22 @@
     @include user-select(none);
 }
 
-#{$prefix}-xscroll {
-    overflow-x: auto;
+[data-scroll=none] {
+    overflow: hidden;
+}
+
+[data-scroll=vertical] {
+    overflow-x: hidden;
+    overflow-y: scroll
+}
+
+[data-scroll=horizontal] {
+    overflow-x: scroll;
     overflow-y: hidden;
 }
 
-#{$prefix}-yscroll {
-    overflow-x: hidden;
-    overflow-y: auto;
+[data-scroll=both] {
+    overflow-x: scroll;
+    overflow-y: scroll;
 }
 
-#{$prefix}-noscroll {
-    overflow: hidden !important;
-}

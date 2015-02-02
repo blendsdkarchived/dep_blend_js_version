@@ -26,6 +26,13 @@ Blend.defineClass('Template', {
             scripts: scripts
         });
     },
+    renderScriptSource: function (source) {
+        var me = this,
+                template = '        <script type="text/javascript">{{src}}</script>';
+        return ms.render(template, {
+            src: source
+        });
+    },
     renderScripts: function (items) {
         var me = this,
                 template = '        <script type="text/javascript" src="{{src}}"></script>',
@@ -34,6 +41,13 @@ Blend.defineClass('Template', {
             result.push(ms.render(template, item));
         });
         return result.join("\n");
+    },
+    renderStyleSheetSource: function (source) {
+        var me = this,
+                template = '        <style>{{src}}</style>';
+        return ms.render(template, {
+            src: source
+        });
     },
     renderStyleSheets: function (items) {
         var me = this,

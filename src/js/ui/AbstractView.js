@@ -5,6 +5,8 @@ Blend.defineClass('Blend.ui.AbstractView', {
     ],
     element: null,
     unselectable: true,
+    scroll: false,
+    borderSize: 0,
     init: function () {
         var me = this;
         me._rendered = false;
@@ -88,18 +90,32 @@ Blend.defineClass('Blend.ui.AbstractView', {
         me.finalizeRender({});
         return me.element;
     },
+    checkSetScrollState: function (el) {
+        var me = this, scroll;
+        if (me.scroll === false || me.scroll === 'none') {
+            scroll = 'none';
+        } else if (me.scroll === true) {
+            scroll = 'both';
+        } else {
+            scroll = me.scroll;
+        }
+        el['data-scroll'] = scroll;
+        return el;
+    },
+    checkSetSelectableState: function (el) {
+        var me = this;
+        if (me.unselectable) {
+            el.unselectable = "on";
+        }
+        return el;
+    },
     initElement: function (el) {
         var me = this;
-        /**
-         * Ini the element
-         */
         el = Blend.apply(el || {}, {
             style: {},
             cls: []
         }, false, true);
-        if (me.unselectable) {
-            el.unselectable = "on";
-        }
+        me.checkSetSelectableState(el);
         return el;
     },
     /**
@@ -111,8 +127,8 @@ Blend.defineClass('Blend.ui.AbstractView', {
         return {
             top: me.top,
             left: me.left,
-            width: me.width,
-            height: me.height
+            width: me.width - (me.borderSize * 2),
+            height: me.height - (me.borderSize * 2)
         };
     },
     shouldLayout: function () {

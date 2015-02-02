@@ -170,6 +170,9 @@ Blend.defineClass('Blend.layout.utils.Box', {
                 total += ctx[flexed_prop];
             }
         });
+        if (total > lctx.bounds[flexed_prop]) {
+            lctx.bounds[flexed_prop] = total;
+        }
         lctx.maxFlex = maxFlex;
         lctx.pixelsPerFlex = (lctx.bounds[flexed_prop] - total) / maxFlex;
         lctx[flexed_prop] = total;

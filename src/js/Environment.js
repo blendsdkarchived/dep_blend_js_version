@@ -41,6 +41,7 @@ Blend.defineClass('Blend.Environment', {
         me.cssPrefix();
         me.ready(function () {
             me.prepareDocumentElement();
+            me.SCROLLBAR_SIZE = me.getScrollbarSize();
         });
     },
     /**
@@ -239,6 +240,52 @@ Blend.defineClass('Blend.Environment', {
             width: window.innerWidth,
             height: window.innerHeight
         };
+    },
+    /**
+     * @internal
+     */
+    getScrollbarSize: function () {
+        var outer, inner,
+                element = {
+                    oid: 'outer',
+                    style: {
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        visibility: 'hidden',
+                        width: 200,
+                        height: 150,
+                        overflow: 'hidden'
+                    },
+                    items: [
+                        {
+                            type: 'p',
+                            oid: 'inner',
+                            style: {
+                                width: '100%',
+                                height: 200
+                            }
+                        }
+                    ]
+                };
+
+        var el = Blend.Element.create(element, function (oid, el) {
+            if (oid === 'outer') {
+                outer = el;
+            } else {
+                inner = el;
+            }
+        });
+
+        Blend.getBody().appendChild(el);
+        var w1 = inner.offsetWidth;
+        outer.style.overflow = 'scroll';
+        var w2 = inner.offsetWidth;
+        if (w1 === w2) {
+            w2 = outer.clientWidth;
+        }
+        Blend.Element.destroy(el);
+        return (w1 - w2);
     }
 }, function () {
     Blend.foreach(Blend.CSS, function (v, k) {

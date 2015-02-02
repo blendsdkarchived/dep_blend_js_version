@@ -14,7 +14,7 @@ Blend.defineClass('Blend.ui.Container', {
     },
     layoutView: function (force) {
         var me = this;
-        Blend.layout.utils.Fit.fit(me.element, me.bodyEl);
+        Blend.layout.utils.Fit.fit(me.element, me.bodyEl, null, me.borderSize || 0);
         me.callParent.apply(me, arguments);
     }
 });
