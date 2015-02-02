@@ -61,7 +61,7 @@ Blend.defineClass('Blend.utils.String', {
         if (!String.prototype.trim) {
             String.prototype.trim = String.prototype.trim || function () {
                 return this.replace(/^\s+/, '').replace(/\s+$/, '');
-            }
+            };
         }
     },
     /**
@@ -73,7 +73,7 @@ Blend.defineClass('Blend.utils.String', {
         if (!String.prototype.ucfirst) {
             String.prototype.ucfirst = String.prototype.ucfirst || function () {
                 return this.charAt(0).toUpperCase() + this.slice(1);
-            }
+            };
         }
     }
 });
