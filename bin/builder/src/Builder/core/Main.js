@@ -7,6 +7,7 @@ Blend.defineClass('Builder.core.Main', {
     requires: [
         'Builder.utils.String', // will be translated to Blend.utils.String
         'Builder.utils.FileUtils',
+        'Builder.utils.Minify',
         'Builder.utils.Resources',
         'Builder.utils.CommandLine',
         'Builder.utils.Logger',
