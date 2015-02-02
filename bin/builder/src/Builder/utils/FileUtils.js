@@ -21,5 +21,13 @@ Blend.defineClass('FileUtils', {
         }
         me.ensurePath(dst);
         fs.writeFileSync(dst, src);
+    },
+    writeFile: function (dst, data) {
+        var me = this;
+        me.ensurePath(dst);
+        fs.writeFileSync(dst, data);
+    },
+    readFile: function (src) {
+        return fs.readFileSync(src);
     }
 });
