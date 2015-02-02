@@ -6,6 +6,7 @@ Blend.defineClass('Blend.ui.AbstractView', {
     element: null,
     unselectable: true,
     scroll: false,
+    borderSize: 0,
     init: function () {
         var me = this;
         me._rendered = false;
@@ -126,8 +127,8 @@ Blend.defineClass('Blend.ui.AbstractView', {
         return {
             top: me.top,
             left: me.left,
-            width: me.width,
-            height: me.height
+            width: me.width - (me.borderSize * 2),
+            height: me.height - (me.borderSize * 2)
         };
     },
     shouldLayout: function () {
