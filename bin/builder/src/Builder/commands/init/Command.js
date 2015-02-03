@@ -40,6 +40,7 @@ Blend.defineClass('Builder.commands.init.Command', {
                     me.project.getProjectFolder('/' + me.options.indexTemplate),
                     Builder.utils.Resources.readFile('Builder/resources/index.' + me.options.projectType + '.ms')
                     );
+            FileUtils.writeFile(me.project.getProjectFolder('/favicon.ico'), Builder.utils.Resources.readFile('Builder/resources/favicon.ico'));
             return true;
         } catch (e) {
             Logger.error(e);
