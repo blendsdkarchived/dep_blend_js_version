@@ -47,7 +47,7 @@ Blend.defineClass('Builder.utils.CommandLine', {
                 file = FileUtils.resolve(me.options.path + '/application.json');
                 me.options.path = file;
                 return me.validateBuildPath();
-            } else if (FuleUtils.fileExists(me.options.path)) {
+            } else if (FileUtils.fileExists(me.options.path)) {
                 file = me.options.path;
             }
             return {

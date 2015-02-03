@@ -111,5 +111,11 @@ Blend.defineClass('FileUtils', {
     },
     mkdir: function () {
         return mkdir.apply(mkdir, arguments);
+    },
+    dirname: function () {
+        return path.dirname.apply(path, arguments);
+    },
+    rm: function () {
+        return rm.apply(rm, arguments);
     }
 });

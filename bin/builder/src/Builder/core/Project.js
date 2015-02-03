@@ -82,12 +82,12 @@ Blend.defineClass('Builder.core.Project', {
     loadFromFile: function (filename) {
         var me = this, res;
         try {
-            var data = require(filename);
+            var data = JSON.parse(FileUtils.readFile(filename));
             res = me.validateConfig(data);
             if (res.isvalid) {
-                me.setupPaths(me.projectFolder);
-                Blend.apply(me, data);
+                Blend.apply(me, data, true);
                 me.projectFile = filename;
+                me.setupPaths(me.projectFolder);
                 return true;
             } else {
                 Logger.error(res.error);
