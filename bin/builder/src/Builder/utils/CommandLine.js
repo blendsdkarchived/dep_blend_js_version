@@ -40,16 +40,14 @@ Blend.defineClass('Builder.utils.CommandLine', {
      * @returns {boolean}
      */
     validateBuildPath: function () {
-        var me = this, stat,
-                file;
+        var me = this, file;
         try {
-            stat = fs.statSync(me.options.path);
             result = true;
-            if (stat.isDirectory()) {
+            if (FileUtils.folderExists(me.options.path)) {
                 file = FileUtils.resolve(me.options.path + '/application.json');
                 me.options.path = file;
                 return me.validateBuildPath();
-            } else if (stat.isFile()) {
+            } else if (FuleUtils.fileExists(me.options.path)) {
                 file = me.options.path;
             }
             return {
@@ -86,22 +84,16 @@ Blend.defineClass('Builder.utils.CommandLine', {
         if (command.length !== 0) {
             if (command.indexOf('init') !== -1) {
                 cwd = process.cwd();
-                if (!FileUtils.isFolderEmpty(cwd)) {
-                    Logger.error("Cannot initialize a new application. Current folder is not empty!");
-                    console.log();
-                    ok = false;
-                } else {
-                    console.log("\nThis utility will walk you through creating a new BlendJS application.\n" +
-                            "Press ^C at any time to quit.\n");
-                    me.options = {
-                        command: 'init',
-                        projectName: me.getOption('Project name', 'MyApp_' + rand),
-                        className: me.getOption('Main class name', 'MyApp.core.Main'),
-                        projectType: me.getOption('Project type [webapp|touchapp]', 'webapp'),
-                        indexTemplate: me.getOption('Index file', 'index.html'),
-                        path: cwd
-                    };
-                }
+                console.log("\nThis utility will walk you through creating a new BlendJS application.\n" +
+                        "Press ^C at any time to quit.\n");
+                me.options = {
+                    command: 'init',
+                    projectName: me.getOption('Project name', 'MyApp_' + rand),
+                    className: me.getOption('Main class name', 'MyApp.core.Main'),
+                    projectType: me.getOption('Project type [webapp|touchapp]', 'webapp'),
+                    indexTemplate: me.getOption('Index file', 'index.html'),
+                    path: cwd
+                };
             } else if (command.indexOf('build') !== -1) {
                 me.options = {
                     command: 'build',

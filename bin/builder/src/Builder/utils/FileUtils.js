@@ -88,5 +88,21 @@ Blend.defineClass('FileUtils', {
         }
         var file = fs.readFileSync(searchPath);
         return !file || !file.length;
+    },
+    fileExists: function (file) {
+        try {
+            var stat = fs.statSync(folder);
+            return stat.isFile();
+        } catch (e) {
+            return false;
+        }
+    },
+    folderExists: function (folder) {
+        try {
+            var stat = fs.statSync(folder);
+            return stat.isDirectory();
+        } catch (e) {
+            return false;
+        }
     }
 });
