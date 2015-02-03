@@ -77,7 +77,6 @@ Blend.defineClass('Builder.utils.CommandLine', {
      * @returns {Boolean}
      */
     initParseOptions: function (command) {
-        var rand = (new Date().getTime()) / 1000;
         var me = this, cwd,
                 ok = true,
                 command = (command ? command.split(' ') : null) || process.argv.slice(2);
@@ -88,7 +87,7 @@ Blend.defineClass('Builder.utils.CommandLine', {
                         "Press ^C at any time to quit.\n");
                 me.options = {
                     command: 'init',
-                    projectName: me.getOption('Project name', 'MyApp_' + rand),
+                    projectName: me.getOption('Project name', 'MyApp'),
                     className: me.getOption('Main class name', 'MyApp.core.Main'),
                     projectType: me.getOption('Project type [webapp|touchapp]', 'webapp'),
                     indexTemplate: me.getOption('Index file', 'index.html'),
