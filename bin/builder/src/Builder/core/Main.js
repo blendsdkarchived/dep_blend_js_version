@@ -1,19 +1,13 @@
-var fs = require('fs');
-var path = require('path');
-
-require("shelljs/global");
-
+/**
+ * Kickstart class for this builder. This class is responsible for reading and
+ * executing the commandline parameters provided by the user
+ */
 Blend.defineClass('Builder.core.Main', {
     requires: [
         'Builder.utils.String', // will be translated to Blend.utils.String
-        'Builder.utils.FileUtils',
-        'Builder.utils.Minify',
-        'Builder.utils.Resources',
-        'Builder.utils.CommandLine',
         'Builder.utils.Logger',
-        'Builder.utils.Template',
-        'Builder.commands.init.Command',
-        'Builder.commands.build.Command',
+        'Builder.utils.FileUtils',
+        'Builder.commands.init.Command'
     ],
     run: function () {
         var me = this, options;
@@ -30,6 +24,12 @@ Blend.defineClass('Builder.core.Main', {
             commandLine.showUsage();
         }
     },
+    /**
+     * Internal function creating a command object and run it
+     * @param {type} className
+     * @param {type} options
+     * @returns {undefined}
+     */
     runCommand: function (className, options) {
         var me = this, command = Blend.create(className, {
             options: options
@@ -43,24 +43,23 @@ Blend.defineClass('Builder.core.Main', {
      * @returns {undefined}
      */
     prepareCoreFiles: function () {
-        var me = this, files, sourceFile, targetFile, src, dst
-        coreFolder = Blend.getSDKFolder('js/core'),
+        var me = this, files, sourceFile, targetFile, src, dst,
+                coreFolder = Blend.getSDKFolder('js/core'),
                 bcsFolder = Blend.getRootFolder('node_modules/blend-class-system/lib');
 
-        files = fs.readdirSync(bcsFolder);
+        files = FileUtils.listDir(bcsFolder);
 
         files.forEach(function (fileName) {
-            sourceFile = bcsFolder + path.sep + fileName;
-            targetFile = coreFolder + path.sep + fileName;
+            sourceFile = Blend.fixPath(bcsFolder + '/' + fileName);
+            targetFile = Blend.fixPath(coreFolder + '/' + fileName);
             FileUtils.ensurePath(targetFile);
-            fs.writeFileSync(targetFile, fs.readFileSync(sourceFile));
+            FileUtils.writeFile(targetFile, FileUtils.readFile(sourceFile));
         });
 
         //copy the Blend.utils.String
         src = Blend.getRootFolder('bin/builder/src/Builder/utils/String.js');
         dst = Blend.getSDKFolder('js/utils/String.js');
-        if (FileUtils.ensurePath(dst)) {
-            fs.writeFileSync(dst, fs.readFileSync(src));
-        }
+        FileUtils.copyFile(src, dst);
     }
+
 });
