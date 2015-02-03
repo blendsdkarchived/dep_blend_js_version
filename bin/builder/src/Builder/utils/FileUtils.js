@@ -108,5 +108,8 @@ Blend.defineClass('FileUtils', {
     },
     listDir: function () {
         return fs.readdirSync.apply(fs, arguments);
+    },
+    mkdir: function () {
+        return mkdir.apply(mkdir, arguments);
     }
 });

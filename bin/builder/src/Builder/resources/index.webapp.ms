@@ -5,4 +5,5 @@
     </head>
     <body>
     </body>
+{{footers}}
 </html>

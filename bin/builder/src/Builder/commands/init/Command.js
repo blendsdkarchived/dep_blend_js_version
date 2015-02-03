@@ -1,12 +1,12 @@
-var ms = require("mustache");
-var path = require("path");
-var fs = require("fs");
-require("shelljs/global");
+/**
+ * Command class that is responsible for creating (initializing) a new application
+ */
 Blend.defineClass('Builder.commands.init.Command', {
     extend: 'Builder.commands.Base',
-    /**
-     * Command entry point
-     */
+    reqtires: [
+        'Builder.utils.FileUtils',
+        'Builder.utils.Template'
+    ],
     run: function () {
         var me = this;
         console.log("");
@@ -28,16 +28,15 @@ Blend.defineClass('Builder.commands.init.Command', {
             }
         }
     },
-    initProject: function () {
-        var me = this;
-        me.callParent.apply(me, [me.options.path + path.sep + me.options.projectName]);
-        me.options.type = me.options.projectType === 'webapp' ? 'web' : 'touch';
-    },
+    /**
+     * Create the IndexTemplate file for this project
+     * @returns {Boolean}
+     */
     createIndexTemplate: function () {
         var me = this;
         try {
             Logger.info('Creating ' + me.options.indexTemplate + ' template file.');
-            fs.writeFileSync(
+            FileUtils.writeFile(
                     me.project.getProjectFolder('/' + me.options.indexTemplate),
                     Builder.utils.Resources.readFile('Builder/resources/index.' + me.options.projectType + '.ms')
                     );
@@ -47,18 +46,27 @@ Blend.defineClass('Builder.commands.init.Command', {
             process.exit(1);
         }
     },
+    /**
+     * Creates the SASS files and other COMPASS requirements
+     * @returns {Boolean}
+     */
     createSassFiles: function () {
         var me = this;
         try {
             Logger.info('Creating SASS and .scss files in resources');
-            fs.writeFileSync(me.project.getResourceFolder('/config.rb'), Builder.utils.Resources.readFile('Builder/resources/config.rb'));
-            fs.writeFileSync(me.project.getSassFolder('/' + me.options.className + '.scss'), '/* implement your own rules */');
+            FileUtils.writeFile(me.project.getResourceFolder('/config.rb'), Builder.utils.Resources.readFile('Builder/resources/config.rb'));
+            FileUtils.writeFile(me.project.getSassFolder('/' + me.options.className + '.scss'), '/* implement your own rules */');
+            me.createGitIgnoreFile(me.project.getResourceFolder(), ['.sass-cache']);
             return true;
         } catch (e) {
             Logger.error(e);
             process.exit(1);
         }
     },
+    /**
+     * Creates the mainClass for this application
+     * @returns {Boolean}
+     */
     createMainClass: function () {
         var me = this, bsfile,
                 file, folder, lastpart, className = me.options.className,
@@ -73,11 +81,11 @@ Blend.defineClass('Builder.commands.init.Command', {
                 process.exit(1);
             }
             parts.pop();
-            folder = me.project.getSourceFolder('/' + parts.join(path.sep));
-            file = folder + path.sep + lastpart + ".js";
+            folder = me.project.getSourceFolder('/' + parts.join('/'));
+            file = Blend.fixPath(folder + '/' + lastpart + ".js");
             try {
                 Logger.info('Creating project source folders');
-                mkdir('-p', folder);
+                FileUtils.mkdir('-p', folder);
             } catch (e) {
                 Logger.error(e);
                 process.exit(1);
@@ -86,15 +94,23 @@ Blend.defineClass('Builder.commands.init.Command', {
         try {
             bsfile = me.project.getSourceFolder('/bootstrap.js');
             Logger.info('Creating main class');
-            fs.writeFileSync(file, me.getMainClass());
+            FileUtils.writeFile(file, me.getMainClass());
 
             Logger.info('Creating bootstap file');
-            fs.writeFileSync(bsfile, "Environment.runApplication('" + className + "')");
+            FileUtils.writeFile(bsfile, "Environment.runApplication('" + className + "')");
         } catch (e) {
             Logger.error(e);
             process.exit(1);
         }
         return true;
+    },
+    /**
+     * Renders the main class file
+     * @returns {unresolved}
+     */
+    getMainClass: function () {
+        var me = this;
+        return Template.render(Builder.utils.Resources.readFile('Builder/resources/mainclass.js.ms'), me.options);
     },
     /**
      * Creates a new application.json file
@@ -105,24 +121,13 @@ Blend.defineClass('Builder.commands.init.Command', {
         try {
             var appConfig = me.project.getProjectFolder('/application.json');
             Logger.info("Creating project configuration file");
-            fs.writeFileSync(appConfig, me.getNewProjectConfiguration());
+            FileUtils.writeFile(appConfig, me.getNewProjectConfiguration());
             me.createGitIgnoreFile(me.project.getProjectFolder(), ['build']);
             return true;
         } catch (e) {
             Logger.error(e);
             return false;
         }
-    },
-    getMainClass: function () {
-        var me = this;
-        return ms.render(Builder.utils.Resources.readFile('Builder/resources/mainclass.js.ms'), me.options);
-    },
-    /**
-     * Renedrs a new application.json
-     */
-    getNewProjectConfiguration: function () {
-        var me = this;
-        return ms.render(Builder.utils.Resources.readFile('Builder/resources/application.json.ms'), me.options);
     },
     /**
      * Creates a .gitignore file in a given path
@@ -134,21 +139,23 @@ Blend.defineClass('Builder.commands.init.Command', {
         var me = this;
         rules = (rules || []).join("\n");
         try {
-            fs.writeFileSync(filepath + path.sep + '.gitignore', rules);
+            FileUtils.writeFile(Blend.fixPath(filepath + '/' + '.gitignore'), rules);
         } catch (e) {
             Logger.error(e);
             process.exit(1);
         }
     },
     /**
-     * Override of the exit function to force to exit.
-     * @param {type} force
-     * @returns {undefined}
+     * Renedrs a new application.json
      */
-    exit: function (force) {
+    getNewProjectConfiguration: function () {
         var me = this;
-        force = force || true;
-        me.callParent.apply(me, [force]);
+        return Template.render(Builder.utils.Resources.readFile('Builder/resources/application.json.ms'), me.options);
+    },
+    initProject: function () {
+        var me = this;
+        me.callParent.apply(me, [Blend.fixPath(me.options.path + '/' + me.options.projectName)]);
+        me.options.type = me.options.projectType === 'webapp' ? 'web' : 'touch';
     }
 });
 
