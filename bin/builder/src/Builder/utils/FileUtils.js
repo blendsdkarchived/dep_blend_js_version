@@ -70,5 +70,23 @@ Blend.defineClass('FileUtils', {
      */
     readFile: function (src) {
         return fs.readFileSync(src);
+    },
+    /**
+     * Check if a file or directory is empty synchronously
+     * @source https://github.com/codexar/npm-extfs/blob/master/extfs.js
+     * @param {string} searchPath
+     */
+    isFolderEmpty: function (searchPath) {
+        try {
+            var stat = fs.statSync(searchPath);
+        } catch (e) {
+            return true;
+        }
+        if (stat.isDirectory()) {
+            var items = fs.readdirSync(searchPath);
+            return !items || !items.length;
+        }
+        var file = fs.readFileSync(searchPath);
+        return !file || !file.length;
     }
 });

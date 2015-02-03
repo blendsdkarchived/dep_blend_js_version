@@ -80,21 +80,28 @@ Blend.defineClass('Builder.utils.CommandLine', {
      */
     initParseOptions: function (command) {
         var rand = (new Date().getTime()) / 1000;
-        var me = this,
+        var me = this, cwd,
                 ok = true,
                 command = (command ? command.split(' ') : null) || process.argv.slice(2);
         if (command.length !== 0) {
             if (command.indexOf('init') !== -1) {
-                console.log("\nThis utility will walk you through creating a new BlendJS application.\n" +
-                        "Press ^C at any time to quit.\n");
-                me.options = {
-                    command: 'init',
-                    projectName: me.getOption('Project name', 'MyApp_' + rand),
-                    className: me.getOption('Main class name', 'MyApp.core.Main'),
-                    projectType: me.getOption('Project type [webapp|touchapp]', 'webapp'),
-                    indexTemplate: me.getOption('Index file', 'index.html'),
-                    path: process.cwd()
-                };
+                cwd = process.cwd();
+                if (!FileUtils.isFolderEmpty(cwd)) {
+                    Logger.error("Cannot initialize a new application. Current folder is not empty!");
+                    console.log();
+                    ok = false;
+                } else {
+                    console.log("\nThis utility will walk you through creating a new BlendJS application.\n" +
+                            "Press ^C at any time to quit.\n");
+                    me.options = {
+                        command: 'init',
+                        projectName: me.getOption('Project name', 'MyApp_' + rand),
+                        className: me.getOption('Main class name', 'MyApp.core.Main'),
+                        projectType: me.getOption('Project type [webapp|touchapp]', 'webapp'),
+                        indexTemplate: me.getOption('Index file', 'index.html'),
+                        path: cwd
+                    };
+                }
             } else if (command.indexOf('build') !== -1) {
                 me.options = {
                     command: 'build',
