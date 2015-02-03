@@ -3,7 +3,7 @@
  */
 Blend.defineClass('Builder.core.Project', {
     requires: [
-        'Blend.utils.FileUtils'
+        'Builder.utils.FileUtils'
     ],
     projectFile: null,
     projectFolder: null,
@@ -47,6 +47,7 @@ Blend.defineClass('Builder.core.Project', {
     /**
      * Gets the build folder and provides an option to append an extra path.
      * @param {type} append
+     * @param {type} ensure
      * @returns {unresolved}
      */
     getBuildFolder: function (append, ensure) {
@@ -144,7 +145,7 @@ Blend.defineClass('Builder.core.Project', {
         try {
             if (me.checkProjectFolder()) {
                 Logger.info("Creating project folder");
-                mkdir('-p', [me.getSourceFolder(), me.getResourceFolder(), me.getSassFolder()]);
+                FileUtils.mkdir('-p', [me.getSourceFolder(), me.getResourceFolder(), me.getSassFolder()]);
                 return true;
             } else {
                 Logger.error("Project folder already exists! " + me.getProjectFolder());

@@ -1,5 +1,6 @@
 var fs = require('fs');
 var path = require('path');
+require("shelljs/global");
 /**
  * Utility class providing an abstraction for various file related operation
  */
@@ -104,5 +105,8 @@ Blend.defineClass('FileUtils', {
         } catch (e) {
             return false;
         }
+    },
+    listDir: function () {
+        return fs.readdirSync.apply(fs, arguments);
     }
 });
