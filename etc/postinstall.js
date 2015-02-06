@@ -18,7 +18,7 @@ var fixPath = function (pth) {
  * @param {type} destFile
  */
 var copyFile = function (srcFile, destFile) {
-
+    console.log("Installing " + path.basename(srcFile));
     var srcContent = fs.readFileSync(fixPath(srcFile)).toString();
     fs.writeFileSync(fixPath(destFile), srcContent);
 };
@@ -28,3 +28,4 @@ var copyFile = function (srcFile, destFile) {
  */
 copyFile(bcsroot + "/Blend.js", srcroot + "/js/core/Blend.js");
 copyFile(bcsroot + "/ClassBuilder.js", srcroot + "/js/core/ClassBuilder.js");
+copyFile(root + '/bin/builder/src/Builder/utils/String.js', srcroot + "/js/utils/String.js");
