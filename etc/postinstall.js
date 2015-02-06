@@ -29,4 +29,3 @@ var copyFile = function (srcFile, destFile) {
 copyFile(bcsroot + "/Blend.js", srcroot + "/js/core/Blend.js");
 copyFile(bcsroot + "/ClassBuilder.js", srcroot + "/js/core/ClassBuilder.js");
 copyFile(root + '/bin/builder/src/Builder/utils/String.js', srcroot + "/js/utils/String.js");
-copyFile(root + '/bin/builder/src/Builder/utils/Logger.js', srcroot + "/js/utils/StringXYZ.js");
