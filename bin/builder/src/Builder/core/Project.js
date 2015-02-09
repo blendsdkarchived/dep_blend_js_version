@@ -15,7 +15,7 @@ Blend.defineClass('Builder.core.Project', {
      */
     getSassFolder: function (append) {
         var me = this;
-        return me.getProjectFolder('/resources/themes/' + (me.theme || 'default') + '/' + (append || ''));
+        return me.getProjectFolder('/resources/themes/' + (me.theme || 'default') + '/' + me.name.toLowerCase() + '/' + (append || ''));
     },
     /**
      * Gets the JS folder and provides an option to append an extra path.
@@ -140,8 +140,9 @@ Blend.defineClass('Builder.core.Project', {
      * Check and create the project folder
      * @returns {Boolean}
      */
-    prepareProjectFolder: function () {
+    prepareProjectFolder: function (options) {
         var me = this;
+        me.name = options.projectName;
         try {
             if (me.checkProjectFolder()) {
                 Logger.info("Creating project folder");

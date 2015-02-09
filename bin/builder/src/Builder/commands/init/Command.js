@@ -11,7 +11,7 @@ Blend.defineClass('Builder.commands.init.Command', {
         var me = this;
         console.log("");
         me.initProject();
-        if (me.project.prepareProjectFolder()) {
+        if (me.project.prepareProjectFolder(me.options)) {
             if (me.createApplicationConfig()) {
                 if (me.createMainClass()) {
                     if (me.createSassFiles()) {

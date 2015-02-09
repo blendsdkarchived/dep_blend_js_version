@@ -53,7 +53,6 @@ Blend.defineClass('Builder.commands.build.Command', {
                 working = true;
                 me.getFolderWatcher().update();
                 if (me.getFolderWatcher().isChanged()) {
-                    Logger.clearErrors();
                     me.runBuilder();
                 }
                 working = false;
@@ -73,7 +72,7 @@ Blend.defineClass('Builder.commands.build.Command', {
         if (!me.watcher) {
             me.watcher = Blend.create('Builder.utils.FolderWatcher', {
                 root: [me.getProjectPath(), Blend.getSDKFolder()],
-                extensions: ['.js', '.css', '.xml', '.json', '.rb', '.html']
+                extensions: ['.js', '.scss', '.xml', '.json', '.rb', '.html']
             });
         }
         return me.watcher;
