@@ -92,7 +92,7 @@ Blend.defineClass('FileUtils', {
     },
     fileExists: function (file) {
         try {
-            var stat = fs.statSync(folder);
+            var stat = fs.statSync(file);
             return stat.isFile();
         } catch (e) {
             return false;
@@ -117,5 +117,11 @@ Blend.defineClass('FileUtils', {
     },
     rm: function () {
         return rm.apply(rm, arguments);
+    },
+    basename: function () {
+        return path.basename.apply(path, arguments);
+    },
+    extension: function () {
+        return path.extname.apply(path, arguments);
     }
 });
