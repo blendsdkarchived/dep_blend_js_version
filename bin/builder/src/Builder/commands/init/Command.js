@@ -98,7 +98,7 @@ Blend.defineClass('Builder.commands.init.Command', {
             FileUtils.writeFile(file, me.getMainClass());
 
             Logger.info('Creating bootstap file');
-            FileUtils.writeFile(bsfile, "Environment.runApplication('" + className + "')");
+            FileUtils.writeFile(bsfile, "Blend.Environment.runApplication('" + className + "')");
         } catch (e) {
             Logger.error(e);
             process.exit(1);
