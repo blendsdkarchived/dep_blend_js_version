@@ -7,14 +7,9 @@
     "favicon": "favicon.ico",
     "theme": "default",
     "stylesheets": [
-        {
-            "src": "resources/css/main.css"
-        }
     ],
     "scripts": [
-        {
-            "src": "js/bootstrap.js"
-        }
+        "js/bootstrap.js"
     ],
     "meta": [
         {
