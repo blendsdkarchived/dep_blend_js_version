@@ -1,16 +1,15 @@
 /**
- * Require utility packages
- * @type type
+ * Utility class for reading package resources
  */
-var fs = require('fs');
-var path = require('path');
-
 Blend.defineClass('Builder.utils.Resources', {
+    requires: [
+        'Builder.utils.FileUtils'
+    ],
     singleton: true,
     root: null,
     init: function () {
         var me = this;
-        me.root = path.resolve(__dirname + '/../../');
+        me.root = FileUtils.resolve(__dirname + '/../../');
     },
     getUsage: function () {
         var me = this;
@@ -18,7 +17,7 @@ Blend.defineClass('Builder.utils.Resources', {
     },
     readFile: function (filename) {
         var me = this;
-        return fs.readFileSync(path.resolve(me.root + '/' + filename)).toString();
+        return FileUtils.readFile(Blend.fixPath(FileUtils.resolve(me.root + '/' + filename))).toString();
     }
 });
 

@@ -1,7 +1,6 @@
 var path = require('path');
 Blend.defineClass('Builder.analyzer.Dependency', {
     requires: [
-        'Builder.cache.Cache',
         'Builder.analyzer.ClassFinder'
     ],
     classes: null,
@@ -18,22 +17,21 @@ Blend.defineClass('Builder.analyzer.Dependency', {
         var me = this, finderResult,
                 classFinder = Blend.create('Builder.analyzer.ClassFinder'),
                 result = true;
-        Blend.foreach(files, function (hash, file) {
-            if (path.extname(file) === '.js') {
-                finderResult = classFinder.find(file);
-                if (finderResult.success === true) {
-                    Blend.foreach(finderResult.classes, function (item, className) {
-                        if (me.classes[className]) {
-                            Logger.info(className + ' updated.');
-                        }
-                        me.classes[className] = item;
-                    });
-                } else {
-                    Logger.error(finderResult.error + ", in file " + finderResult.file);
-                    result = false;
-                }
+        Blend.foreach(files, function (file) {
+            finderResult = classFinder.find(file);
+            if (finderResult.success === true) {
+                Blend.foreach(finderResult.classes, function (item, className) {
+                    if (me.classes[className]) {
+                        Logger.info(className + ' updated.');
+                    }
+                    me.classes[className] = item;
+                });
+            } else {
+                Logger.error(finderResult.error + ", in file " + finderResult.file);
+                result = false;
             }
         });
+        console.log('');
         return result;
     },
     getDependencyMap: function (files, rootClass) {

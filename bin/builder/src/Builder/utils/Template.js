@@ -1,74 +1,19 @@
 var ms = require("mustache");
-var fs = require('fs');
 
-ms.escape = function (a) {
-    return a;
-}
-
+/**
+ * Utility class provising various functionality to rendering mustache templates
+ */
 Blend.defineClass('Template', {
     singleton: true,
-    renderIndex: function (indexTemplateFile, headers) {
-        var me = this, content;
-        try {
-            content = fs.readFileSync(indexTemplateFile).toString();
-            return ms.render(content, headers);
-        } catch (e) {
-            Logger.error(e);
-            return null;
-        }
-    },
-    renderDevHeaders: function (meta, styles, scripts) {
-        var me = this,
-                template = '{{meta}}\n{{styles}}\n{{scripts}}';
-        return ms.render(template, {
-            meta: meta,
-            styles: styles,
-            scripts: scripts
-        });
-    },
-    renderScriptSource: function (source) {
-        var me = this,
-                template = '        <script type="text/javascript">{{src}}</script>';
-        return ms.render(template, {
-            src: source
-        });
-    },
-    renderScripts: function (items) {
-        var me = this,
-                template = '        <script type="text/javascript" src="{{src}}"></script>',
-                result = [];
-        Blend.foreach(items, function (item) {
-            result.push(ms.render(template, item));
-        });
-        return result.join("\n");
-    },
-    renderStyleSheetSource: function (source) {
-        var me = this,
-                template = '        <style>{{src}}</style>';
-        return ms.render(template, {
-            src: source
-        });
-    },
-    renderStyleSheets: function (items) {
-        var me = this,
-                template = '        <link type="text/css" rel="stylesheet" {{attrs}}/>',
-                result = [];
-        Blend.foreach(items, function (item) {
-            result.push(ms.render(template, {
-                attrs: me.renderAttrs(item, function (k) {
-                    if (k === 'src') {
-                        return 'href';
-                    } else {
-                        return k;
-                    }
-                })
-            }));
-        });
-        return result.join("\n");
+    /**
+     * Common render function encapsulating the mustache render
+     */
+    render: function () {
+        return ms.render.apply(ms, arguments);
     },
     renderMetaTags: function (items) {
         var me = this,
-                template = '        <meta {{attrs}}/>',
+                template = '        <meta {{{attrs}}}/>',
                 result = [];
         Blend.foreach(items, function (item) {
             result.push(ms.render(template, {
@@ -77,8 +22,18 @@ Blend.defineClass('Template', {
         });
         return result.join("\n");
     },
+    renderIndex: function (indexTemplateFile, headers) {
+        var content;
+        try {
+            content = FileUtils.readFile(indexTemplateFile).toString();
+            return ms.render(content, headers);
+        } catch (e) {
+            Logger.error(e);
+            return null;
+        }
+    },
     renderAttrs: function (obj, rewrite) {
-        var me = this, kv = []
+        var kv = [];
         rewrite = rewrite || function (k) {
             return k;
         };
@@ -87,5 +42,29 @@ Blend.defineClass('Template', {
             kv.push(k + '="' + v + '"');
         });
         return kv.join(' ').trim();
-    }
+    },
+    renderScripts: function (items) {
+        var me = this,
+                template = '        <script type="text/javascript" src="{{{src}}}"></script>',
+                result = [];
+        Blend.foreach(items, function (item) {
+            result.push(ms.render(template, item));
+        });
+        return result.join("\n");
+    },
+    renderCompactCSS: function (files) {
+        var me = this, content = [],
+                template = '        <style>{{{src}}}</style>';
+        Blend.foreach(files, function (file) {
+            content.push(FileUtils.readFile(file).toString());
+        });
+        return ms.render(template, {src: content.join(';')});
+    },
+    renderScriptSource: function (source) {
+        var me = this,
+                template = '        <script type="text/javascript">{{{src}}}</script>';
+        return ms.render(template, {
+            src: source
+        });
+    },
 });

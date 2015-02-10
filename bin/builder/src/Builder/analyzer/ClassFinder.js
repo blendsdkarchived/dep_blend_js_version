@@ -159,6 +159,7 @@ Blend.defineClass('Builder.analyzer.ClassFinder', {
         me.classes = {};
         me.currentFile = file;
         parseResult = me.parse(file);
+        process.stdout.write('.');
         parseResult.file = file;
         if (parseResult.success) {
             try {

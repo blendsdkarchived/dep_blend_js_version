@@ -1,7 +1,12 @@
 var readlineSync = require('readline-sync');
-var path = require('path');
-var fs = require('fs');
+/**
+ * Utility class providing reading and parsing the command line
+ */
 Blend.defineClass('Builder.utils.CommandLine', {
+    requires: [
+        'Builder.utils.FileUtils',
+        'Builder.utils.Resources'
+    ],
     options: {},
     /**
      * Getter for the options
@@ -35,16 +40,14 @@ Blend.defineClass('Builder.utils.CommandLine', {
      * @returns {boolean}
      */
     validateBuildPath: function () {
-        var me = this, stat,
-                file;
+        var me = this, file;
         try {
-            stat = fs.statSync(me.options.path);
             result = true;
-            if (stat.isDirectory()) {
-                file = path.resolve(me.options.path + '/application.json');
+            if (FileUtils.folderExists(me.options.path)) {
+                file = FileUtils.resolve(me.options.path + '/application.json');
                 me.options.path = file;
                 return me.validateBuildPath();
-            } else if (stat.isFile()) {
+            } else if (FileUtils.fileExists(me.options.path)) {
                 file = me.options.path;
             }
             return {
@@ -55,34 +58,41 @@ Blend.defineClass('Builder.utils.CommandLine', {
             return {
                 result: false,
                 error: e.message
-            }
+            };
         }
     },
+    /**
+     * Reads a option from the stdin
+     * @param {type} message
+     * @param {type} defaults
+     * @returns {unresolved}
+     */
     getOption: function (message, defaults) {
         var deftxt = defaults ? ' (' + defaults + '):' : '';
         return readlineSync.question(message + deftxt) || defaults;
     },
     /**
-     * Basic
-     * @returns {undefined}
+     * Creates default command line options
+     * @param {type} command
+     * @returns {Boolean}
      */
     initParseOptions: function (command) {
-        var rand = (new Date().getTime()) / 1000;
-        var me = this,
+        var me = this, cwd,
                 ok = true,
                 command = (command ? command.split(' ') : null) || process.argv.slice(2);
         if (command.length !== 0) {
             if (command.indexOf('init') !== -1) {
+                cwd = process.cwd();
                 console.log("\nThis utility will walk you through creating a new BlendJS application.\n" +
                         "Press ^C at any time to quit.\n");
                 me.options = {
                     command: 'init',
-                    projectName: me.getOption('Project name', 'MyApp_' + rand),
+                    projectName: me.getOption('Project name', 'MyApp'),
                     className: me.getOption('Main class name', 'MyApp.core.Main'),
                     projectType: me.getOption('Project type [webapp|touchapp]', 'webapp'),
                     indexTemplate: me.getOption('Index file', 'index.html'),
-                    path: process.cwd()
-                }
+                    path: cwd
+                };
             } else if (command.indexOf('build') !== -1) {
                 me.options = {
                     command: 'build',
@@ -108,16 +118,18 @@ Blend.defineClass('Builder.utils.CommandLine', {
         process.exit();
     },
     /**
-     * Simple --path parser
+     * Parse the --path option
+     * @param {type} command
+     * @returns {unresolved}
      */
     getPathOption: function (command) {
         var opt = opt = process.cwd();
         Blend.foreach(command, function (itm) {
             itm = itm.split('=');
             if (itm.length === 2 && itm[0] === '--path') {
-                opt = path.resolve(itm[1]);
+                opt = FileUtils.resolve(itm[1]);
             }
         });
-        return opt;
+        return Blend.fixPath(opt);
     }
 });

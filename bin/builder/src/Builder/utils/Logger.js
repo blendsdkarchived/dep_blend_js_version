@@ -1,7 +1,14 @@
-var ms = require("mustache");
-var fs = require('fs');
-
+/**
+ * Utility class for logging messages to the console. The error function in this
+ * class has a special function whcih is gathering the errors to be rendered
+ * into the index.html file. This was we can show the developer that something
+ * is gone wrong when the build is in the --watch mode
+ */
 Blend.defineClass('Logger', {
+    requires: [
+        'Builder.utils.FileUtils',
+        'Builder.utils.Template'
+    ],
     singleton: true,
     errors: null,
     /**
@@ -22,11 +29,9 @@ Blend.defineClass('Logger', {
     },
     dumpErrors: function (filename) {
         var me = this;
-        if (FileUtils.ensurePath(filename)) {
-            fs.writeFileSync(filename, ms.render('{{#lines}}<div style="color:red;">{{.}}</div>{{/lines}}', {
-                lines: me.errors
-            }));
-        }
+        FileUtils.writeFile(filename, Template.render('{{#lines}}<div style="color:red;">{{.}}</div>{{/lines}}', {
+            lines: me.errors
+        }));
     },
     /**
      * Clears the errors array

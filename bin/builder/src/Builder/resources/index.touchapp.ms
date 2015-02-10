@@ -1,10 +1,9 @@
 <html>
     <head>
         <title>{{name}}</title>
-{{{metatags}}}
-{{{headers}}}
+{{headers}}
     </head>
     <body>
     </body>
-{{{footers}}}
+{{footers}}
 </html>

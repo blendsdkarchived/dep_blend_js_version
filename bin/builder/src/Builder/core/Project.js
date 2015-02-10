@@ -1,27 +1,55 @@
-var path = require('path');
-var fs = require('fs');
-
+/**
+ * Class representing a project configuration of a BlendJS application
+ */
 Blend.defineClass('Builder.core.Project', {
+    requires: [
+        'Builder.utils.FileUtils'
+    ],
     projectFile: null,
-    buildNumberFile: null,
     projectFolder: null,
     type: null,
+    /**
+     * Gets the SASS folder and provides an option to append an extra path.
+     * @param {type} append
+     * @returns {unresolved}
+     */
     getSassFolder: function (append) {
         var me = this;
-        return me.getProjectFolder('/resources/themes/' + (me.theme || 'default') + '/' + (append || ''));
+        return me.getProjectFolder('/resources/themes/' + (me.theme || 'default') + '/' + me.name.toLowerCase() + '/' + (append || ''));
     },
+    /**
+     * Gets the JS folder and provides an option to append an extra path.
+     * @param {type} append
+     * @returns {unresolved}
+     */
     getSourceFolder: function (append) {
         var me = this;
         return me.getProjectFolder('/js/' + (append || ''));
     },
+    /**
+     * Gets the resources folder and provides an option to append an extra path.
+     * @param {type} append
+     * @returns {unresolved}
+     */
     getResourceFolder: function (append) {
         var me = this;
         return me.getProjectFolder('/resources/' + (append || ''));
     },
+    /**
+     * Gets the project folder and provides an option to append an extra path.
+     * @param {type} append
+     * @returns {unresolved}
+     */
     getProjectFolder: function (append) {
         var me = this;
         return Blend.fixPath(me.projectFolder + '/' + (append || ''));
     },
+    /**
+     * Gets the build folder and provides an option to append an extra path.
+     * @param {type} append
+     * @param {type} ensure
+     * @returns {unresolved}
+     */
     getBuildFolder: function (append, ensure) {
         var me = this, p;
         ensure = ensure || false;
@@ -30,28 +58,36 @@ Blend.defineClass('Builder.core.Project', {
             FileUtils.ensurePath(p);
         }
         return p;
-    }
-    ,
+    },
     init: function () {
         var me = this;
         me.callParent.apply(me, arguments);
         me.setupPaths(me.projectFolder);
     },
+    /**
+     * Setup common paths
+     * @param {type} projectFolder
+     * @returns {undefined}
+     */
     setupPaths: function (projectFolder) {
         var me = this;
         me.projectFolder = projectFolder;
-        me.sourceFolder = me.projectFolder + path.sep + 'js';
-        me.buildNumberFile = me.getProjectFolder('/build-number');
+        me.sourceFolder = me.getProjectFolder('js');
     },
+    /**
+     * Load this project from a project configuration file.
+     * @param {type} filename
+     * @returns {Boolean}
+     */
     loadFromFile: function (filename) {
         var me = this, res;
         try {
-            var data = require(filename);
+            var data = JSON.parse(FileUtils.readFile(filename));
             res = me.validateConfig(data);
             if (res.isvalid) {
-                me.setupPaths(me.projectFolder);
-                Blend.apply(me, data);
+                Blend.apply(me, data, true);
                 me.projectFile = filename;
+                me.setupPaths(me.projectFolder);
                 return true;
             } else {
                 Logger.error(res.error);
@@ -64,6 +100,7 @@ Blend.defineClass('Builder.core.Project', {
     },
     /**
      * Check if the provided application type is valid
+     * @param {type} cfg description
      */
     isValidAppType: function (cfg) {
         return (!Blend.isNullOrUndef(cfg.type) && (cfg.type === 'webapp' || cfg.type === 'touchapp'));
@@ -103,12 +140,13 @@ Blend.defineClass('Builder.core.Project', {
      * Check and create the project folder
      * @returns {Boolean}
      */
-    prepareProjectFolder: function () {
-        var me = this, sassFolder;
+    prepareProjectFolder: function (options) {
+        var me = this;
+        me.name = options.projectName;
         try {
             if (me.checkProjectFolder()) {
                 Logger.info("Creating project folder");
-                mkdir('-p', [me.getSourceFolder(), me.getResourceFolder(), me.getSassFolder()]);
+                FileUtils.mkdir('-p', [me.getSourceFolder(), me.getResourceFolder(), me.getSassFolder()]);
                 return true;
             } else {
                 Logger.error("Project folder already exists! " + me.getProjectFolder());
@@ -124,39 +162,7 @@ Blend.defineClass('Builder.core.Project', {
      * @returns {Boolean}
      */
     checkProjectFolder: function () {
-        /**
-         * This should throw if folder exists
-         */
         var me = this;
-        try {
-            fs.statSync(me.projectFolder);
-            return false;
-        } catch (e) {
-            return true;
-        }
-    },
-    /**
-     * Bumps the build-number if possible
-     */
-    bumpBuildNumber: function (readonly) {
-        var me = this, bn = 0;
-        readonly = readonly || false;
-        try {
-            if (fs.existsSync(me.buildNumberFile)) {
-                bn = fs.readFileSync(me.buildNumberFile);
-                bn = parseInt(bn);
-            }
-            if (!Blend.isNumeric(bn)) {
-                bn = 0;
-            }
-            if (readonly === false) {
-                bn++;
-                fs.writeFileSync(me.buildNumberFile, bn);
-                Logger.info('Bumped the build number to: ' + bn);
-            }
-        } catch (e) {
-            Logger.warn(e);
-        }
-        return bn;
+        return !FileUtils.folderExists(me.projectFolder);
     }
 });
