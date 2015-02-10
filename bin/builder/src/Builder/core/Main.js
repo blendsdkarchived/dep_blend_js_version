@@ -31,7 +31,7 @@ Blend.defineClass('Builder.core.Main', {
      * @returns {undefined}
      */
     runCommand: function (className, options) {
-        var me = this, command = Blend.create(className, {
+        var command = Blend.create(className, {
             options: options
         });
         command.run();
