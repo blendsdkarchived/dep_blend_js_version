@@ -8,7 +8,7 @@
     "theme": "default",
     "stylesheets": [
         {
-            "src": "resources/css/default/main.css"
+            "src": "resources/css/default/ui-tests/main.css"
         }
     ],
     "scripts": [
