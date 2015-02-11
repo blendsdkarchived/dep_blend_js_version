@@ -58,7 +58,7 @@ Blend.defineClass('Template', {
         Blend.foreach(files, function (file) {
             content.push(FileUtils.readFile(file).toString());
         });
-        return ms.render(template, {src: content.join(';')});
+        return ms.render(template, {src: content.join("\n")});
     },
     renderScriptSource: function (source) {
         var me = this,

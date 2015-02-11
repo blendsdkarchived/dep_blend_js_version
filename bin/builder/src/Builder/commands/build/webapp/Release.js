@@ -1,6 +1,6 @@
 Blend.defineClass('Builder.commands.build.webapp.Release', {
     requires: [
-        'Builder.utils.Minify',
+        'Builder.utils.Minify'
     ],
     extend: 'Builder.commands.build.Builder',
     _scripts: null,
