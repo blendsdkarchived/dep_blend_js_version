@@ -150,8 +150,33 @@ Blend.defineClass('Builder.commands.init.Command', {
      * Renedrs a new application.json
      */
     getNewProjectConfiguration: function () {
-        var me = this;
-        return Template.render(Builder.utils.Resources.readFile('Builder/resources/application.json.ms'), me.options);
+        var me = this, config;
+        config = {
+            name: me.options.projectName,
+            version: '1.0.0',
+            type: me.options.projectType,
+            mainClass: me.options.className,
+            indexTemplate: me.options.indexTemplate,
+            theme: me.options.theme,
+            stylesheets: [],
+            scripts: [
+                'js/bootstrap.js'
+            ],
+            meta: [
+                {
+                    charset: "utf8"
+                },
+                {
+                    name: "viewport",
+                    content: "width=device-width"
+                },
+                {
+                    "http-equiv": "X-UA-Compatible",
+                    content: "IE=edge"
+                }
+            ]
+        };
+        return JSON.stringify(p, null, 2);
     },
     initProject: function () {
         var me = this;
