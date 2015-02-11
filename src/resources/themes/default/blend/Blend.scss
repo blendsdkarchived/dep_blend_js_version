@@ -5,12 +5,14 @@
 @import "var/_bootstrap.scss";
 $experimental-support-for-svg:true;
 
+/*
 @include font-face('FontAwesome',inline-font-files(
 'fontawesome-webfont.eot',
 'fontawesome-webfont.woff',
 'fontawesome-webfont.ttf',
 'fontawesome-webfont.svg'
 ));
+*/
 
 /*@font-face {
     font-family: 'FontAwesome';
