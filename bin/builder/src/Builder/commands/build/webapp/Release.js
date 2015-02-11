@@ -12,7 +12,7 @@ Blend.defineClass('Builder.commands.build.webapp.Release', {
         return true;
     },
     deployScripts: function (dmap) {
-        var me = this, scripts = me.getScriptFiles(dmap), targetFile, targetName, result = [];
+        var me = this, scripts = me.getScriptFiles(dmap), result = [];
         Logger.info('Minifying ' + scripts.length + ' scripts, please wait...');
         Blend.foreach(scripts, function (item) {
             result.push(FileUtils.readFile(item.source).toString());
