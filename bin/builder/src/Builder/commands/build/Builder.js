@@ -27,11 +27,21 @@ Blend.defineClass('Builder.commands.build.Builder', {
             me.dumpBuildErrors();
         }
     },
+    /**
+     * Compact and return a style tag with all css data for this project
+     * @param {type} styles
+     * @returns {unresolved}
+     */
     deployCSSFiles: function (styles) {
         var me = this;
         Logger.info('Deploying ' + styles.length + ' styles, please wait....');
         return Template.renderCompactCSS(styles);
     },
+    /**
+     * Get the list of of CCS files used in this project
+     * @param {type} dmap
+     * @returns {Array}
+     */
     getCSSFiles: function (dmap) {
         var me = this, files = [], file, error = false;
         Blend.foreach(dmap, function (item) {
@@ -55,6 +65,11 @@ Blend.defineClass('Builder.commands.build.Builder', {
         });
         return error === true ? null : files;
     },
+    /**
+     * Get the list of all JS files used in this project
+     * @param {type} dmap
+     * @returns {Array}
+     */
     getScriptFiles: function (dmap) {
         var me = this, files = [], file, error = false;
         Blend.foreach(dmap, function (item) {
@@ -82,18 +97,39 @@ Blend.defineClass('Builder.commands.build.Builder', {
         });
         return error === true ? null : files;
     },
+    /**
+     * virtual
+     * @returns {unresolved}
+     */
     getIndexTemplateFooter: function () {
         return null;
     },
+    /**
+     * virtual
+     * @returns {unresolved}
+     */
     getIndexTemplateHeader: function () {
         return null;
     },
+    /**
+     * virtual
+     * @returns {Boolean}
+     */
     finalize: function () {
         return true;
     },
+    /**
+     * virtual
+     * @param {type} dmap
+     * @returns {Boolean}
+     */
     runInternal: function (dmap) {
         return true;
     },
+    /**
+     * Render meta tags for this application
+     * @returns {unresolved}
+     */
     renderMetaTags: function () {
         var me = this;
         return Template.renderMetaTags(me.project.meta);
@@ -117,9 +153,19 @@ Blend.defineClass('Builder.commands.build.Builder', {
         FileUtils.writeFile(indexFile, index);
         return true;
     },
+    /**
+     * Deploy the favicon for this project
+     * @TODO this methods needs to the investigated and implemented correctly
+     * for all device types.
+     * @returns {undefined}
+     */
     deployFavIcon: function () {
         Logger.warn("Favicon is not implemented yet!");
     },
+    /**
+     * Get the list of CSS files that where just rendered using compass
+     * @returns {unresolved}
+     */
     getRenderedCSSFiles: function () {
         var me = this;
         if (!me.cssWatcher) {
@@ -131,6 +177,10 @@ Blend.defineClass('Builder.commands.build.Builder', {
         me.cssWatcher.update();
         return me.cssWatcher.getFilesByType('css');
     },
+    /**
+     * Dump the builder errors to the logger
+     * @returns {undefined}
+     */
     dumpBuildErrors: function () {
         var me = this;
         Logger.dumpErrors(me.project.getBuildFolder(me.project.indexTemplate));
