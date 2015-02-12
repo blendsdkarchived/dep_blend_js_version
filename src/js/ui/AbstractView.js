@@ -6,7 +6,6 @@ Blend.defineClass('Blend.ui.AbstractView', {
     element: null,
     unselectable: true,
     scroll: false,
-    borderSize: 0,
     init: function () {
         var me = this;
         me._rendered = false;
