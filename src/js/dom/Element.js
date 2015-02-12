@@ -178,7 +178,7 @@ Blend.defineClass('Blend.dom.Element', {
                 left: 0,
                 width: window.innerWidth,
                 height: window.innerHeight
-            }
+            };
         } else {
             return Blend.Style.get(el, ['top', 'left', 'width', 'height']);
         }
