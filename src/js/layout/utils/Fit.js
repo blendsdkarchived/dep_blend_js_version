@@ -12,15 +12,13 @@ Blend.defineClass('Blend.layout.utils.Fit', {
     fit: function (parent, child, lctx, borderSize) {
         var me = this,
                 parentElement = me.getEl(parent),
-                childElement = me.getEl(child);
-        borderSize = Blend.Style.get(parentElement, 'border') || 0;
+                childElement = me.getEl(child),
+                parSpacing = Blend.Element.getSpacing(parentElement);
         Blend.CSS.set(childElement, Blend.cssPrefix('fitable'));
         var bounds = Blend.Element.getSize(parentElement);
 
-        if (borderSize !== 0) {
-            bounds.width -= (borderSize * 2);
-            bounds.height -= (borderSize * 2);
-        }
+        bounds.width -= parSpacing.combined;
+        bounds.height -= parSpacing.combined;
 
         if (lctx && lctx.handler) {
             lctx.handler(childElement, bounds);
