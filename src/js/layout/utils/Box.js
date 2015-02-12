@@ -60,12 +60,22 @@ Blend.defineClass('Blend.layout.utils.Box', {
                     bounds.top = lctx.bounds.height - (bounds.height + margin);
                 }
             }
+        }, check = function (v) {
+            if (v < 0) {
+                return 0;
+            } else
+                return v;
         };
         lctx.pack = lctx.margin === true ? 'center' : lctx.pack;
         lctx.align = lctx.margin === true ? 'center' : lctx.align;
         needtotals = (lctx.pack === 'center' || lctx.pack === 'end');
         me.calculateBounds(ilctx, lctx, 'width', needtotals);
         margin = lctx.margin;
+        lctx.bounds.height -= lctx.spacing;
+        if (lctx.spacing !== 0 && (lctx.pack !== 'start' || lctx.align === 'stretch')) {
+            lctx.pack = 'start';
+            nextleft = 0;
+        }
         me.flex(ilctx, lctx, proccessors);
     },
     /**
@@ -129,6 +139,12 @@ Blend.defineClass('Blend.layout.utils.Box', {
         needtotals = (lctx.pack === 'center' || lctx.pack === 'end');
         me.calculateBounds(ilctx, lctx, 'height', needtotals);
         margin = lctx.margin;
+        lctx.bounds.width -= lctx.spacing;
+        if (lctx.spacing !== 0 && (lctx.pack !== 'start' || lctx.align === 'stretch')) {
+            lctx.pack = 'start';
+            nexttop = 0;
+        }
+
         me.flex(ilctx, lctx, proccessors);
     },
     /**
@@ -147,7 +163,7 @@ Blend.defineClass('Blend.layout.utils.Box', {
             packFn.apply(me, [ctx]);
             alignFn.apply(me, [ctx]);
             if (lctx.handler) {
-                lctx.handler(ctx, a);
+                lctx.handler(ctx, a, lctx);
             }
         }
     },
@@ -163,6 +179,7 @@ Blend.defineClass('Blend.layout.utils.Box', {
      */
     updateLayoutContext: function (lctx, ilctx, flexed_prop) {
         var me = this, maxFlex = 0, total = 0;
+        lctx.spacing = 0;
         Blend.foreach(ilctx, function (ctx, idx) {
             if (ctx.flex === true) {
                 maxFlex += ctx.flexSize;
@@ -170,9 +187,17 @@ Blend.defineClass('Blend.layout.utils.Box', {
                 total += ctx[flexed_prop];
             }
         });
+        /**
+         * If the total width/height of items is greater than the total
+         * width/height of the bounds!
+         */
         if (total > lctx.bounds[flexed_prop]) {
-            lctx.bounds[flexed_prop] = total;
+            //lctx.bounds[flexed_prop] = total;
+            if (lctx.scroll) {
+                lctx.spacing = Blend.Environment.getScrollbarSize();
+            }
         }
+
         lctx.maxFlex = maxFlex;
         lctx.pixelsPerFlex = (lctx.bounds[flexed_prop] - total) / maxFlex;
         lctx[flexed_prop] = total;
@@ -226,8 +251,11 @@ Blend.defineClass('Blend.layout.utils.Box', {
                 lctx.margin = mrg;
             }
             totalMargin = (ilctx.length + 1) * mrg; // +1 is for the margin before the first element
-            alltotals += totalMargin;
+            alltotals += totalMargin + lctx.spacing;
             lctx['total_' + flexed_prop] = alltotals;
+            if (alltotals > lctx.bounds[flexed_prop]) {
+                lctx.bounds[flexed_prop] = alltotals;
+            }
         }
     }
 });
