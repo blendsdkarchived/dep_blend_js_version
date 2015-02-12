@@ -55,7 +55,7 @@ Blend.defineClass('Blend.ui.AbstractView', {
         var me = this;
         if (me.canLayout()) {
             me._layout = false;
-            if (me.shouldLayout()) {
+            if (me.shouldLayout(force)) {
                 me.layoutView.apply(me, arguments);
             }
             me._layout = true;
@@ -122,16 +122,19 @@ Blend.defineClass('Blend.ui.AbstractView', {
      * @returns {object}
      */
     getBounds: function () {
-        var me = this;
+        var me = this, spc = Blend.Element.getSpacing(me.getElement());
         return {
             top: me.top,
             left: me.left,
-            width: me.width - (me.borderSize * 2),
-            height: me.height - (me.borderSize * 2)
+            width: me.width - spc.combined,
+            height: me.height - spc.combined
         };
     },
-    shouldLayout: function () {
+    shouldLayout: function (force) {
         var me = this, cur = me.getSizeSig();
+        if (force === true) {
+            cur = null;
+        }
         return (me._sizeSig !== cur) || (me.parent && Blend.isInstanceOf(me.parent, Blend.mvc.Application));
     },
     doneLayout: function () {
