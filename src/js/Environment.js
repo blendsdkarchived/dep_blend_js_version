@@ -285,7 +285,12 @@ Blend.defineClass('Blend.Environment', {
             w2 = outer.clientWidth;
         }
         Blend.Element.destroy(el);
-        return (w1 - w2);
+        var r = (w1 - w2);
+        if (this.isIE && this.IEVersion <= 9) {
+            return r / 2;
+        } else {
+            return r;
+        }
     }
 }, function () {
     Blend.foreach(Blend.CSS, function (v, k) {
