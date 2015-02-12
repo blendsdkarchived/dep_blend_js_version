@@ -13,7 +13,7 @@ Blend.defineClass('Blend.layout.utils.Fit', {
         var me = this,
                 parentElement = me.getEl(parent),
                 childElement = me.getEl(child);
-        borderSize = borderSize || 0;
+        borderSize = Blend.Style.get(parentElement, 'border') || 0;
         Blend.CSS.set(childElement, Blend.cssPrefix('fitable'));
         var bounds = Blend.Element.getSize(parentElement);
 
