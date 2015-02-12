@@ -157,7 +157,7 @@ Blend.defineClass('Builder.commands.init.Command', {
             type: me.options.projectType,
             mainClass: me.options.className,
             indexTemplate: me.options.indexTemplate,
-            theme: me.options.theme,
+            theme: 'default',
             stylesheets: [],
             scripts: [
                 'js/bootstrap.js'
@@ -176,7 +176,7 @@ Blend.defineClass('Builder.commands.init.Command', {
                 }
             ]
         };
-        return JSON.stringify(p, null, 2);
+        return JSON.stringify(config, null, 2);
     },
     initProject: function () {
         var me = this;
