@@ -64,11 +64,11 @@ Blend.defineClass('Blend.ui.AbstractView', {
     layoutView: function (force) {
         var me = this;
         me.layout.performLayout.apply(me.layout, arguments);
-        if (me.setText) {
-            me.lcnt = me.lcnt || 0;
-            me.lcnt++;
-            me.setText(me.lcnt);
-        }
+//        if (me.setText) {
+//            me.lcnt = me.lcnt || 0;
+//            me.lcnt++;
+//            me.setText(me.lcnt);
+//        }
     },
     render: function (renderCtx) {
         var me = this,
@@ -118,16 +118,16 @@ Blend.defineClass('Blend.ui.AbstractView', {
         return el;
     },
     /**
-     * Returns the bounts of this view
+     * Returns the bounds of this view
      * @returns {object}
      */
     getBounds: function () {
-        var me = this, spc = Blend.Element.getSpacing(me.getElement());
+        var me = this;
         return {
             top: me.top,
             left: me.left,
-            width: me.width - spc.combined,
-            height: me.height - spc.combined
+            width: me.width,
+            height: me.height
         };
     },
     shouldLayout: function (force) {

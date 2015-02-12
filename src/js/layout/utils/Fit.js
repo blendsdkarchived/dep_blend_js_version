@@ -17,8 +17,11 @@ Blend.defineClass('Blend.layout.utils.Fit', {
         Blend.CSS.set(childElement, Blend.cssPrefix('fitable'));
         var bounds = Blend.Element.getSize(parentElement);
 
-        bounds.width -= parSpacing.combined;
-        bounds.height -= parSpacing.combined;
+        if (parSpacing) {
+            bounds.width -= parSpacing.combined;
+            bounds.height -= parSpacing.combined;
+            bounds.top = bounds.left = parSpacing.border + parSpacing.padding;
+        }
 
         if (lctx && lctx.handler) {
             lctx.handler(childElement, bounds);
