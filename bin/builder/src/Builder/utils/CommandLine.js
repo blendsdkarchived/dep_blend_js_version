@@ -85,10 +85,11 @@ Blend.defineClass('Builder.utils.CommandLine', {
                 cwd = process.cwd();
                 console.log("\nThis utility will walk you through creating a new BlendJS application.\n" +
                         "Press ^C at any time to quit.\n");
+                var prjName = me.getOption('Project name', 'MyApp');
                 me.options = {
                     command: 'init',
-                    projectName: me.getOption('Project name', 'MyApp'),
-                    className: me.getOption('Main class name', 'MyApp.core.Main'),
+                    projectName: prjName,
+                    className: me.getOption('Main class name', Blend.camelCase(prjName) + '.core.Main'),
                     projectType: me.getOption('Project type [webapp|touchapp]', 'webapp'),
                     indexTemplate: me.getOption('Index file', 'index.html'),
                     path: cwd
