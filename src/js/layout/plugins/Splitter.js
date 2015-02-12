@@ -9,6 +9,9 @@ Blend.defineClass('Blend.layout.plugins.Splitter', {
         var layoutRenderFn = me.layout.render;
         me.layout.render = function () {
             me.removeSplitters();
+            if (me.hasSplitters) {
+                me.view.scroll = false;
+            }
             return layoutRenderFn.apply(me.layout, arguments);
         };
 
@@ -188,7 +191,7 @@ Blend.defineClass('Blend.layout.plugins.Splitter', {
         }
 
         /*
-         * This will force the parent/view to re-layout 
+         * This will force the parent/view to re-layout
          */
         me.layout.view._sizeSig = null;
         me.layout.view.performLayout();
