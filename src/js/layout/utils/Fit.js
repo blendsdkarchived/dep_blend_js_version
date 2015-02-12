@@ -9,7 +9,7 @@ Blend.defineClass('Blend.layout.utils.Fit', {
      * @param {Blend.ui.View/HTMLElement} parent
      * @param {Blend.ui.View/HTMLElement} child
      */
-    fit: function (parent, child, lctx, borderSize) {
+    fit: function (parent, child, lctx) {
         var me = this,
                 parentElement = me.getEl(parent),
                 childElement = me.getEl(child),
