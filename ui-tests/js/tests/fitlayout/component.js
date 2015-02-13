@@ -94,7 +94,6 @@ BlendTest.defineTest('fit-layout', 'fit component padding', function (t) {
     Blend.Environment.runApplication(aname);
 });
 
-
 BlendTest.defineTest('fit-layout', 'fit component border and padding', function (t) {
 
     var cname = t.newName();
