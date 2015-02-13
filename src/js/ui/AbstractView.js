@@ -121,14 +121,20 @@ Blend.defineClass('Blend.ui.AbstractView', {
      * Returns the bounds of this view
      * @returns {object}
      */
-    getBounds: function () {
-        var me = this;
-        return {
+    getBounds: function (calcSpacing) {
+        var me = this, sp, r = {
             top: me.top,
             left: me.left,
             width: me.width,
             height: me.height
         };
+        calcSpacing = calcSpacing || false;
+        if (calcSpacing) {
+            sp = Blend.Element.getSpacing(me.getElement());
+            r.width -= sp.combined;
+            r.height -= sp.combined;
+        }
+        return r;
     },
     shouldLayout: function (force) {
         var me = this, cur = me.getSizeSig();

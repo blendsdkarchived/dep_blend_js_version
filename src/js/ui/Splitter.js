@@ -43,8 +43,9 @@ Blend.defineClass('Blend.ui.Splitter', {
         var me = this;
         var me = this;
         var interactionHandler = function (evt) {
+            console.log(me.correction.spacing);
             Blend.Style.set(me.ghostEl, {
-                left: me.checkSetVerticalPosition(evt.clientX - (me.correction.left + me.correction.spacing)) - me.halfW,
+                left: me.checkSetVerticalPosition(evt.clientX - (me.correction.left + me.correction.spacing / 2)) - me.halfW,
                 top: 0
             });
         };
@@ -67,7 +68,7 @@ Blend.defineClass('Blend.ui.Splitter', {
         var me = this;
         var interactionHandler = function (evt) {
             Blend.Style.set(me.ghostEl, {
-                top: me.checkSetHorizontalPosition(evt.clientY - (me.correction.top + me.correction.spacing)) - me.halfH,
+                top: me.checkSetHorizontalPosition(evt.clientY - (me.correction.top + me.correction.spacing / 2)) - me.halfH,
                 left: 0
             });
         };
@@ -118,7 +119,7 @@ Blend.defineClass('Blend.ui.Splitter', {
      * Setup and do common processing for both splitter types
      */
     setup: function (placementHandler, interactionHandler) {
-        var me = this, spacing = Blend.Element.getSpacing(me.parent.getElement());
+        var me = this;
         me.halfW = (me.width / 2);
         me.halfH = (me.height / 2);
         me.oldPosition = Blend.Element.getSizeAndPosition(me.element);
@@ -128,7 +129,7 @@ Blend.defineClass('Blend.ui.Splitter', {
          * where the splitter is a child of
          */
         me.correction = me.parent.getElement().getBoundingClientRect();
-        me.correction.spacing = spacing.border + spacing.padding;
+        me.correction.spacing = Blend.Element.getSpacing(me.parent.getElement()).combined;
         me.setupAdjacent('aCompInfo', me.getAComponent());
         me.setupAdjacent('bCompInfo', me.getBComponent());
         me.createGhostSplitter();
