@@ -25,7 +25,9 @@ var BlendTest = {};
         if (currentTest.pass === 0 && currentTest.fail === 0) {
             log_warn('Nothing was tested!!!');
         }
+        document.title = '#' + nextTest + '/' + (tests.length - 1) + " P " + allpass + ' : F ' + allfail;
         nextTest++;
+
         runNextTest();
     };
 
@@ -279,6 +281,7 @@ var BlendTest = {};
         log_error((message || currentTest.testn) + ' : got [' + actual + '] expected [' + expected + ']');
         currentTest.testn++;
     };
+
 
     var runNextTest = function () {
         currentTest = tests[nextTest];
