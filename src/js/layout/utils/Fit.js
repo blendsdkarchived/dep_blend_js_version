@@ -8,6 +8,7 @@ Blend.defineClass('Blend.layout.utils.Fit', {
      * Fits the source element into the parent element
      * @param {Blend.ui.View/HTMLElement} parent
      * @param {Blend.ui.View/HTMLElement} child
+     * @param {object} lctx
      */
     fit: function (parent, child, lctx) {
         var me = this,
@@ -20,7 +21,6 @@ Blend.defineClass('Blend.layout.utils.Fit', {
         if (parSpacing) {
             bounds.width -= parSpacing.combined;
             bounds.height -= parSpacing.combined;
-            bounds.top = bounds.left = parSpacing.border + parSpacing.padding;
         }
 
         if (lctx && lctx.handler) {
