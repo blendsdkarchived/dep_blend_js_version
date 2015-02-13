@@ -9,11 +9,11 @@ BlendTest.defineTest('stacked-layout', 'general', function (t) {
         items: [
             {
                 type: 'ui.rect',
-                reference: 'rect1',
+                reference: 'rect1'
             },
             {
                 type: 'ui.rect',
-                reference: 'rect2',
+                reference: 'rect2'
             }
         ]
     });
