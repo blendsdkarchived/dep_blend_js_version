@@ -1,636 +1,241 @@
-BlendTest.defineTest('box-layout', 'box-layout', function (t) {
+var layouts = [];
 
-    var apps = [];
-    var nextTest = 0;
-    var currentTest = -1;
-
-    var hbox = [
-        {
-            layout: {
-                type: 'hbox',
-                align: 'stretch',
-                pack: 'start'
-            },
-            test: function (r1, r2, r3, name) {
-                //pack
-                t.equal(r1.left, 0, name + ' p1');
-                t.equal(r2.left, 50, name + ' p2');
-                t.equal(r3.left, 100, name + ' p3');
-                //align
-                t.equal(r1.height, 400, name + ' p4');
-                t.equal(r2.height, 400, name + ' p5');
-                t.equal(r3.height, 400, name + ' p6');
-            }
-        },
-        {
-            layout: {
-                type: 'hbox',
-                align: 'stretch',
-                pack: 'center'
-            },
-            test: function (r1, r2, r3, name) {
-                //pack
-                t.equal(r1.left, 125, name + ' p1');
-                t.equal(r2.left, 175, name + ' p2');
-                t.equal(r3.left, 225, name + ' p3');
-                //align
-                t.equal(r1.height, 400, name + ' p4');
-                t.equal(r2.height, 400, name + ' p5');
-                t.equal(r3.height, 400, name + ' p6');
-            }
-        },
-        {
-            layout: {
-                type: 'hbox',
-                align: 'stretch',
-                pack: 'end'
-            },
-            test: function (r1, r2, r3, name) {
-                //pack
-                t.equal(r1.left, 250, name + ' p1');
-                t.equal(r2.left, 300, name + ' p2');
-                t.equal(r3.left, 350, name + ' p3');
-                //align
-                t.equal(r1.height, 400, name + ' p4');
-                t.equal(r2.height, 400, name + ' p5');
-                t.equal(r3.height, 400, name + ' p6');
-            }
-        },
-        {
-            layout: {
-                type: 'hbox',
-                align: 'start',
-                pack: 'start'
-            },
-            test: function (r1, r2, r3, name) {
-                //pack
-                t.equal(r1.left, 0, name + ' p1');
-                t.equal(r2.left, 50, name + ' p2');
-                t.equal(r3.left, 100, name + ' p3');
-                //align
-                t.equal(r1.top, 0, name + ' p4');
-                t.equal(r2.top, 0, name + ' p5');
-                t.equal(r3.top, 0, name + ' p6');
-
-            }
-        },
-        {
-            layout: {
-                type: 'hbox',
-                align: 'start',
-                pack: 'center'
-            },
-            test: function (r1, r2, r3, name) {
-                //pack
-                t.equal(r1.left, 125, name + ' p1');
-                t.equal(r2.left, 175, name + ' p2');
-                t.equal(r3.left, 225, name + ' p3');
-                //align
-                t.equal(r1.top, 0, name + ' p4');
-                t.equal(r2.top, 0, name + ' p5');
-                t.equal(r3.top, 0, name + ' p6');
-
-            }
-        },
-        {
-            layout: {
-                type: 'hbox',
-                align: 'start',
-                pack: 'end'
-            },
-            test: function (r1, r2, r3, name) {
-                //pack
-                t.equal(r1.left, 250, name + ' p1');
-                t.equal(r2.left, 300, name + ' p2');
-                t.equal(r3.left, 350, name + ' p3');
-                //align
-                t.equal(r1.top, 0, name + ' p4');
-                t.equal(r2.top, 0, name + ' p5');
-                t.equal(r3.top, 0, name + ' p6');
-
-            }
-        },
-        {
-            layout: {
-                type: 'hbox',
-                align: 'center',
-                pack: 'start'
-            },
-            test: function (r1, r2, r3, name) {
-                //pack
-                t.equal(r1.left, 0, name + ' p1');
-                t.equal(r2.left, 50, name + ' p2');
-                t.equal(r3.left, 100, name + ' p3');
-
-                //align
-                t.equal(r1.top, 175, name + ' p4');
-                t.equal(r2.top, 175, name + ' p5');
-                t.equal(r3.top, 175, name + ' p6');
-            }
-        },
-        {
-            layout: {
-                type: 'hbox',
-                align: 'center',
-                pack: 'center'
-            },
-            test: function (r1, r2, r3, name) {
-                //pack
-                t.equal(r1.left, 125, name + ' p1');
-                t.equal(r2.left, 175, name + ' p2');
-                t.equal(r3.left, 225, name + ' p3');
-
-                //align
-                t.equal(r1.top, 175, name + ' p4');
-                t.equal(r2.top, 175, name + ' p5');
-                t.equal(r3.top, 175, name + ' p6');
-            }
-        },
-        {
-            layout: {
-                type: 'hbox',
-                align: 'center',
-                pack: 'end'
-            },
-            test: function (r1, r2, r3, name) {
-                //pack
-                t.equal(r1.left, 250, name + ' p1');
-                t.equal(r2.left, 300, name + ' p2');
-                t.equal(r3.left, 350, name + ' p3');
-
-                //align
-                t.equal(r1.top, 175, name + ' p4');
-                t.equal(r2.top, 175, name + ' p5');
-                t.equal(r3.top, 175, name + ' p6');
-            }
-        },
-        {
-            layout: {
-                type: 'hbox',
-                align: 'end',
-                pack: 'start'
-            },
-            test: function (r1, r2, r3, name) {
-                //pack
-                t.equal(r1.left, 0, name + ' p1');
-                t.equal(r2.left, 50, name + ' p2');
-                t.equal(r3.left, 100, name + ' p3');
-
-                //align
-                t.equal(r1.top, 350, name + ' p4');
-                t.equal(r2.top, 350, name + ' p5');
-                t.equal(r3.top, 350, name + ' p6');
-            }
-        },
-        {
-            layout: {
-                type: 'hbox',
-                align: 'end',
-                pack: 'center'
-            },
-            test: function (r1, r2, r3, name) {
-                //pack
-                t.equal(r1.left, 125, name + ' p1');
-                t.equal(r2.left, 175, name + ' p2');
-                t.equal(r3.left, 225, name + ' p3');
-
-                //align
-                t.equal(r1.top, 350, name + ' p4');
-                t.equal(r2.top, 350, name + ' p5');
-                t.equal(r3.top, 350, name + ' p6');
-            }
-        },
-        {
-            layout: {
-                type: 'hbox',
-                align: 'end',
-                pack: 'end'
-            },
-            test: function (r1, r2, r3, name) {
-                //pack
-                t.equal(r1.left, 250, name + ' p1');
-                t.equal(r2.left, 300, name + ' p2');
-                t.equal(r3.left, 350, name + ' p3');
-
-                //align
-                t.equal(r1.top, 350, name + ' p4');
-                t.equal(r2.top, 350, name + ' p5');
-                t.equal(r3.top, 350, name + ' p6');
-            }
-        },
-        {
-            layout: {
-                type: 'hbox',
-                align: 'start',
-                pack: 'center',
-                margin: 10
-            },
-            flex: 1,
-            test: function (r1, r2, r3, name) {
-                t.almost(r1.top, 10, name + ' flex+m10');
-                t.almost(r2.top, 10, name + ' flex+m10');
-                t.almost(r3.top, 10, name + ' flex+m10');
-
-                t.almost(r1.left, 10, name + ' flex+1tm10');
-                t.almost(r2.left, 140, name + ' flex+2tm10');
-                t.almost(r3.left, 270, name + ' flex+3tm10');
-            }
-        },
-        {
-            layout: {
-                type: 'hbox',
-                align: 'start',
-                pack: 'center'
-            },
-            flex: 1,
-            test: function (r1, r2, r3, name) {
-                t.almost(r1.width, 133, name + ' flex');
-                t.almost(r2.width, 133, name + ' flex');
-                t.almost(r3.width, 133, name + ' flex');
-            }
-        },
-        {
-            layout: {
-                type: 'hbox',
-                align: 'center',
-                pack: 'center',
-                margin: true
-            },
-            test: function (r1, r2, r3, name) {
-                t.almost(r1.top, 175, name + 'mt1');
-            }
-        },
-        {
-            layout: {
-                type: 'hbox',
-                align: 'start',
-                pack: 'center',
-                margin: 10
-            },
-            test: function (r1, r2, r3, name) {
-                t.equal(r1.top, 10, name + 'm1');
-            }
-        },
-    ];
-
-
-    ///////////////////////////////////////////////////////////////////////////
-    var vbox = [
-        {
-            layout: {
-                type: 'vbox',
-                align: 'start',
-                pack: 'center',
-                margin: 10
-            },
-            flex: 1,
-            test: function (r1, r2, r3, name) {
-                t.almost(r1.height, 120, name + ' flex+m10');
-                t.almost(r2.height, 120, name + ' flex+m10');
-                t.almost(r3.height, 120, name + ' flex+m10');
-
-                t.almost(r1.top, 10, name + ' flex+1tm10');
-                t.almost(r2.top, 140, name + ' flex+2tm10');
-                t.almost(r3.top, 270, name + ' flex+3tm10');
-            }
-        },
-        {
-            layout: {
-                type: 'vbox',
-                align: 'start',
-                pack: 'center'
-            },
-            flex: 1,
-            test: function (r1, r2, r3, name) {
-                t.almost(r1.height, 133, name + ' flex');
-                t.almost(r2.height, 133, name + ' flex');
-                t.almost(r3.height, 133, name + ' flex');
-            }
-        },
-        {
-            layout: {
-                type: 'vbox',
-                align: 'center',
-                pack: 'center',
-                margin: true
-            },
-            test: function (r1, r2, r3, name) {
-                t.almost(r1.top, 41, name + 'mt1');
-            }
-        },
-        {
-            layout: {
-                type: 'vbox',
-                align: 'start',
-                pack: 'center',
-                margin: 10
-            },
-            test: function (r1, r2, r3, name) {
-                t.equal(r1.left, 10, name + 'm1');
-            }
-        },
-        {
-            layout: {
-                type: 'vbox',
-                align: 'end',
-                pack: 'end'
-            },
-            test: function (r1, r2, r3, name) {
-                //pack
-                t.equal(r1.top, 250, name + ' p1');
-                t.equal(r2.top, 300, name + ' p2');
-                t.equal(r3.top, 350, name + ' p3');
-                //align
-                t.equal(r1.left, 350, name + ' a1');
-                t.equal(r2.left, 350, name + ' a2');
-                t.equal(r3.left, 350, name + ' a3');
-            }
-        },
-        {
-            layout: {
-                type: 'vbox',
-                align: 'center',
-                pack: 'end'
-            },
-            test: function (r1, r2, r3, name) {
-                //pack
-                t.equal(r1.top, 250, name + ' p1');
-                t.equal(r2.top, 300, name + ' p2');
-                t.equal(r3.top, 350, name + ' p3');
-                //align
-                t.equal(r1.left, 175, name + ' a1');
-                t.equal(r2.left, 175, name + ' a2');
-                t.equal(r3.left, 175, name + ' a3');
-            }
-        },
-        {
-            layout: {
-                type: 'vbox',
-                align: 'start',
-                pack: 'end'
-            },
-            test: function (r1, r2, r3, name) {
-                //pack
-                t.equal(r1.top, 250, name + ' p1');
-                t.equal(r2.top, 300, name + ' p2');
-                t.equal(r3.top, 350, name + ' p3');
-                //align
-                t.equal(r1.left, 0, name + ' a1');
-                t.equal(r2.left, 0, name + ' a2');
-                t.equal(r3.left, 0, name + ' a3');
-            }
-        },
-        {
-            layout: {
-                type: 'vbox',
-                align: 'stretch',
-                pack: 'end'
-            },
-            test: function (r1, r2, r3, name) {
-                //pack
-                t.equal(r1.top, 250, name + ' p1');
-                t.equal(r2.top, 300, name + ' p2');
-                t.equal(r3.top, 350, name + ' p3');
-                //align
-                t.equal(r1.width, 400, name + ' a1');
-                t.equal(r2.width, 400, name + ' a2');
-                t.equal(r3.width, 400, name + ' a3');
-            }
-        },
-        {
-            layout: {
-                type: 'vbox',
-                align: 'center',
-                pack: 'center'
-            },
-            test: function (r1, r2, r3, name) {
-                //pack
-                t.equal(r1.top, 125, name + ' p1');
-                t.equal(r2.top, 175, name + ' p2');
-                t.equal(r3.top, 225, name + ' p3');
-                //align
-                t.equal(r1.left, 175, name + ' a1');
-                t.equal(r2.left, 175, name + ' a2');
-                t.equal(r3.left, 175, name + ' a3');
-            }
-        },
-        {
-            layout: {
-                type: 'vbox',
-                align: 'end',
-                pack: 'center'
-            },
-            test: function (r1, r2, r3, name) {
-                //pack
-                t.equal(r1.top, 125, name + ' p1');
-                t.equal(r2.top, 175, name + ' p2');
-                t.equal(r3.top, 225, name + ' p3');
-                //align
-                t.equal(r1.left, 350, name + ' a1');
-                t.equal(r2.left, 350, name + ' a2');
-                t.equal(r3.left, 350, name + ' a3');
-            }
-        },
-        {
-            layout: {
-                type: 'vbox',
-                align: 'start',
-                pack: 'center'
-            },
-            test: function (r1, r2, r3, name) {
-                //pack
-                t.equal(r1.top, 125, name + ' p1');
-                t.equal(r2.top, 175, name + ' p2');
-                t.equal(r3.top, 225, name + ' p3');
-                //align
-                t.equal(r1.left, 0, name + ' a1');
-                t.equal(r2.left, 0, name + ' a2');
-                t.equal(r3.left, 0, name + ' a3');
-            }
-        },
-        {
-            layout: {
-                type: 'vbox',
-                align: 'stretch',
-                pack: 'center'
-            },
-            test: function (r1, r2, r3, name) {
-                //pack
-                t.equal(r1.top, 125, name + ' p1');
-                t.equal(r2.top, 175, name + ' p2');
-                t.equal(r3.top, 225, name + ' p3');
-                //align
-                t.equal(r1.width, 400, name + ' a1');
-                t.equal(r2.width, 400, name + ' a2');
-                t.equal(r3.width, 400, name + ' a3');
-            }
-        },
-        {
-            layout: {
-                type: 'vbox',
-                align: 'end',
-                pack: 'start'
-            },
-            test: function (r1, r2, r3, name) {
-                //pack
-                t.equal(r1.top, 0, name + ' p1');
-                t.equal(r2.top, 50, name + ' p2');
-                t.equal(r3.top, 100, name + ' p3');
-                //align
-                t.equal(r1.left, 350, name + ' a1');
-                t.equal(r2.left, 350, name + ' a2');
-                t.equal(r3.left, 350, name + ' a3');
-            }
-        },
-        {
-            layout: {
-                type: 'vbox',
-                align: 'center',
-                pack: 'start'
-            },
-            test: function (r1, r2, r3, name) {
-                //pack
-                t.equal(r1.top, 0, name + ' p1');
-                t.equal(r2.top, 50, name + ' p2');
-                t.equal(r3.top, 100, name + ' p3');
-                //align
-                t.equal(r1.left, 175, name + ' a1');
-                t.equal(r2.left, 175, name + ' a2');
-                t.equal(r3.left, 175, name + ' a3');
-            }
-        },
-        {
-            layout: {
-                type: 'vbox',
-                align: 'start',
-                pack: 'start'
-            },
-            test: function (r1, r2, r3, name) {
-                //pack
-                t.equal(r1.top, 0, name + ' p1');
-                t.equal(r2.top, 50, name + ' p2');
-                t.equal(r3.top, 100, name + ' p3');
-                //align
-                t.equal(r1.left, 0, name + ' a1');
-                t.equal(r2.left, 0, name + ' a2');
-                t.equal(r3.left, 0, name + ' a3');
-            }
-        },
-        {
-            layout: {
-                type: 'vbox',
-                align: 'stretch',
-                pack: 'start'
-            },
-            test: function (r1, r2, r3, name) {
-                //pack
-                t.equal(r1.top, 0, name + ' p1');
-                t.equal(r2.top, 50, name + ' p2');
-                t.equal(r3.top, 100, name + ' p3');
-                //align
-                t.equal(r1.width, 400, name + ' a1');
-                t.equal(r2.width, 400, name + ' a2');
-                t.equal(r3.width, 400, name + ' a3');
-            }
-        }
-    ];
-
-    var tests = [].concat(hbox).concat(vbox);
-
-    Blend.defineClass('Test.layout.view.Boxed', {
-        extend: 'Blend.ui.Container',
-        alias: 'ui.boxed',
-        width: 400,
-        height: 400,
-        ui: 'graybg',
-        defaults: {
-            width: 50,
-            height: 50
-        },
-        items: [
-            {
-                type: 'ui.rect',
-                reference: 'rect1',
-            },
-            {
-                type: 'ui.rect',
-                reference: 'rect2',
-            },
-            {
-                type: 'ui.rect',
-                reference: 'rect3',
-            }
-        ],
-        init: function () {
-            var me = this;
-            me.callParent.apply(me, arguments);
-            if (me.flex) {
-                me.defaults.flex = me.flex;
-            }
-        }
+Blend.foreach([10, 0], function (imargin) {
+    Blend.foreach(['hbox', 'vbox'], function (itype) {
+        Blend.foreach(['start', 'center', 'end', 'stretch'], function (ialign) {
+            Blend.foreach(['start', 'center', 'end'], function (ipack) {
+                layouts.push({
+                    align: ialign,
+                    pack: ipack,
+                    type: itype,
+                    margin: imargin,
+                    name: [itype, ialign, ipack, 'margin', imargin].join('_')
+                });
+            });
+        });
     });
+});
 
-    Blend.defineClass('Test.boxed.Application', {
-        extend: 'Blend.mvc.Application'
-    });
+var boxTests = {
+    vbox_align_start: function (t, r0, r1, r2, margin) {
+        margin = margin || 0;
+        t.equal(r0.left, margin, r0.tname);
+        t.equal(r1.left, margin, r1.tname);
+        t.equal(r2.left, margin, r2.tname);
+    },
+    vbox_align_end: function (t, r0, r1, r2, margin) {
+        margin = margin || 0;
+        t.equal(r0.left, 200 - margin, r0.tname);
+        t.equal(r1.left, 200 - margin, r1.tname);
+        t.equal(r2.left, 200 - margin, r2.tname);
+    },
+    vbox_align_stretch: function (t, r0, r1, r2, margin) {
+        margin = margin || 0;
+        boxTests.vbox_align_start(t, r0, r1, r2, margin);
+        t.equal(r0.width, 250 - 2 * margin, r0.tname);
+        t.equal(r1.width, 250 - 2 * margin, r1.tname);
+        t.equal(r2.width, 250 - 2 * margin, r2.tname);
+    },
+    vbox_align_center: function (t, r0, r1, r2, margin) {
+        margin = margin || 0;
+        t.equal(r0.left, 100, r0.tname);
+        t.equal(r1.left, 100, r1.tname);
+        t.equal(r2.left, 100, r2.tname);
+    },
+    vbox_pack_start: function (t, r0, r1, r2, margin) {
+        margin = margin || 0;
+        t.equal(r0.top, margin, r0.tname);
+        t.equal(r1.top, 50 + 2 * margin, r1.tname);
+        t.equal(r2.top, 100 + 3 * margin, r2.tname);
+    },
+    vbox_pack_end: function (t, r0, r1, r2, margin) {
+        margin = margin || 0;
+        t.equal(r0.top, 100 - (margin * 3), r0.tname);
+        t.equal(r1.top, 150 - (margin * 2), r1.tname);
+        t.equal(r2.top, 200 - (margin), r2.tname);
+    },
+    vbox_pack_center: function (t, r0, r1, r2, margin) {
+        margin = margin || 0;
+        t.equal(r0.top, 50 - margin, r0.tname);
+        t.equal(r1.top, 100, r1.tname);
+        t.equal(r2.top, 150 + margin, r2.tname);
+    },
+    hbox_align_start: function (t, r0, r1, r2, margin) {
+        margin = margin || 0;
+        t.equal(r0.top, margin, r0.tname);
+        t.equal(r1.top, margin, r1.tname);
+        t.equal(r2.top, margin, r2.tname);
+    },
+    hbox_align_center: function (t, r0, r1, r2, margin) {
+        margin = margin || 0;
+        t.equal(r0.top, 100, r0.tname);
+        t.equal(r1.top, 100, r1.tname);
+        t.equal(r2.top, 100, r2.tname);
+    },
+    hbox_align_end: function (t, r0, r1, r2, margin) {
+        margin = margin || 0;
+        t.equal(r0.top, 200 - margin, r0.tname);
+        t.equal(r1.top, 200 - margin, r1.tname);
+        t.equal(r2.top, 200 - margin, r2.tname);
+    },
+    hbox_align_stretch: function (t, r0, r1, r2, margin) {
+        margin = margin || 0;
+        boxTests.hbox_align_start(t, r0, r1, r2, margin);
+        t.equal(r0.height, 250 - (2 * margin), r0.tname);
+        t.equal(r1.height, 250 - (2 * margin), r1.tname);
+        t.equal(r2.height, 250 - (2 * margin), r2.tname);
+    },
+    hbox_pack_start: function (t, r0, r1, r2, margin) {
+        margin = margin || 0;
+        t.equal(r0.left, margin, r0.tname);
+        t.equal(r1.left, 50 + (2 * margin), r1.tname);
+        t.equal(r2.left, 100 + (3 * margin), r2.tname);
+    },
+    hbox_pack_center: function (t, r0, r1, r2, margin) {
+        margin = margin || 0;
+        t.equal(r0.left, 50 - margin, r0.tname);
+        t.equal(r1.left, 100, r1.tname);
+        t.equal(r2.left, 150 + margin, r2.tname);
+    },
+    hbox_pack_end: function (t, r0, r1, r2, margin) {
+        margin = margin || 0;
+        t.equal(r0.left, 100 - (3 * margin), r0.tname);
+        t.equal(r1.left, 150 - (2 * margin), r1.tname);
+        t.equal(r2.left, 200 - margin, r2.tname);
+    }
+    /*,
+     vbox_align_start_margin_10: function (t, r0, r1, r2) {
+     boxTests.vbox_align_start_margin_0(t, r0, r1, r2, 10);
+     },
+     vbox_align_center_margin_10: function (t, r0, r1, r2) {
+     boxTests.vbox_align_center_margin_0(t, r0, r1, r2);
+     },
+     vbox_align_end_margin_10: function (t, r0, r1, r2) {
+     boxTests.vbox_align_end_margin_0(t, r0, r1, r2, 10);
+     },
+     vbox_align_stretch_margin_10: function (t, r0, r1, r2) {
+     boxTests.vbox_align_stretch_margin_0(t, r0, r1, r2, 10);
+     },
+     vbox_pack_start_margin_10: function (t, r0, r1, r2) {
+     boxTests.vbox_pack_start_margin_0(t, r0, r1, r2, 10);
+     },
+     vbox_pack_center_margin_10: function (t, r0, r1, r2) {
+     boxTests.vbox_pack_center_margin_0(t, r0, r1, r2, 10);
+     },
+     vbox_pack_end_margin_10: function (t, r0, r1, r2) {
+     boxTests.vbox_pack_end_margin_0(t, r0, r1, r2, 10);
+     },
+     hbox_align_start_margin_10: function (t, r0, r1, r2) {
+     boxTests.hbox_align_start_margin_0(t, r0, r1, r2, 10);
+     },
+     hbox_align_center_margin_10: function (t, r0, r1, r2) {
+     boxTests.hbox_align_center_margin_0(t, r0, r1, r2);
+     },
+     hbox_align_end_margin_10: function (t, r0, r1, r2) {
+     boxTests.hbox_align_end_margin_0(t, r0, r1, r2, 10);
+     },
+     hbox_align_stretch_margin_10: function (t, r0, r1, r2) {
+     boxTests.hbox_align_stretch_margin_0(t, r0, r1, r2, 10);
+     },
+     hbox_pack_start_margin_10: function (t, r0, r1, r2) {
+     boxTests.hbox_pack_start_margin_0(t, r0, r1, r2, 10);
+     },
+     hbox_pack_center_margin_10: function (t, r0, r1, r2) {
+     boxTests.hbox_pack_center_margin_0(t, r0, r1, r2, 10);
+     },
+     hbox_pack_end_margin_10: function (t, r0, r1, r2) {
+     boxTests.hbox_pack_end_margin_0(t, r0, r1, r2, 10);
+     }
+     */
+};
 
-    Blend.foreach(tests, function (test, idx) {
+Blend.foreach(layouts, function (ilayout, idx) {
 
-        var cname = 'Test.boxed.Controller' + idx;
+
+    BlendTest.defineTest('box-layout', ilayout.name + '_' + idx, function (t) {
+
+        var cname = t.newName();
+        var aname = t.newName();
+
 
         Blend.defineClass(cname, {
             extend: 'Blend.mvc.Controller',
             application: {
-                ready: function () {
-                    var me = this;
-                    var bounds = function (view) {
-                        return Blend.Element.getBounds(view.getElement());
-                    };
-                    test.test.apply(me, [
-                        bounds(me.getRect1()),
-                        bounds(me.getRect2()),
-                        bounds(me.getRect3()),
-                        JSON.stringify(test.layout)
-                    ]);
-                    nextTest++;
+                ready: function (app) {
+                    var me = this, r = 0, c = 0;
+                    t.delay(function () {
+                        var alignFn = [ilayout.type, 'align', ilayout.align].join('_');
+                        var packFn = [ilayout.type, 'pack', ilayout.pack].join('_');
+                        alignFn = boxTests[alignFn];
+                        packFn = boxTests[packFn];
+                        if (Blend.isFunction(alignFn) || Blend.isFunction(packFn)) {
+                            if (alignFn) {
+                                c++;
+                                r += (alignFn(t, me.getR0(), me.getR1(), me.getR2(), ilayout.margin || 0) || 0);
+                            }
+                            if (packFn) {
+                                c++;
+                                r += (packFn(t, me.getR0(), me.getR1(), me.getR2(), ilayout.margin || 0) || 0);
+                            }
+                            if (c !== 2) {
+                                t.isTrue(false, ilayout.name);
+                            }
+                            if (r === 0) {
+                                t.done();
+                            }
+                        } else {
+                            t.isTrue(false, ilayout.name);
+                            t.done();
+                        }
+                    });
                 }
             }
         });
 
-        var app = Blend.create('Test.boxed.Application', {
+        Blend.defineClass(aname, {
+            extend: 'Blend.mvc.Application',
             controllers: [cname],
             mainView: {
                 type: 'ui.container',
                 items: [
                     {
-                        type: 'ui.boxed',
-                        layout: test.layout,
-                        flex: test.flex || null
+                        reference: 'rect0',
+                        type: 'ui.container',
+                        layout: {
+                            align: ilayout.align,
+                            pack: ilayout.pack,
+                            type: ilayout.type,
+                            margin: ilayout.margin
+                        },
+                        ui: 'graybg',
+                        width: 250,
+                        height: 250,
+                        defaults: {
+                            width: 50,
+                            height: 50,
+                            tname: ilayout.name
+                        },
+                        items: [
+                            {
+                                type: 'ui.rect',
+                                reference: 'r0'
+                            },
+                            {
+                                type: 'ui.rect',
+                                reference: 'r1'
+                            },
+                            {
+                                type: 'ui.rect',
+                                reference: 'r2'
+                            }
+                        ]
                     }
                 ]
             }
         });
 
-        apps.push(app);
+        Blend.Environment.runApplication(aname);
+
     });
-
-
-    var done_status;
-    var timer = setInterval(function () {
-
-        if (nextTest !== null && nextTest !== currentTest && !Blend.isNullOrUndef(apps[nextTest])) {
-            currentTest = nextTest;
-            done_status = true;
-            document.title = nextTest;
-            apps[nextTest].start();
-        }
-
-        if (Blend.isNullOrUndef(apps[nextTest])) {
-            clearInterval(timer);
-            if (done_status !== false) {
-                t.done();
-            }
-        }
-    }, 500);
 
 });
