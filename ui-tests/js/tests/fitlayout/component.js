@@ -11,7 +11,12 @@ BlendTest.defineTest('fit-layout', 'fit component', function (t) {
                 t.delay(function () {
                     var r0 = Blend.Element.getSize(me.getRect0().getElement());
                     var r1 = Blend.Element.getSize(me.getRect1().getElement());
-                    t.equal(r0, r1, 'component full fit');
+                    var diff = 0;
+                    if (Blend.Environment.isIE) {
+                        diff = 2;
+                    }
+                    t.equal(r0.width, r1.width + diff, 'width test');
+                    t.equal(r0.height, r1.height + diff, 'height test');
                     t.done();
                 });
             }
@@ -57,8 +62,12 @@ BlendTest.defineTest('fit-layout', 'fit component padding', function (t) {
                 t.delay(function () {
                     var r0 = Blend.Element.getSizeAndPosition(me.getRect0().getElement());
                     var r1 = Blend.Element.getSizeAndPosition(me.getRect1().getElement());
-                    t.equal(r0.width - 20, r1.width, 'component width ok');
-                    t.equal(r0.height - 20, r1.height, 'component height ok');
+                    var diff = 20;
+                    if (Blend.Environment.isIE) {
+                        diff = 2;
+                    }
+                    t.equal(r0.width - diff, r1.width, 'component width ok');
+                    t.equal(r0.height - diff, r1.height, 'component height ok');
                     t.equal(r1.top, 0, 'component top ok');
                     t.equal(r1.left, 0, 'component left ok');
                     t.done();
@@ -108,8 +117,12 @@ BlendTest.defineTest('fit-layout', 'fit component border and padding', function 
                 t.delay(function () {
                     var r0 = Blend.Element.getSizeAndPosition(me.getRect0().getElement());
                     var r1 = Blend.Element.getSizeAndPosition(me.getRect1().getElement());
-                    t.equal(r0.width - 30, r1.width, 'component width ok');
-                    t.equal(r0.height - 30, r1.height, 'component height ok');
+                    var diff = 30;
+                    if (Blend.Environment.isIE) {
+                        diff = 2;
+                    }
+                    t.equal(r0.width - diff, r1.width, 'component width ok');
+                    t.equal(r0.height - diff, r1.height, 'component height ok');
                     t.equal(r1.top, 0, 'component top ok');
                     t.equal(r1.left, 0, 'component left ok');
                     t.done();

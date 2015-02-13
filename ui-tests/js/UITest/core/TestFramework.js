@@ -44,10 +44,11 @@ var BlendTest = {};
         }
     };
 
-    this.almost = function (actuall, expected, message) {
+    this.almost = function (actuall, expected, message, range) {
+        range = range || 1;
         if (is_number(actuall) && (get_obj_type(actuall) === get_obj_type(actuall))) {
             var v = Math.abs(actuall - expected);
-            if ((v >= 0) && (v < 1)) {
+            if ((v >= 0) && (v < range)) {
                 pass(message || currentTest.testn);
                 return;
             }

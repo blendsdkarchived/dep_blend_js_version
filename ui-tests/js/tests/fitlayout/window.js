@@ -11,7 +11,8 @@ BlendTest.defineTest('fit-layout', 'window full fit', function (t) {
                 t.delay(function () {
                     var rsize = Blend.Element.getSize(me.getRect1().getElement());
                     var psize = Blend.Element.getSize(app.getMainView().getElement());
-                    t.equal(psize, rsize, 'full fit');
+                    t.almost(psize.width, rsize.width, 'width test', 3);
+                    t.almost(psize.height, rsize.height, 'height test', 3);
                     t.done();
                 });
             }
@@ -49,8 +50,12 @@ BlendTest.defineTest('fit-layout', 'window padding fit', function (t) {
                 t.delay(function () {
                     var r = Blend.Element.getSize(me.getRect1().getElement());
                     var p = Blend.Element.getSize(app.getMainView().getElement());
-                    t.isTrue(r.width === (p.width - 20), 'width is ok');
-                    t.isTrue(r.height === (p.height - 20), 'width is ok');
+                    var diff = 20;
+                    if (Blend.Environment.isIE) {
+                        diff = 2;
+                    }
+                    t.equal(r.width, (p.width - diff), 'width is ok');
+                    t.equal(r.height, (p.height - diff), 'height is ok');
                     t.done();
                 });
             }
@@ -90,8 +95,12 @@ BlendTest.defineTest('fit-layout', 'window padding border fit', function (t) {
                 t.delay(function () {
                     var r = Blend.Element.getSize(me.getRect1().getElement());
                     var p = Blend.Element.getSize(app.getMainView().getElement());
-                    t.isTrue(r.width === (p.width - 30), 'width is ok');
-                    t.isTrue(r.height === (p.height - 30), 'height is ok');
+                    var diff = 30;
+                    if (Blend.Environment.isIE) {
+                        diff = 2;
+                    }
+                    t.equal(r.width, (p.width - diff), 'width is ok');
+                    t.equal(r.height, (p.height - diff), 'height is ok');
                     t.done();
                 });
             }

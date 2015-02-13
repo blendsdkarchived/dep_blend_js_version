@@ -10,8 +10,8 @@ BlendTest.defineTest('center-layout', 'center default', function (t) {
                 var me = this;
                 t.delay(function () {
                     var r1 = Blend.Element.getSizeAndPosition(me.getRect1().getElement());
-                    t.equal(r1.top, 150, 'component top ok');
-                    t.equal(r1.left, 150, 'component left ok');
+                    t.almost(r1.top, 150, 'component top ok', 2);
+                    t.almost(r1.left, 150, 'component left ok', 2);
                     t.done();
                 });
             }
@@ -60,8 +60,8 @@ BlendTest.defineTest('center-layout', 'center with padding', function (t) {
                 var me = this;
                 t.delay(function () {
                     var r1 = Blend.Element.getSizeAndPosition(me.getRect1().getElement());
-                    t.equal(r1.top, 140, 'component top ok');
-                    t.equal(r1.left, 140, 'component left ok');
+                    t.almost(r1.top, 140, 'component top ok', 2);
+                    t.almost(r1.left, 140, 'component left ok', 2);
                     t.done();
                 });
             }
@@ -110,8 +110,8 @@ BlendTest.defineTest('center-layout', 'center with border and padding', function
                 var me = this;
                 t.delay(function () {
                     var r1 = Blend.Element.getSizeAndPosition(me.getRect1().getElement());
-                    t.equal(r1.top, 135, 'component top ok');
-                    t.equal(r1.left, 135, 'component left ok');
+                    t.almost(r1.top, 135, 'component top ok', 2);
+                    t.almost(r1.left, 135, 'component left ok', 2);
                     t.done();
                 });
             }
