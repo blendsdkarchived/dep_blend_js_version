@@ -11,6 +11,7 @@ Blend.defineClass('Blend.layout.plugins.Splitter', {
             me.removeSplitters();
             if (me.hasSplitters) {
                 me.view.scroll = false;
+                me.view.layout.margin = 0;
             }
             return layoutRenderFn.apply(me.layout, arguments);
         };
