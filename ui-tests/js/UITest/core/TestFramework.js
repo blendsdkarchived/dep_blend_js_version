@@ -11,9 +11,15 @@ var BlendTest = {};
             testWindow = null,
             statusbar = null,
             last_message = null,
-            messages = [];
+            messages = [],
+            autonum = 0;
 
     // PUBLIC METHODS
+
+    this.newName = function (prefix) {
+        prefix = prefix || 'Test.Clazz';
+        return prefix + (autonum++);
+    };
 
     this.done = function () {
         if (currentTest.pass === 0 && currentTest.fail === 0) {
