@@ -23,9 +23,10 @@ Blend.defineClass('Blend.ui.Rect', {
         el.style['background-color'] = color;
         el.style.width = me.width;
         el.style.height = me.height;
-        el.style.border = '1px solid red';
+        el.style.border = '1px dashed blue';
         el.listeners = {
             click: function () {
+                Blend.mvc.Context.getContext('b1').layoutMainView(true);
                 me.fireEvent("click");
             }
         };
