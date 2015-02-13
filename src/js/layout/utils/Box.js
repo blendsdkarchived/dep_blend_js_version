@@ -163,7 +163,7 @@ Blend.defineClass('Blend.layout.utils.Box', {
             packFn.apply(me, [ctx]);
             alignFn.apply(me, [ctx]);
             if (lctx.handler) {
-                lctx.handler(ctx, a, lctx);
+                lctx.handler(ctx, a);
             }
         }
     },
