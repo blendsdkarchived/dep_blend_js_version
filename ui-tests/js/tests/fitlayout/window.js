@@ -64,6 +64,7 @@ BlendTest.defineTest('fit-layout', 'window padding fit', function (t) {
             type: 'ui.container',
             layout: 'fit',
             ui: 'with_padding',
+            bodyPadding: 10,
             items: [
                 {
                     type: 'ui.rect',
@@ -104,6 +105,7 @@ BlendTest.defineTest('fit-layout', 'window padding border fit', function (t) {
             type: 'ui.container',
             layout: 'fit',
             ui: 'with_padding_and_border',
+            bodyPadding: 10,
             items: [
                 {
                     type: 'ui.rect',
