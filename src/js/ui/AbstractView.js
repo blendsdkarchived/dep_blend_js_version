@@ -6,7 +6,6 @@ Blend.defineClass('Blend.ui.AbstractView', {
     element: null,
     unselectable: true,
     scroll: false,
-    borderSize: 0,
     init: function () {
         var me = this;
         me._rendered = false;
@@ -56,7 +55,7 @@ Blend.defineClass('Blend.ui.AbstractView', {
         var me = this;
         if (me.canLayout()) {
             me._layout = false;
-            if (me.shouldLayout()) {
+            if (me.shouldLayout(force)) {
                 me.layoutView.apply(me, arguments);
             }
             me._layout = true;
@@ -65,11 +64,11 @@ Blend.defineClass('Blend.ui.AbstractView', {
     layoutView: function (force) {
         var me = this;
         me.layout.performLayout.apply(me.layout, arguments);
-        if (me.setText) {
-            me.lcnt = me.lcnt || 0;
-            me.lcnt++;
-            me.setText(me.lcnt);
-        }
+//        if (me.setText) {
+//            me.lcnt = me.lcnt || 0;
+//            me.lcnt++;
+//            me.setText(me.lcnt);
+//        }
     },
     render: function (renderCtx) {
         var me = this,
@@ -119,20 +118,29 @@ Blend.defineClass('Blend.ui.AbstractView', {
         return el;
     },
     /**
-     * Returns the bounts of this view
+     * Returns the bounds of this view
      * @returns {object}
      */
-    getBounds: function () {
-        var me = this;
-        return {
+    getBounds: function (calcSpacing) {
+        var me = this, sp, r = {
             top: me.top,
             left: me.left,
-            width: me.width - (me.borderSize * 2),
-            height: me.height - (me.borderSize * 2)
+            width: me.width,
+            height: me.height
         };
+        calcSpacing = calcSpacing || false;
+        if (calcSpacing) {
+            sp = Blend.Element.getSpacing(me.getElement());
+            r.width -= sp.combined;
+            r.height -= sp.combined;
+        }
+        return r;
     },
-    shouldLayout: function () {
+    shouldLayout: function (force) {
         var me = this, cur = me.getSizeSig();
+        if (force === true) {
+            cur = null;
+        }
         return (me._sizeSig !== cur) || (me.parent && Blend.isInstanceOf(me.parent, Blend.mvc.Application));
     },
     doneLayout: function () {

@@ -1,4 +1,4 @@
-BlendTest.defineTest('center-layout', 'center default', function (t) {
+BlendTest.defineTest('fit-layout', 'fit component', function (t) {
 
     var cname = t.newName();
     var aname = t.newName();
@@ -9,9 +9,9 @@ BlendTest.defineTest('center-layout', 'center default', function (t) {
             ready: function (app) {
                 var me = this;
                 t.delay(function () {
-                    var r1 = Blend.Element.getSizeAndPosition(me.getRect1().getElement());
-                    t.equal(r1.top, 150, 'component top ok');
-                    t.equal(r1.left, 150, 'component left ok');
+                    var r0 = Blend.Element.getSize(me.getRect0().getElement());
+                    var r1 = Blend.Element.getSize(me.getRect1().getElement());
+                    t.equal(r0, r1, 'component full fit');
                     t.done();
                 });
             }
@@ -27,16 +27,13 @@ BlendTest.defineTest('center-layout', 'center default', function (t) {
                 {
                     reference: 'rect0',
                     type: 'ui.container',
-                    layout: 'center',
-                    ui: 'graybg',
+                    layout: 'fit',
                     width: 400,
                     height: 400,
                     items: [
                         {
                             type: 'ui.rect',
-                            reference: 'rect1',
-                            width: 100,
-                            height: 100
+                            reference: 'rect1'
                         }
                     ]
                 }
@@ -47,8 +44,7 @@ BlendTest.defineTest('center-layout', 'center default', function (t) {
     Blend.Environment.runApplication(aname);
 });
 
-
-BlendTest.defineTest('center-layout', 'center with padding', function (t) {
+BlendTest.defineTest('fit-layout', 'fit component padding', function (t) {
 
     var cname = t.newName();
     var aname = t.newName();
@@ -59,9 +55,12 @@ BlendTest.defineTest('center-layout', 'center with padding', function (t) {
             ready: function (app) {
                 var me = this;
                 t.delay(function () {
+                    var r0 = Blend.Element.getSizeAndPosition(me.getRect0().getElement());
                     var r1 = Blend.Element.getSizeAndPosition(me.getRect1().getElement());
-                    t.equal(r1.top, 140, 'component top ok');
-                    t.equal(r1.left, 140, 'component left ok');
+                    t.equal(r0.width - 20, r1.width, 'component width ok');
+                    t.equal(r0.height - 20, r1.height, 'component height ok');
+                    t.equal(r1.top, 0, 'component top ok');
+                    t.equal(r1.left, 0, 'component left ok');
                     t.done();
                 });
             }
@@ -77,16 +76,14 @@ BlendTest.defineTest('center-layout', 'center with padding', function (t) {
                 {
                     reference: 'rect0',
                     type: 'ui.container',
-                    layout: 'center',
+                    layout: 'fit',
+                    width: 400,
+                    height: 400,
                     ui: 'with_padding',
-                    width: 400,
-                    height: 400,
                     items: [
                         {
                             type: 'ui.rect',
-                            reference: 'rect1',
-                            width: 100,
-                            height: 100
+                            reference: 'rect1'
                         }
                     ]
                 }
@@ -97,7 +94,7 @@ BlendTest.defineTest('center-layout', 'center with padding', function (t) {
     Blend.Environment.runApplication(aname);
 });
 
-BlendTest.defineTest('center-layout', 'center with border and padding', function (t) {
+BlendTest.defineTest('fit-layout', 'fit component border and padding', function (t) {
 
     var cname = t.newName();
     var aname = t.newName();
@@ -108,9 +105,12 @@ BlendTest.defineTest('center-layout', 'center with border and padding', function
             ready: function (app) {
                 var me = this;
                 t.delay(function () {
+                    var r0 = Blend.Element.getSizeAndPosition(me.getRect0().getElement());
                     var r1 = Blend.Element.getSizeAndPosition(me.getRect1().getElement());
-                    t.equal(r1.top, 135, 'component top ok');
-                    t.equal(r1.left, 135, 'component left ok');
+                    t.equal(r0.width - 30, r1.width, 'component width ok');
+                    t.equal(r0.height - 30, r1.height, 'component height ok');
+                    t.equal(r1.top, 0, 'component top ok');
+                    t.equal(r1.left, 0, 'component left ok');
                     t.done();
                 });
             }
@@ -126,16 +126,14 @@ BlendTest.defineTest('center-layout', 'center with border and padding', function
                 {
                     reference: 'rect0',
                     type: 'ui.container',
-                    layout: 'center',
-                    ui: 'with_padding_and_border',
+                    layout: 'fit',
                     width: 400,
                     height: 400,
+                    ui: 'with_padding_and_border',
                     items: [
                         {
                             type: 'ui.rect',
-                            reference: 'rect1',
-                            width: 100,
-                            height: 100
+                            reference: 'rect1'
                         }
                     ]
                 }

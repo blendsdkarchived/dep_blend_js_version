@@ -8,6 +8,7 @@ Blend.defineClass('Blend.dom.Element', {
     ],
     /**
      * Sets the scrol state for a HTMLElement
+     * @param {HTMLElement} el the element to set the scoll
      * @param {boolean/string} state true/false or 'x' 'y'
      */
     scrollable: function (el, state) {
@@ -36,7 +37,7 @@ Blend.defineClass('Blend.dom.Element', {
     },
     /**
      * Clears the contents of the given element.
-     * @param {HTMLElement} el th element to hide
+     * @param {HTMLElement} el the element to hide
      */
     clear: function (el) {
         var me = this;
@@ -107,14 +108,14 @@ Blend.defineClass('Blend.dom.Element', {
     },
     /**
      * Makes the DOM element hidden
-     * @param {HTMLElement} el th element to hide
+     * @param {HTMLElement} el theelement to hide
      */
     hide: function (el) {
         Blend.Style.set(el, 'display', 'none');
     },
     /**
      * Makes the DOM element visible
-     * @param {HTMLElement} el th element to show
+     * @param {HTMLElement} el theelement to show
      */
     show: function (el) {
         Blend.Style.unset(el, 'display');
@@ -178,7 +179,7 @@ Blend.defineClass('Blend.dom.Element', {
                 left: 0,
                 width: window.innerWidth,
                 height: window.innerHeight
-            }
+            };
         } else {
             return Blend.Style.get(el, ['top', 'left', 'width', 'height']);
         }
@@ -195,6 +196,26 @@ Blend.defineClass('Blend.dom.Element', {
         } else {
             return Blend.Style.get(el, ['width', 'height']);
         }
+    },
+    /**
+     * Retrives and calculates the additional spacing of an element
+     * The spacing can be caused by border width/height and the padding
+     * @param {type} el
+     * @returns {object}
+     */
+    getSpacing: function (el) {
+        var r = {width: 0, height: 0, combined: 0},
+        p = ['padding', 'border'], combined = 0;
+        if (el && el !== window) {
+            r = Blend.Style.get(el, p);
+            Blend.foreach(r, function (v, k) {
+                v = (Blend.isNumeric(v) ? v : 0) | 0;
+                combined += v;
+                r[k] = v;
+            });
+            r.combined = (combined * 2);
+        }
+        return r;
     },
     /**
      * Clone an element

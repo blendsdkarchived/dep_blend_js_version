@@ -12,42 +12,19 @@
         }
     ],
     "scripts": [
-        {
-            "src": "js/UITest/core/TestFramework.js"
-        },
-        {
-            "src": "js/tests/10000-test-sanity.js"
-        },
-        {
-            "src": "js/tests/10000-core.js"
-        },
-        {
-            "src": "js/tests/10000-object-collection.js"
-        },
-        {
-            "src": "js/tests/10010-kickstart.js"
-        },
-        {
-            "src": "js/tests/10010-mvc.js"
-        },
-        {
-            "src": "js/tests/10010-element.js"
-        },
-        {
-            "src": "js/tests/10020-fit-layout.js"
-        },
-        {
-            "src": "js/tests/10020-center-layout.js"
-        },
-        {
-            "src": "js/tests/10020-stacked-layout.js"
-        },
-        {
-            "src": "js/tests/10020-box-layout.js"
-        },
-        {
-            "src": "js/bootstrap.js"
-        }
+        "js/UITest/core/TestFramework.js",
+        "js/tests/10000-test-sanity.js",
+        "js/tests/10000-core.js",
+        "js/tests/10000-object-collection.js",
+        "js/tests/10010-kickstart.js",
+        "js/tests/10010-mvc.js",
+        "js/tests/10010-element.js",
+        "js/tests/fitlayout/window.js",
+        "js/tests/fitlayout/component.js",
+        "js/tests/10020-center-layout.js",
+        "js/tests/10020-stacked-layout.js",
+        "js/tests/boxlayout/basic-regress.js",
+        "js/bootstrap.js"
     ],
     "meta": [
         {

@@ -34,7 +34,8 @@ Blend.defineClass('Blend.layout.container.Box', {
             align: me.align,
             margin: me.margin,
             direction: me.direction,
-            bounds: me.view.getBounds(),
+            bounds: me.view.getBounds(true),
+            scroll: me.view.scroll,
             handler: function (ctx, idx) {
                 var views = me.view.getVisibleChildren(),
                         view = views[idx];

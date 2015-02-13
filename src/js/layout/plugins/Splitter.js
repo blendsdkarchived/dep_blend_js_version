@@ -9,6 +9,10 @@ Blend.defineClass('Blend.layout.plugins.Splitter', {
         var layoutRenderFn = me.layout.render;
         me.layout.render = function () {
             me.removeSplitters();
+            if (me.hasSplitters) {
+                me.view.scroll = false;
+                me.view.layout.margin = 0;
+            }
             return layoutRenderFn.apply(me.layout, arguments);
         };
 
@@ -187,6 +191,10 @@ Blend.defineClass('Blend.layout.plugins.Splitter', {
             ctx[ctx_b][setterName](ctx[ctx_b][prop] - displ);
         }
 
+        /*
+         * This will force the parent/view to re-layout
+         */
+        me.layout.view._sizeSig = null;
         me.layout.view.performLayout();
     },
     unit2Flex: function (size) {

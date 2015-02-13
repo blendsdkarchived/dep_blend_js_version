@@ -63,3 +63,14 @@
 .graybg {
     background-color: lightgray;
 }
+
+.with_padding {
+    padding:10px;
+    background-color: lightgray;
+}
+
+.with_padding_and_border {
+    padding:10px;
+    border:5px dashed red;
+    background-color: lightgray;
+}

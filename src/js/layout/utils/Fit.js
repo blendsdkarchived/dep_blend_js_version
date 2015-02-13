@@ -8,18 +8,19 @@ Blend.defineClass('Blend.layout.utils.Fit', {
      * Fits the source element into the parent element
      * @param {Blend.ui.View/HTMLElement} parent
      * @param {Blend.ui.View/HTMLElement} child
+     * @param {object} lctx
      */
-    fit: function (parent, child, lctx, borderSize) {
+    fit: function (parent, child, lctx) {
         var me = this,
                 parentElement = me.getEl(parent),
-                childElement = me.getEl(child);
-        borderSize = borderSize || 0;
+                childElement = me.getEl(child),
+                parSpacing = Blend.Element.getSpacing(parentElement);
         Blend.CSS.set(childElement, Blend.cssPrefix('fitable'));
         var bounds = Blend.Element.getSize(parentElement);
 
-        if (borderSize !== 0) {
-            bounds.width -= (borderSize * 2);
-            bounds.height -= (borderSize * 2);
+        if (parSpacing) {
+            bounds.width -= parSpacing.combined;
+            bounds.height -= parSpacing.combined;
         }
 
         if (lctx && lctx.handler) {

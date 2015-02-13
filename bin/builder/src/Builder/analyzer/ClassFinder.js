@@ -94,20 +94,24 @@ Blend.defineClass('Builder.analyzer.ClassFinder', {
                         callee.property.type === 'Identifier' &&
                         callee.property.name === 'defineClass') {
                     if (expression.arguments.length !== 0) {
-                        cname = expression.arguments[0].value;
+                        cname = expression.arguments[0].value || expression.arguments[0].name || null;
                     }
                     if (expression.arguments.length > 1) {
-                        cdef = expression.arguments[1];
-                        if (cdef.type === 'ObjectExpression') {
-                            cdef = cdef.properties;
+                        if (expression.arguments[0].type === 'Literal') {
+                            cdef = expression.arguments[1];
+                            if (cdef.type === 'ObjectExpression') {
+                                cdef = cdef.properties;
+                            } else {
+                                cdef = [];
+                                Logger.warn(cname + ' does not have an object for a class definition!');
+                            }
+                            result = {
+                                className: cname,
+                                classDef: me.checkSetBaseClass(cdef || [])
+                            };
                         } else {
-                            cdef = [];
-                            Logger.warn(cname + ' does not have an object for a class definition!')
+                            Logger.warn(cname + ' is not a string litteral, skipping this class definition.');
                         }
-                    }
-                    return {
-                        className: cname,
-                        classDef: me.checkSetBaseClass(cdef || [])
                     }
                 }
             }
