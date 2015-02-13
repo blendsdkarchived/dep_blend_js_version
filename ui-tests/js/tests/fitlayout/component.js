@@ -130,7 +130,7 @@ BlendTest.defineTest('fit-layout', 'fit component border and padding', function 
                     layout: 'fit',
                     width: 400,
                     height: 400,
-                    ui: 'with_padding_and_border',
+                    ui: 'with_border',
                     bodyPadding: 10,
                     items: [
                         {

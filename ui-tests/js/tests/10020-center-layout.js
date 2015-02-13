@@ -78,9 +78,10 @@ BlendTest.defineTest('center-layout', 'center with padding', function (t) {
                     reference: 'rect0',
                     type: 'ui.container',
                     layout: 'center',
-                    ui: 'with_padding',
+                    ui: 'graybg',
                     width: 400,
                     height: 400,
+                    bodyPadding: 10,
                     items: [
                         {
                             type: 'ui.rect',
@@ -127,7 +128,8 @@ BlendTest.defineTest('center-layout', 'center with border and padding', function
                     reference: 'rect0',
                     type: 'ui.container',
                     layout: 'center',
-                    ui: 'with_padding_and_border',
+                    ui: 'with_border',
+                    bodyPadding: 10,
                     width: 400,
                     height: 400,
                     items: [

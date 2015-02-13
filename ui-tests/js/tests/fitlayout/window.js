@@ -104,7 +104,7 @@ BlendTest.defineTest('fit-layout', 'window padding border fit', function (t) {
         mainView: {
             type: 'ui.container',
             layout: 'fit',
-            ui: 'with_padding_and_border',
+            ui: 'with_border',
             bodyPadding: 10,
             items: [
                 {
