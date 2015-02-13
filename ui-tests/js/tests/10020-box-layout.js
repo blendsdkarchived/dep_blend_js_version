@@ -103,50 +103,6 @@ var boxTests = {
         t.equal(r1.left, 150 - (2 * margin), r1.tname);
         t.equal(r2.left, 200 - margin, r2.tname);
     }
-    /*,
-     vbox_align_start_margin_10: function (t, r0, r1, r2) {
-     boxTests.vbox_align_start_margin_0(t, r0, r1, r2, 10);
-     },
-     vbox_align_center_margin_10: function (t, r0, r1, r2) {
-     boxTests.vbox_align_center_margin_0(t, r0, r1, r2);
-     },
-     vbox_align_end_margin_10: function (t, r0, r1, r2) {
-     boxTests.vbox_align_end_margin_0(t, r0, r1, r2, 10);
-     },
-     vbox_align_stretch_margin_10: function (t, r0, r1, r2) {
-     boxTests.vbox_align_stretch_margin_0(t, r0, r1, r2, 10);
-     },
-     vbox_pack_start_margin_10: function (t, r0, r1, r2) {
-     boxTests.vbox_pack_start_margin_0(t, r0, r1, r2, 10);
-     },
-     vbox_pack_center_margin_10: function (t, r0, r1, r2) {
-     boxTests.vbox_pack_center_margin_0(t, r0, r1, r2, 10);
-     },
-     vbox_pack_end_margin_10: function (t, r0, r1, r2) {
-     boxTests.vbox_pack_end_margin_0(t, r0, r1, r2, 10);
-     },
-     hbox_align_start_margin_10: function (t, r0, r1, r2) {
-     boxTests.hbox_align_start_margin_0(t, r0, r1, r2, 10);
-     },
-     hbox_align_center_margin_10: function (t, r0, r1, r2) {
-     boxTests.hbox_align_center_margin_0(t, r0, r1, r2);
-     },
-     hbox_align_end_margin_10: function (t, r0, r1, r2) {
-     boxTests.hbox_align_end_margin_0(t, r0, r1, r2, 10);
-     },
-     hbox_align_stretch_margin_10: function (t, r0, r1, r2) {
-     boxTests.hbox_align_stretch_margin_0(t, r0, r1, r2, 10);
-     },
-     hbox_pack_start_margin_10: function (t, r0, r1, r2) {
-     boxTests.hbox_pack_start_margin_0(t, r0, r1, r2, 10);
-     },
-     hbox_pack_center_margin_10: function (t, r0, r1, r2) {
-     boxTests.hbox_pack_center_margin_0(t, r0, r1, r2, 10);
-     },
-     hbox_pack_end_margin_10: function (t, r0, r1, r2) {
-     boxTests.hbox_pack_end_margin_0(t, r0, r1, r2, 10);
-     }
-     */
 };
 
 Blend.foreach(layouts, function (ilayout, idx) {
