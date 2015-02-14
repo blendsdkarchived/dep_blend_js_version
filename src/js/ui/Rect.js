@@ -24,9 +24,10 @@ Blend.defineClass('Blend.ui.Rect', {
         el.style.width = me.width;
         el.style.height = me.height;
         el.style.border = '1px dashed blue';
+        el.style.padding = 10;
         el.listeners = {
             click: function () {
-                Blend.mvc.Context.getContext('b1').layoutMainView(true);
+                //Blend.mvc.Context.getContext('b1').layoutMainView(true);
                 me.fireEvent("click");
             }
         };
