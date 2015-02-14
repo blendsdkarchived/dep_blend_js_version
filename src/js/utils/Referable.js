@@ -72,6 +72,8 @@ Blend.defineClass('Blend.utils.Referable', {
             } else {
                 me._refs[refName].push(obj);
             }
+        } else {
+            return false;
         }
     }
 });

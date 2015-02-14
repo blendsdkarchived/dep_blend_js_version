@@ -167,7 +167,9 @@ Blend.defineClass('Blend.ui.AbstractView', {
             setterFn = me['set' + Blend.camelCase(config)];
             if (!Blend.isFunction(value) && Blend.isFunction(setterFn)) {
                 me[config] = null;
-                setterFn.apply(me, [value]);
+                if (setterFn.apply(me, [value]) === false) {
+                    me[config] = value;
+                }
             }
         });
         me._sizeSig = 0;
