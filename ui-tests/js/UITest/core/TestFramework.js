@@ -12,7 +12,9 @@ var BlendTest = {};
             statusbar = null,
             last_message = null,
             messages = [],
-            autonum = 0;
+            autonum = 0,
+            default_delay_amount = null,
+            allowShow = true;
 
     // PUBLIC METHODS
 
@@ -32,7 +34,8 @@ var BlendTest = {};
     };
 
     this.delay = function (fn, amount) {
-        setTimeout(fn, amount || 500);
+        default_delay_amount = getQueryParam('speed') || 500;
+        setTimeout(fn, amount || default_delay_amount);
     }
 
     this.throws_exception = function (actual, expected, message) {
@@ -279,14 +282,18 @@ var BlendTest = {};
             expected = JSON.stringify(expected);
         }
 
+
         log_error((message || currentTest.testn) + ' : got [' + actual + '] expected [' + expected + ']');
+        if (getQueryParam('break')) {
+            nextTest = tests.length + 1;
+        }
         currentTest.testn++;
     };
 
 
     var runNextTest = function () {
         currentTest = tests[nextTest];
-
+        allowShow = getQueryParam('show') === 'false' ? false : true;
         if (currentTest) {
             if (getQueryParam('break')) {
                 log_info('Starting');
@@ -302,9 +309,10 @@ var BlendTest = {};
             }
         } else {
             show();
-
-            statusbar.innerHTML += "<span class='blend-test-pass-log'>" + allpass + " passed</span>" +
-                    "<span class='blend-test-error-log'>" + allfail + " failed</span>";
+            if (allowShow) {
+                statusbar.innerHTML += "<span class='blend-test-pass-log'>" + allpass + " passed</span>" +
+                        "<span class='blend-test-error-log'>" + allfail + " failed</span>";
+            }
         }
     };
 
@@ -351,8 +359,10 @@ var BlendTest = {};
     };
 
     var show = function () {
-        document.body.setAttribute('class', '');
-        show_messages();
+        if (allowShow) {
+            document.body.setAttribute('class', '');
+            show_messages();
+        }
     };
 
     var removeEventListener = function (el, eventName, eventHandler) {
