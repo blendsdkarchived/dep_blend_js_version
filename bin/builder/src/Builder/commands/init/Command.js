@@ -164,11 +164,11 @@ Blend.defineClass('Builder.commands.init.Command', {
             ],
             meta: [
                 {
-                    charset: "utf8"
+                    charset: "UTF-8"
                 },
                 {
                     name: "viewport",
-                    content: "width=device-width"
+                    content: "width=device-width, initial-scale=1, maximum-scale=1"
                 },
                 {
                     "http-equiv": "X-UA-Compatible",
