@@ -22,9 +22,10 @@ $experimental-support-for-svg:true;
     font-style: normal;
 }*/
 
-html, * {
+html, * , *:before, *:after{
     @include box-sizing(border-box);
 }
+
 #{$prefix}-launch {
     @include opacity(0.001);
 }
