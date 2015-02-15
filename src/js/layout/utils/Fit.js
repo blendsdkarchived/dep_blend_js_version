@@ -13,8 +13,7 @@ Blend.defineClass('Blend.layout.utils.Fit', {
     fit: function (parent, child, lctx) {
         var me = this,
                 parentElement = me.getEl(parent),
-                childElement = me.getEl(child),
-                parSpacing = Blend.Element.getSpacing(parentElement);
+                childElement = me.getEl(child);
         var bounds = Blend.Element.getInnerSize(parentElement);
         if (lctx && lctx.handler) {
             lctx.handler(childElement, bounds);

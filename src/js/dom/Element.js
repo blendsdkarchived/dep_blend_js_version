@@ -235,26 +235,6 @@ Blend.defineClass('Blend.dom.Element', {
         return cSize;
     },
     /**
-     * Retrives and calculates the additional spacing of an element
-     * The spacing can be caused by border width/height and the padding
-     * @param {type} el
-     * @returns {object}
-     */
-    getSpacing: function (el) {
-        var r = {width: 0, height: 0, combined: 0},
-        p = ['padding', 'border'], combined = 0;
-        if (el && el !== window) {
-            r = Blend.Style.get(el, p);
-            Blend.foreach(r, function (v, k) {
-                v = (Blend.isNumeric(v) ? v : 0) | 0;
-                combined += v;
-                r[k] = v;
-            });
-            r.combined = (combined * 2);
-        }
-        return r;
-    },
-    /**
      * Clone an element
      * @param {boolean} deep true if the children of the node should also be cloned
      * or false to clone only the specified node, defaults to true

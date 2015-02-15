@@ -34,7 +34,7 @@ Blend.defineClass('Blend.layout.container.Box', {
             align: me.align,
             margin: me.margin,
             direction: me.direction,
-            bounds: me.view.getBounds(true),
+            bounds: Blend.Element.getBounds(me.view.getElement()),
             scroll: me.view.scroll,
             handler: function (ctx, idx) {
                 var views = me.view.getVisibleChildren(),
@@ -46,7 +46,7 @@ Blend.defineClass('Blend.layout.container.Box', {
     createItemLayoutContext: function () {
         var me = this, list = [], ctx;
         Blend.foreach(me.view.getVisibleChildren(), function (view) {
-            ctx = view.getBounds();
+            ctx = Blend.Element.getBounds(view.getElement());
             ctx.itemIndex = view.itemIndex;
             if (Blend.isNumeric(view.flex)) {
                 ctx.flex = true;
