@@ -160,13 +160,11 @@ Blend.defineClass('Blend.Environment', {
                         didRun = true;
                         if (me.isBrowserOK()) {
                             Blend.foreach(me.readyCallbacks, function (item) {
-                                setTimeout(function () {
-                                    item.fn.apply(item.sc, []);
-                                }, 1);
+                                item.fn.apply(item.sc, []);
                             });
                         }
                     }
-                }
+                };
 
         if (!me.kickStarted) {
             me.kickStarted = true;

@@ -40,8 +40,8 @@ Blend.defineClass('Blend.layout.utils.Center', {
         var me = this,
                 parentElement = me.getEl(parent),
                 childElement = me.getEl(child),
-                pb = Blend.Element.getBounds(parentElement),
-                cb = Blend.Element.getBounds(childElement),
+                pb = Blend.Element.getInnerSize(parentElement),
+                cb = Blend.Element.getSize(childElement),
                 left = doLeft ? (pb.width / 2) - (cb.width / 2) : cb.left,
                 top = doTop ? (pb.height / 2) - (cb.height / 2) : cb.top;
         Blend.Element.setPosition(childElement, top, left);
