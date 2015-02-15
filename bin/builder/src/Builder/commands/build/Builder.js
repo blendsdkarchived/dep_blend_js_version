@@ -142,8 +142,7 @@ Blend.defineClass('Builder.commands.build.Builder', {
         var me = this,
                 index = Template.renderIndex(me.project.getProjectFolder(me.project.indexTemplate), {
                     name: me.project.name,
-                    metatags: me.renderMetaTags(),
-                    headers: me.getIndexTemplateHeader(),
+                    headers: me.getIndexTemplateHeader(me.renderMetaTags()),
                     footers: me.getIndexTemplateFooter(),
                     project: me.project
                 }),

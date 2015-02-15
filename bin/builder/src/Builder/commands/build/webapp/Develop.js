@@ -19,8 +19,8 @@ Blend.defineClass('Builder.commands.build.webapp.Develop', {
         });
         return result;
     },
-    getIndexTemplateHeader: function () {
+    getIndexTemplateHeader: function (metatags) {
         var me = this;
-        return [me.deployCSSFiles(me._styles), Template.renderScripts(me._scripts)].join("\n");
+        return [metatags, me.deployCSSFiles(me._styles), Template.renderScripts(me._scripts)].join("\n");
     }
 });

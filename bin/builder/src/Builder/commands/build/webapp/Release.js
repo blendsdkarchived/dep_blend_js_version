@@ -19,8 +19,8 @@ Blend.defineClass('Builder.commands.build.webapp.Release', {
         });
         return Template.renderScriptSource(Minify.js(result));
     },
-    getIndexTemplateHeader: function () {
+    getIndexTemplateHeader: function (metatags) {
         var me = this;
-        return [me.deployCSSFiles(me._styles), me._scripts].join("\n");
+        return [metatags, me.deployCSSFiles(me._styles), me._scripts].join("\n");
     }
 });
