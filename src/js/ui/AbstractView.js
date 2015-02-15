@@ -64,11 +64,6 @@ Blend.defineClass('Blend.ui.AbstractView', {
     layoutView: function (force) {
         var me = this;
         me.layout.performLayout.apply(me.layout, arguments);
-//        if (me.setText) {
-//            me.lcnt = me.lcnt || 0;
-//            me.lcnt++;
-//            me.setText(me.lcnt);
-//        }
     },
     render: function (renderCtx) {
         var me = this,
