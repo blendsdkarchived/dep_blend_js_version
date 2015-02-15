@@ -43,7 +43,6 @@ Blend.defineClass('Blend.ui.Splitter', {
         var me = this;
         var me = this;
         var interactionHandler = function (evt) {
-            console.log(me.correction.spacing);
             Blend.Style.set(me.ghostEl, {
                 left: me.checkSetVerticalPosition(evt.clientX - (me.correction.left + me.correction.spacing / 2)) - me.halfW,
                 top: 0
@@ -51,7 +50,6 @@ Blend.defineClass('Blend.ui.Splitter', {
         };
         var placementHandler = function (evt) {
             me.removeListeners(placementHandler, interactionHandler);
-            me.relocateSplitter();
             me.parent.layout.updateLayoutContext({
                 left: me.getAComponent(),
                 right: me.getBComponent(),
@@ -74,7 +72,6 @@ Blend.defineClass('Blend.ui.Splitter', {
         };
         var placementHandler = function (evt) {
             me.removeListeners(placementHandler, interactionHandler);
-            me.relocateSplitter();
             me.parent.layout.updateLayoutContext({
                 top: me.getAComponent(),
                 bottom: me.getBComponent(),
@@ -87,7 +84,7 @@ Blend.defineClass('Blend.ui.Splitter', {
      * Relocated the splitter to its new position and removed the ghost splitter
      */
     relocateSplitter: function () {
-        var me = this, delta = {}, ghostPos = Blend.Element.getSizeAndPosition(me.ghostEl);
+        var me = this, delta = {}, ghostPos = Blend.Element.getBounds(me.ghostEl);
         Blend.Style.set(me.ghostEl, {
             display: 'none'
         });
@@ -119,17 +116,17 @@ Blend.defineClass('Blend.ui.Splitter', {
      * Setup and do common processing for both splitter types
      */
     setup: function (placementHandler, interactionHandler) {
-        var me = this;
+        var me = this, parEl = me.parent.getElement();
         me.halfW = (me.width / 2);
         me.halfH = (me.height / 2);
-        me.oldPosition = Blend.Element.getSizeAndPosition(me.element);
+        me.oldPosition = Blend.Element.getBounds(me.element);
         /**
          * Since the mouse movement is positioned on the document element, we need
          * to translate mouse position to the internal location of the container
          * where the splitter is a child of
          */
-        me.correction = me.parent.getElement().getBoundingClientRect();
-        me.correction.spacing = Blend.Element.getSpacing(me.parent.getElement()).combined;
+        me.correction = parEl.getBoundingClientRect();
+        me.correction.spacing = (me.parent.bodyPadding * 2);
         me.setupAdjacent('aCompInfo', me.getAComponent());
         me.setupAdjacent('bCompInfo', me.getBComponent());
         me.createGhostSplitter();
@@ -137,7 +134,7 @@ Blend.defineClass('Blend.ui.Splitter', {
         Blend.Environment.addEventListener(Blend.getDocument(), 'mousemove', interactionHandler);
     },
     setupAdjacent: function (name, comp) {
-        var me = this, info = Blend.Element.getSizeAndPosition(comp.getElement());
+        var me = this, info = Blend.Element.getBounds(comp.getElement());
         info.minWidth = comp.minWidth || null;
         info.minHeight = comp.minHeight || null;
         me[name] = info;
