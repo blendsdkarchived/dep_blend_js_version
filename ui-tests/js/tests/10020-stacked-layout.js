@@ -1,4 +1,4 @@
-BlendTest.defineTest('stacked-layout', 'general', function (t) {
+BlendTest.defineTest('stacked-layout', 'stacked-layout', function (t) {
 
     Blend.defineClass('Test.layout.view.Stacked', {
         extend: 'Blend.ui.Container',

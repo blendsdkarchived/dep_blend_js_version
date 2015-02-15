@@ -13,7 +13,7 @@ var BlendTest = {};
             last_message = null,
             messages = [],
             autonum = 0,
-            default_delay_amount = null,
+            default_delay_amount = 100,
             allowShow = true;
 
     // PUBLIC METHODS
@@ -34,8 +34,7 @@ var BlendTest = {};
     };
 
     this.delay = function (fn, amount) {
-        default_delay_amount = getQueryParam('speed') || 500;
-        setTimeout(fn, amount || default_delay_amount);
+        setTimeout(fn, amount || getQueryParam('speed') || default_delay_amount);
     }
 
     this.throws_exception = function (actual, expected, message) {

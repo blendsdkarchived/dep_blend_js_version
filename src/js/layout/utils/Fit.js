@@ -15,14 +15,7 @@ Blend.defineClass('Blend.layout.utils.Fit', {
                 parentElement = me.getEl(parent),
                 childElement = me.getEl(child),
                 parSpacing = Blend.Element.getSpacing(parentElement);
-        Blend.CSS.set(childElement, Blend.cssPrefix('fitable'));
-        var bounds = Blend.Element.getSize(parentElement);
-
-        if (parSpacing) {
-            bounds.width -= parSpacing.combined;
-            bounds.height -= parSpacing.combined;
-        }
-
+        var bounds = Blend.Element.getInnerSize(parentElement);
         if (lctx && lctx.handler) {
             lctx.handler(childElement, bounds);
         } else {

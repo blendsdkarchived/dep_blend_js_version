@@ -20,7 +20,6 @@ Blend.defineClass('Blend.dom.Element', {
                 Blend.CSS.CSS_SCROLL_AUTO
             ]);
         };
-
         if (el && !Blend.isNullOrUndef(state)) {
             clearScroll();
             if (state === true) {
@@ -181,7 +180,9 @@ Blend.defineClass('Blend.dom.Element', {
                 height: window.innerHeight
             };
         } else {
-            return Blend.Style.get(el, ['top', 'left', 'width', 'height']);
+            var tl = Blend.Style.get(el, ['top', 'left']);
+            var sz = Blend.Element.getSize(el);
+            return Blend.apply(tl, sz);
         }
     },
     /**
@@ -194,8 +195,44 @@ Blend.defineClass('Blend.dom.Element', {
                 height: window.innerHeight
             };
         } else {
-            return Blend.Style.get(el, ['width', 'height']);
+            return {width: el.offsetWidth, height: el.offsetHeight};
         }
+    },
+    /**
+     * Gets the inner padding of an element
+     * @param {type} el
+     * @returns {object}
+     */
+    getPadding: function (el) {
+        var p, r = {top: 0, left: 0, bottom: 0, right: 0};
+        if (el) {
+            p = Blend.Style.get(el, ['padding-top', 'padding-left', 'padding-bottom', 'padding-right']);
+            r = {};
+            Blend.foreach(p, function (v, k) {
+                k = k.replace('padding-', '');
+                r[k] = Blend.isNumeric(v) ? v : 0;
+            });
+        }
+        return r;
+    },
+    /**
+     * Gets the remaining width and height of an element after border and paddings
+     * are calculated and added.
+     */
+    getInnerSize: function (el) {
+        var me = this,
+                padding,
+                cSize = {width: 0, height: 0};
+        if (el === window) {
+            cSize = me.getSize(el)
+        } else if (el) {
+            padding = me.getPadding(el);
+            cSize = {
+                width: el.clientWidth - (padding.left + padding.right),
+                height: el.clientHeight - (padding.top + padding.bottom)
+            }
+        }
+        return cSize;
     },
     /**
      * Retrives and calculates the additional spacing of an element
@@ -236,15 +273,7 @@ Blend.defineClass('Blend.dom.Element', {
                 o['opacity'] = value;
             }
             Blend.Style.set(el, o);
-
         }
-    },
-    /**
-     * Gets the position and the size of an element [top,left,width,height]
-     * as an object.
-     */
-    getSizeAndPosition: function (el) {
-        return Blend.Style.get(el, ['width', 'height', 'top', 'left']);
     },
     /**
      * Sets the scroll state of an HTMLElement

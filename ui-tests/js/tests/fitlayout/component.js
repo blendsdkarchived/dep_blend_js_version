@@ -9,14 +9,10 @@ BlendTest.defineTest('fit-layout', 'fit component', function (t) {
             ready: function (app) {
                 var me = this;
                 t.delay(function () {
-                    var r0 = Blend.Element.getSize(me.getRect0().getElement());
-                    var r1 = Blend.Element.getSize(me.getRect1().getElement());
-                    var diff = 0;
-                    if (Blend.Environment.isIE) {
-                        diff = 2;
-                    }
-                    t.equal(r0.width, r1.width + diff, 'width test');
-                    t.equal(r0.height, r1.height + diff, 'height test');
+                    var r = Blend.Element.getSize(me.getRect1().getElement());
+                    var p = Blend.Element.getInnerSize(me.getRect0().getElement());
+                    t.equal(p.width, r.width, 'width is ok');
+                    t.equal(p.height, r.height, 'height is ok');
                     t.done();
                 });
             }
@@ -60,16 +56,10 @@ BlendTest.defineTest('fit-layout', 'fit component padding', function (t) {
             ready: function (app) {
                 var me = this;
                 t.delay(function () {
-                    var r0 = Blend.Element.getSizeAndPosition(me.getRect0().getElement());
-                    var r1 = Blend.Element.getSizeAndPosition(me.getRect1().getElement());
-                    var diff = 20;
-                    if (Blend.Environment.isIE) {
-                        diff = 2;
-                    }
-                    t.equal(r0.width - diff, r1.width, 'component width ok');
-                    t.equal(r0.height - diff, r1.height, 'component height ok');
-                    t.equal(r1.top, 0, 'component top ok');
-                    t.equal(r1.left, 0, 'component left ok');
+                    var r = Blend.Element.getSize(me.getRect1().getElement());
+                    var p = Blend.Element.getInnerSize(me.getRect0().getElement());
+                    t.equal(p.width, r.width, 'width is ok');
+                    t.equal(p.height, r.height, 'height is ok');
                     t.done();
                 });
             }
@@ -88,7 +78,7 @@ BlendTest.defineTest('fit-layout', 'fit component padding', function (t) {
                     layout: 'fit',
                     width: 400,
                     height: 400,
-                    ui: 'with_padding',
+                    ui: 'graybg',
                     bodyPadding: 10,
                     items: [
                         {
@@ -115,16 +105,10 @@ BlendTest.defineTest('fit-layout', 'fit component border and padding', function 
             ready: function (app) {
                 var me = this;
                 t.delay(function () {
-                    var r0 = Blend.Element.getSizeAndPosition(me.getRect0().getElement());
-                    var r1 = Blend.Element.getSizeAndPosition(me.getRect1().getElement());
-                    var diff = 30;
-                    if (Blend.Environment.isIE) {
-                        diff = 2;
-                    }
-                    t.equal(r0.width - diff, r1.width, 'component width ok');
-                    t.equal(r0.height - diff, r1.height, 'component height ok');
-                    t.equal(r1.top, 0, 'component top ok');
-                    t.equal(r1.left, 0, 'component left ok');
+                    var r = Blend.Element.getSize(me.getRect1().getElement());
+                    var p = Blend.Element.getInnerSize(me.getRect0().getElement());
+                    t.equal(p.width, r.width, 'width is ok');
+                    t.equal(p.height, r.height, 'height is ok');
                     t.done();
                 });
             }

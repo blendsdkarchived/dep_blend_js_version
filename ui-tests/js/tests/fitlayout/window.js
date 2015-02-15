@@ -37,6 +37,7 @@ BlendTest.defineTest('fit-layout', 'window full fit', function (t) {
     Blend.Environment.runApplication(aname);
 });
 
+
 BlendTest.defineTest('fit-layout', 'window padding fit', function (t) {
 
     var cname = t.newName();
@@ -49,13 +50,9 @@ BlendTest.defineTest('fit-layout', 'window padding fit', function (t) {
                 var me = this;
                 t.delay(function () {
                     var r = Blend.Element.getSize(me.getRect1().getElement());
-                    var p = Blend.Element.getSize(app.getMainView().getElement());
-                    var diff = 20;
-                    if (Blend.Environment.isIE) {
-                        diff = 2;
-                    }
-                    t.equal(r.width, (p.width - diff), 'width is ok');
-                    t.equal(r.height, (p.height - diff), 'height is ok');
+                    var p = Blend.Element.getInnerSize(app.getMainView().getElement());
+                    t.equal(p.width, r.width, 'width is ok');
+                    t.equal(p.height, r.height, 'height is ok');
                     t.done();
                 });
             }
@@ -68,7 +65,7 @@ BlendTest.defineTest('fit-layout', 'window padding fit', function (t) {
         mainView: {
             type: 'ui.container',
             layout: 'fit',
-            ui: 'with_padding',
+            ui: 'graybg',
             bodyPadding: 10,
             items: [
                 {
@@ -94,13 +91,9 @@ BlendTest.defineTest('fit-layout', 'window padding border fit', function (t) {
                 var me = this;
                 t.delay(function () {
                     var r = Blend.Element.getSize(me.getRect1().getElement());
-                    var p = Blend.Element.getSize(app.getMainView().getElement());
-                    var diff = 30;
-                    if (Blend.Environment.isIE) {
-                        diff = 2;
-                    }
-                    t.equal(r.width, (p.width - diff), 'width is ok');
-                    t.equal(r.height, (p.height - diff), 'height is ok');
+                    var p = Blend.Element.getInnerSize(app.getMainView().getElement());
+                    t.equal(p.width, r.width, 'width is ok');
+                    t.equal(p.height, r.height, 'height is ok');
                     t.done();
                 });
             }
@@ -126,3 +119,4 @@ BlendTest.defineTest('fit-layout', 'window padding border fit', function (t) {
 
     Blend.Environment.runApplication(aname);
 });
+
