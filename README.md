@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.org/blendsdk/blendjs-sdk.svg?branch=master)](https://travis-ci.org/blendsdk/blendjs-sdk)
-
 BlendJS SDK
 ===========
 
