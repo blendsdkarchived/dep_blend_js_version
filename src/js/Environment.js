@@ -160,7 +160,6 @@ Blend.defineClass('Blend.Environment', {
                         didRun = true;
                         if (me.isBrowserOK()) {
                             Blend.foreach(me.readyCallbacks, function (item) {
-                                console.log(item.fn.toString());
                                 item.fn.apply(item.sc, []);
                             });
                         }
