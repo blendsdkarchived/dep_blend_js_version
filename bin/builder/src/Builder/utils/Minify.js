@@ -8,7 +8,7 @@ Blend.defineClass('Minify', {
         var ast = esprima.parse(scripts.join(';'));
         var optimized = esmangle.optimize(ast, null);
         var result = esmangle.mangle(optimized);
-        result = escodegen.generate(result, {
+        return escodegen.generate(result, {
             format: {
                 renumber: true,
                 hexadecimal: true,
@@ -18,6 +18,5 @@ Blend.defineClass('Minify', {
                 parentheses: false
             }
         });
-        return result.toString();
     }
 });
