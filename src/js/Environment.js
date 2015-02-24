@@ -142,7 +142,7 @@ Blend.defineClass('Blend.Environment', {
     isBrowserOK: function () {
         var me = this;
         if (me.isIE && me.IEVersion < 9) {
-            document.write('<div style="padding:5px;line-height:32px;position:fixed;top:0px;left:0px;color:white;background-color:red">Unable to run this application. Please upgrade your Internet Explorer to version 9 or above, otherwise use Google Chrome or Firefox!');
+            document.write('<div id="noblend">Unable to run this application. Please upgrade your Internet Explorer to version 9 or above, otherwise use Google Chrome or Firefox!</div>');
             return false;
         } else {
             return true;

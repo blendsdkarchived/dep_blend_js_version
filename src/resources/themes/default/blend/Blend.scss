@@ -26,6 +26,16 @@ html, * , *:before, *:after{
     @include box-sizing(border-box);
 }
 
+#noblend {
+    padding: 5px;
+    line-height: 32px;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    color: white;
+    background-color: red;
+}
+
 #{$prefix}-launch {
     @include opacity(0.001);
 }
