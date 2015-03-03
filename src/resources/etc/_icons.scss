@@ -1,0 +1,14 @@
+@mixin image-icon($name:null,$file:null,$width:null,$height:null) {
+    .#{$name} {
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-image: inline-image($file);
+        @include background-size(contain);
+        @if ( $width != null ) {
+            width:#{$width}px;
+        }
+        @if ( $height != null ) {
+            height:#{$height}px;
+        }
+    }
+}
