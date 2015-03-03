@@ -107,7 +107,8 @@ Blend.defineClass('Blend.ui.AbstractView', {
         var me = this;
         el = Blend.apply(el || {}, {
             style: {},
-            cls: []
+            cls: [],
+            items: []
         }, false, true);
         me.checkSetSelectableState(el);
         return el;
