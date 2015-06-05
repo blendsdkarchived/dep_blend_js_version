@@ -73,7 +73,7 @@ Blend.defineClass('Builder.utils.FolderWatcher', {
                 if (item.charAt(0) !== '.') {
                     file = path.resolve(root + path.sep + item);
                     lstat = fs.lstatSync(file);
-                    if (lstat.isFile() && me.isValid(item) && file.indexOf('/build/') === -1) {
+                    if ((lstat.isFile() || lstat.isSymbolicLink) && me.isValid(item) && file.indexOf('/build/') === -1) {
                         stat = fs.statSync(file);
                         result[file] = stat.size + '.' + stat.mtime.getTime();
                     } else if (lstat.isDirectory()) {
