@@ -209,7 +209,7 @@ Blend.defineClass('Builder.commands.build.Builder', {
                 folder = file.replace('config.rb', '');
                 cwd = process.cwd();
                 process.chdir(folder);
-                result = exec('compass compile --import-path "' + Blend.getSDKFolder('resources/etc/') + '" --boring -c ' + file);
+                result = exec('compass compile -I "' + Blend.getSDKFolder('resources/etc/') + '" --boring -c ' + file);
                 process.chdir(cwd);
                 if (result.code !== 0) {
                     Logger.error("Failed to compile: " + result.output);
